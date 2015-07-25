@@ -23,7 +23,13 @@ public class Customer extends BaseModel {
    * Convenience Finder for 'active record' style.
    */
   public static final Model.Finder<Long,Customer> find = new Model.Finder<>(Customer.class);
-  
+
+  public enum Status {
+    GOOD, BAD, MIDDLING
+  }
+
+  Status status;
+
   boolean inactive;
   
   @Column(length=100)
@@ -42,6 +48,14 @@ public class Customer extends BaseModel {
 
   @OneToMany(mappedBy="customer", cascade=CascadeType.PERSIST)
   List<Contact> contacts;
+
+  public Status getStatus() {
+    return status;
+  }
+
+  public void setStatus(Status status) {
+    this.status = status;
+  }
 
   public boolean isInactive() {
     return inactive;

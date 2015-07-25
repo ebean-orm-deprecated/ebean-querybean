@@ -42,6 +42,7 @@ create table o_country (
 
 create table be_customer (
   id                        bigint not null,
+  status                    integer,
   inactive                  boolean,
   name                      varchar(100),
   registered                timestamp,
@@ -51,6 +52,7 @@ create table be_customer (
   version                   bigint not null,
   when_created              timestamp not null,
   when_updated              timestamp not null,
+  constraint ck_be_customer_status check (status in (0,1,2)),
   constraint pk_be_customer primary key (id))
 ;
 

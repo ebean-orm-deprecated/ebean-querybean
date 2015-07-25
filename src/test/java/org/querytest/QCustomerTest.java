@@ -10,7 +10,7 @@ public class QCustomerTest {
   @Test
   public void testQuery() {
 
-    Ebean.getDefaultServer();
+//    Ebean.getDefaultServer();
 
 
 //    List<Contact> contacts = new QContact()
@@ -24,8 +24,10 @@ public class QCustomerTest {
         new QCustomer()
             .id.eq(1234)
             .name.like("asd")
-            .contacts.email.like("%@foo.com")
-            .contacts.notes.id.gt(123)
+            .name.istartsWith("ASdf")
+            .registered.after(new java.util.Date())
+            .contacts.email.endsWith("@foo.com")
+            .contacts.notes.id.greaterThan(123L)
             .orderBy().id.asc()
             .findList();
 
