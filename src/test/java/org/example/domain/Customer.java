@@ -1,6 +1,7 @@
 package org.example.domain;
 
 import com.avaje.ebean.Model;
+import com.avaje.ebean.annotation.EnumValue;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -25,7 +26,14 @@ public class Customer extends BaseModel {
   public static final Model.Finder<Long,Customer> find = new Model.Finder<>(Customer.class);
 
   public enum Status {
-    GOOD, BAD, MIDDLING
+    @EnumValue("G")
+    GOOD,
+
+    @EnumValue("B")
+    BAD,
+
+    @EnumValue("M")
+    MIDDLING
   }
 
   Status status;

@@ -2,6 +2,7 @@ package org.querytest;
 
 import com.avaje.ebean.Ebean;
 import org.example.domain.Customer;
+import org.example.domain.Order;
 import org.example.domain.typequery.QCustomer;
 import org.junit.Test;
 
@@ -23,6 +24,9 @@ public class QCustomerTest {
 //    Customer customer =
         new QCustomer()
             .id.eq(1234)
+            .status.equalTo(Customer.Status.BAD)
+            .status.in(Customer.Status.GOOD, Customer.Status.MIDDLING)
+            //.status.eq(Order.Status.APPROVED)
             .name.like("asd")
             .name.istartsWith("ASdf")
             .registered.after(new java.util.Date())
