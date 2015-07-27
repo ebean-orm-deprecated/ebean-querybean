@@ -118,6 +118,17 @@ public abstract class TQRootBean<T, R> {
   }
 
   /**
+   * Return the underlying query.
+   * <p>
+   *   Generally it is not expected that you will need to do this but typically use
+   *   the find methods available on this 'root query bean' instance like findList().
+   * </p>
+   */
+  public Query<T> query() {
+    return query;
+  }
+
+  /**
    * Set the maximum number of rows to return in the query.
    *
    * @param maxRows
