@@ -44,6 +44,7 @@
   <build>
     <plugins>
 
+      <!-- Enhancement for the entity beans used in the tests -->
       <plugin>
         <groupId>org.avaje.ebeanorm</groupId>
         <artifactId>avaje-ebeanorm-mavenenhancer</artifactId>
@@ -80,6 +81,7 @@
           <additionalparam>
             -Xdoclint:none
           </additionalparam>
+          <show>public</show>
           <linksource>true</linksource>
         </configuration>
 
