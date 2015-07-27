@@ -1,20 +1,11 @@
 package org.avaje.ebean.typequery;
 
-import com.avaje.ebean.Ebean;
-import com.avaje.ebean.EbeanServer;
-import com.avaje.ebean.ExpressionList;
-import com.avaje.ebean.FetchConfig;
-import com.avaje.ebean.Junction;
-import com.avaje.ebean.PersistenceContextScope;
-import com.avaje.ebean.Query;
-import com.avaje.ebean.QueryEachConsumer;
-import com.avaje.ebean.QueryEachWhileConsumer;
-import com.avaje.ebean.RawSql;
-import com.avaje.ebean.Transaction;
+import com.avaje.ebean.*;
 import com.avaje.ebean.text.PathProperties;
 import com.avaje.ebeaninternal.server.util.ArrayStack;
 import org.jetbrains.annotations.Nullable;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 
@@ -288,6 +279,28 @@ public abstract class TQRootBean<T, R> {
   }
 
   /**
+   * Perform an 'As of' query using history tables to return the object graph
+   * as of a time in the past.
+   * <p>
+   *   To perform this query the DB must have underlying history tables.
+   * </p>
+   *
+   * @param asOf the date time in the past at which you want to view the data
+   */
+  public R asOf(Timestamp asOf) {
+    query.asOf(asOf);
+    return root;
+  }
+
+  /**
+   * Set root table alias.
+   */
+  public R alias(String alias) {
+    query.alias(alias);
+    return root;
+  }
+
+  /**
    * Set the maximum number of rows to return in the query.
    *
    * @param maxRows
@@ -545,6 +558,40 @@ public abstract class TQRootBean<T, R> {
     return root;
   }
 
+
+
+  /**
+   * Set the full raw order by clause replacing the existing order by clause if there is one.
+   * <p>
+   * This follows SQL syntax using commas between each property with the
+   * optional asc and desc keywords representing ascending and descending order
+   * respectively.
+   * </p>
+   * <p>
+   * This is EXACTLY the same as {@link #order(String)}.
+   * </p>
+   */
+  public R orderBy(String orderByClause) {
+    query.orderBy(orderByClause);
+    return root;
+  }
+
+  /**
+   * Set the full raw order by clause replacing the existing order by clause if there is one.
+   * <p>
+   * This follows SQL syntax using commas between each property with the
+   * optional asc and desc keywords representing ascending and descending order
+   * respectively.
+   * </p>
+   * <p>
+   * This is EXACTLY the same as {@link #orderBy(String)}.
+   * </p>
+   */
+  public R order(String orderByClause) {
+    query.order(orderByClause);
+    return root;
+  }
+
   /**
    * Begin a list of expressions added by 'OR'.
    * <p>
@@ -715,6 +762,37 @@ public abstract class TQRootBean<T, R> {
   }
 
   /**
+   * Execute the query returning the list of Id's.
+   * <p>
+   * This query will execute against the EbeanServer that was used to create it.
+   * </p>
+   *
+   * @see EbeanServer#findIds(Query, Transaction)
+   */
+  public List<Object> findIds() {
+    return query.findIds();
+  }
+
+  /**
+   * Execute the query iterating over the results.
+   * <p>
+   * Remember that with {@link QueryIterator} you must call
+   * {@link QueryIterator#close()} when you have finished iterating the results
+   * (typically in a finally block).
+   * </p>
+   * <p>
+   * findEach() and findEachWhile() are preferred to findIterate() as they ensure
+   * the jdbc statement and resultSet are closed at the end of the iteration.
+   * </p>
+   * <p>
+   * This query will execute against the EbeanServer that was used to create it.
+   * </p>
+   */
+  public QueryIterator<T> findIterate() {
+    return query.findIterate();
+  }
+
+  /**
    * Execute the query returning a map of the objects.
    * <p>
    * This query will execute against the EbeanServer that was used to create it.
@@ -820,6 +898,135 @@ public abstract class TQRootBean<T, R> {
    */
   public void findEachWhile(QueryEachWhileConsumer<T> consumer) {
     query.findEachWhile(consumer);
+  }
+
+  /**
+   * Return versions of a @History entity bean.
+   * <p>
+   *   Generally this query is expected to be a find by id or unique predicates query.
+   *   It will execute the query against the history returning the versions of the bean.
+   * </p>
+   */
+  public List<Version<T>> findVersions() {
+    return query.findVersions();
+  }
+
+  /**
+   * Return the count of entities this query should return.
+   * <p>
+   * This is the number of 'top level' or 'root level' entities.
+   * </p>
+   */
+  public int findRowCount() {
+    return query.findRowCount();
+  }
+
+  /**
+   * Execute find row count query in a background thread.
+   * <p>
+   * This returns a Future object which can be used to cancel, check the
+   * execution status (isDone etc) and get the value (with or without a
+   * timeout).
+   * </p>
+   *
+   * @return a Future object for the row count query
+   */
+  public FutureRowCount<T> findFutureRowCount() {
+    return query.findFutureRowCount();
+  }
+
+  /**
+   * Execute find Id's query in a background thread.
+   * <p>
+   * This returns a Future object which can be used to cancel, check the
+   * execution status (isDone etc) and get the value (with or without a
+   * timeout).
+   * </p>
+   *
+   * @return a Future object for the list of Id's
+   */
+  public FutureIds<T> findFutureIds() {
+    return query.findFutureIds();
+  }
+
+  /**
+   * Execute find list query in a background thread.
+   * <p>
+   * This query will execute in it's own PersistenceContext and using its own transaction.
+   * What that means is that it will not share any bean instances with other queries.
+   * </p>
+   *
+   * @return a Future object for the list result of the query
+   */
+  public FutureList<T> findFutureList() {
+    return query.findFutureList();
+  }
+
+
+  /**
+   * Return a PagedList for this query.
+   * <p>
+   * The benefit of using this over just using the normal {@link Query#setFirstRow(int)} and
+   * {@link Query#setMaxRows(int)} is that it additionally wraps an optional call to
+   * {@link Query#findFutureRowCount()} to determine total row count, total page count etc.
+   * </p>
+   * <p>
+   * Internally this works using {@link Query#setFirstRow(int)} and {@link Query#setMaxRows(int)} on
+   * the query. This translates into SQL that uses limit offset, rownum or row_number function to
+   * limit the result set.
+   * </p>
+   *
+   * <h4>Example: typical use including total row count</h4>
+   * <pre>{@code
+   *
+   *     // We want to find the first 100 new orders
+   *     //  ... 0 means first page
+   *     //  ... page size is 100
+   *
+   *     PagedList<Order> pagedList
+   *       = new QOrder()
+   *       .status.equalTo(Order.Status.NEW)
+   *       .order().id.asc()
+   *       .findPagedList(0, 100);
+   *
+   *     // Optional: initiate the loading of the total
+   *     // row count in a background thread
+   *     pagedList.loadRowCount();
+   *
+   *     // fetch and return the list in the foreground thread
+   *     List<Order> orders = pagedList.getList();
+   *
+   *     // get the total row count (from the future)
+   *     int totalRowCount = pagedList.getTotalRowCount();
+   *
+   * }</pre>
+   *
+   * @param pageIndex
+   *          The zero based index of the page.
+   * @param pageSize
+   *          The number of beans to return per page.
+   * @return The PagedList
+   */
+  public PagedList<T> findPagedList(int pageIndex, int pageSize) {
+    return query.findPagedList(pageIndex, pageSize);
+  }
+
+  /**
+   * Return the sql that was generated for executing this query.
+   * <p>
+   * This is only available after the query has been executed and provided only
+   * for informational purposes.
+   * </p>
+   */
+  public String getGeneratedSql() {
+    return query.getGeneratedSql();
+  }
+
+  /**
+   * Return the type of beans being queried.
+   */
+  public Class<T> getBeanType() {
+    return query.getBeanType();
   }
 
   /**
