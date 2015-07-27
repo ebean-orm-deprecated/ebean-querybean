@@ -3,6 +3,7 @@ package org.avaje.ebean.typequery;
 import com.avaje.ebean.Ebean;
 import com.avaje.ebean.EbeanServer;
 import com.avaje.ebean.ExpressionList;
+import com.avaje.ebean.FetchConfig;
 import com.avaje.ebean.Junction;
 import com.avaje.ebean.PersistenceContextScope;
 import com.avaje.ebean.Query;
@@ -10,6 +11,7 @@ import com.avaje.ebean.QueryEachConsumer;
 import com.avaje.ebean.QueryEachWhileConsumer;
 import com.avaje.ebean.RawSql;
 import com.avaje.ebean.Transaction;
+import com.avaje.ebean.text.PathProperties;
 import com.avaje.ebeaninternal.server.util.ArrayStack;
 import org.jetbrains.annotations.Nullable;
 
@@ -126,6 +128,163 @@ public abstract class TQRootBean<T, R> {
    */
   public Query<T> query() {
     return query;
+  }
+
+  /**
+   * Explicitly set a comma delimited list of the properties to fetch on the
+   * 'main' root level entity bean (aka partial object). Note that '*' means all
+   * properties.
+   * <p>
+   * You use {@link #fetch(String, String)} to specify specific properties to fetch
+   * on other non-root level paths of the object graph.
+   * </p>
+   *
+   * <pre>{@code
+   *
+   * List<Customer> customers =
+   *     new QCustomer()
+   *     // Only fetch the customer id, name and status.
+   *     // This is described as a "Partial Object"
+   *     .select("name, status")
+   *     .name.ilike("rob%")
+   *     .findList();
+   *
+   * }</pre>
+   *
+   * @param fetchProperties
+   *          the properties to fetch for this bean (* = all properties).
+   */
+  public R select(String fetchProperties) {
+    query.select(fetchProperties);
+    return root;
+  }
+
+  /**
+   * Specify a path to load including all its properties.
+   * <p>
+   * The same as {@link #fetch(String, String)} with the fetchProperties as "*".
+   * </p>
+   * <pre>{@code
+   *
+   * // fetch customers (their id, name and status)
+   * List<Customer> customers =
+   *     ebeanServer.find(Customer.class)
+   *     // eager fetch the contacts
+   *     .fetch("contacts")
+   *     .findList();
+   *
+   * }</pre>
+   *
+   * @param path
+   *          the property of an associated (1-1,1-M,M-1,M-M) bean.
+   */
+  public R fetch(String path) {
+    query.fetch(path);
+    return root;
+  }
+
+  /**
+   * Specify a path to <em>fetch</em> with its specific properties to include
+   * (aka partial object).
+   * <p>
+   * When you specify a join this means that property (associated bean(s)) will
+   * be fetched and populated. If you specify "*" then all the properties of the
+   * associated bean will be fetched and populated. You can specify a comma
+   * delimited list of the properties of that associated bean which means that
+   * only those properties are fetched and populated resulting in a
+   * "Partial Object" - a bean that only has some of its properties populated.
+   * </p>
+   *
+   * <pre>{@code
+   *
+   * // query orders...
+   * List<Order> orders =
+   *     ebeanserver.find(Order.class)
+   *       // fetch the customer...
+   *       // ... getting the customers name and phone number
+   *       .fetch("customer", "name, phoneNumber")
+   *
+   *       // ... also fetch the customers billing address (* = all properties)
+   *       .fetch("customer.billingAddress", "*")
+   *       .findList();
+   * }</pre>
+   *
+   * <p>
+   * If columns is null or "*" then all columns/properties for that path are
+   * fetched.
+   * </p>
+   *
+   * <pre>{@code
+   *
+   * // fetch customers (their id, name and status)
+   * List<Customer> customers =
+   *     new QCustomer()
+   *     .select("name, status")
+   *     .fetch("contacts", "firstName,lastName,email")
+   *     .findList();
+   *
+   * }</pre>
+   *
+   * @param path
+   *          the path of an associated (1-1,1-M,M-1,M-M) bean.
+   * @param fetchProperties
+   *          properties of the associated bean that you want to include in the
+   *          fetch (* means all properties, null also means all properties).
+   */
+  public R fetch(String path, String fetchProperties) {
+    query.fetch(path, fetchProperties);
+    return root;
+  }
+
+  /**
+   * Additionally specify a FetchConfig to use a separate query or lazy loading
+   * to load this path.
+   *
+   * <pre>{@code
+   *
+   * // fetch customers (their id, name and status)
+   * List<Customer> customers =
+   *     new QCustomer()
+   *     .select("name, status")
+   *     .fetch("contacts", "firstName,lastName,email", new FetchConfig().lazy(10))
+   *     .findList();
+   *
+   * }</pre>
+   */
+  public R fetch(String path, String fetchProperties, FetchConfig fetchConfig) {
+    query.fetch(path, fetchProperties, fetchConfig);
+    return root;
+  }
+
+  /**
+   * Additionally specify a FetchConfig to specify a "query join" and or define
+   * the lazy loading query.
+   *
+   * <pre>{@code
+   *
+   * // fetch customers (their id, name and status)
+   * List<Customer> customers =
+   *     new QCustomer()
+   *       // lazy fetch contacts with a batch size of 100
+   *       .fetch("contacts", new FetchConfig().lazy(100))
+   *       .findList();
+   *
+   * }</pre>
+   */
+  public R fetch(String path, FetchConfig fetchConfig) {
+    query.fetch(path, fetchConfig);
+    return root;
+  }
+
+  /**
+   * Apply the path properties replacing the select and fetch clauses.
+   * <p>
+   * This is typically used when the PathProperties is applied to both the query and the JSON output.
+   * </p>
+   */
+  public R apply(PathProperties pathProperties) {
+    query.apply(pathProperties);
+    return root;
   }
 
   /**
