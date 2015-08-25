@@ -1,7 +1,7 @@
 package org.example.domain;
 
-import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.EnumValue;
+import org.example.domain.finder.CustomerFinder;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -23,7 +23,7 @@ public class Customer extends BaseModel {
   /**
    * Convenience Finder for 'active record' style.
    */
-  public static final Model.Finder<Long,Customer> find = new Model.Finder<>(Customer.class);
+  public static final CustomerFinder find = new CustomerFinder();
 
   public enum Status {
     @EnumValue("G")

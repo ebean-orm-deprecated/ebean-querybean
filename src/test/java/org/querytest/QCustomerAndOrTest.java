@@ -21,7 +21,8 @@ public class QCustomerAndOrTest {
 
 
     List<Customer> customers =
-        new QCustomer()
+
+        Customer.find.typed() //new QCustomer()
           .status.equalTo(Customer.Status.GOOD)
           .or()
             .id.greaterThan(1000)
