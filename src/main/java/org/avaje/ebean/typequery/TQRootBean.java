@@ -1030,6 +1030,13 @@ public abstract class TQRootBean<T, R> {
   }
 
   /**
+   * Return the expression list that has been built for this query.
+   */
+  public ExpressionList<T> getExpressionList() {
+    return query.where();
+  }
+
+  /**
    * Return the current expression list that expressions should be added to.
    */
   protected ExpressionList<T> peekExprList() {
