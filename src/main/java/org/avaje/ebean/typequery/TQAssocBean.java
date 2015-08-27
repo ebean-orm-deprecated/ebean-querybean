@@ -10,9 +10,9 @@ import com.avaje.ebean.ExpressionList;
  */
 public abstract class TQAssocBean<T, R> {
 
-  protected final String name;
+  protected final String _name;
 
-  protected final R root;
+  protected final R _root;
 
   /**
    * Construct with a property name and root instance.
@@ -28,31 +28,31 @@ public abstract class TQAssocBean<T, R> {
    * Construct with additional path prefix.
    */
   public TQAssocBean(String name, R root, String prefix) {
-    this.root = root;
-    this.name = TQPath.add(prefix, name);
+    this._root = root;
+    this._name = TQPath.add(prefix, name);
   }
 
   /**
    * Internal method to return the underlying expression list.
    */
   protected ExpressionList<?> expr() {
-    return ((TQRootBean) root).peekExprList();
+    return ((TQRootBean) _root).peekExprList();
   }
 
   /**
    * Is equal to by ID property.
    */
   public R equalTo(T other) {
-    expr().eq(name, other);
-    return root;
+    expr().eq(_name, other);
+    return _root;
   }
 
   /**
    * Is not equal to by ID property.
    */
   public R notEqualTo(T other) {
-    expr().ne(name, other);
-    return root;
+    expr().ne(_name, other);
+    return _root;
   }
 
   /**
@@ -60,9 +60,9 @@ public abstract class TQAssocBean<T, R> {
    */
   public R filterMany(ExpressionList<T> filter) {
 
-    ExpressionList<T> expressionList = (ExpressionList<T>)expr().filterMany(name);
+    ExpressionList<T> expressionList = (ExpressionList<T>)expr().filterMany(_name);
 
     expressionList.addAll(filter);
-    return root;
+    return _root;
   }
 }
