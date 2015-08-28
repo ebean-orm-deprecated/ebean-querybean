@@ -14,13 +14,19 @@
     <version>2.1</version>
   </parent>
 
+  <scm>
+    <connection>scm:git:https://github.com/ebean-orm/avaje-ebeanorm-typequery.git</connection>
+    <developerConnection>scm:git:https://github.com/ebean-orm/avaje-ebeanorm-typequery.git</developerConnection>
+    <url>https://github.com/ebean-orm/avaje-ebeanorm-typequery.git</url>
+  </scm>
+
   <dependencies>
 
     <!-- provided scope for now -->
     <dependency>
       <groupId>org.avaje.ebeanorm</groupId>
       <artifactId>avaje-ebeanorm</artifactId>
-      <version>[6.3,)</version>
+      <version>[6.5,)</version>
       <scope>provided</scope>
     </dependency>
 
@@ -55,7 +61,7 @@
       <plugin>
         <groupId>org.avaje.ebeanorm</groupId>
         <artifactId>avaje-ebeanorm-mavenenhancer</artifactId>
-        <version>4.5.1</version>
+        <version>4.5.4</version>
         <executions>
           <!--   Not going to enhance Model bean -->
           <execution>
