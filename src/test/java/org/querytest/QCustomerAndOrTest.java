@@ -19,6 +19,7 @@ public class QCustomerAndOrTest {
 
     Date fiveDays = new Date(fiveDaysAgo.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli());
 
+    Customer.find.typed().name.like("DoesNotExist").delete();
 
     List<Customer> customers =
 
