@@ -6,9 +6,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Used to denote a query bean or caller that has already been enhanced.
+ * Used to denote a query bean that has already been enhanced.
  * <p>
- * Used to detect already enhanced type query beans and caller code to skip enhancement processing.
+ * Used by the agent to detect already enhanced type query beans to skip enhancement processing.
  * </p>
  */
 @Target({ ElementType.TYPE })
