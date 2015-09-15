@@ -322,19 +322,19 @@ public abstract class TQRootBean<T, R> {
   }
 
   /**
-   * Explicitly specify whether to use Autofetch for this query.
+   * Explicitly specify whether to use AutoTune for this query.
    * <p>
-   * If you do not call this method on a query the "Implicit Autofetch mode" is
-   * used to determine if Autofetch should be used for a given query.
+   * If you do not call this method on a query the "Implicit AutoTune mode" is
+   * used to determine if AutoTune should be used for a given query.
    * </p>
    * <p>
-   * Autofetch can add additional fetch paths to the query and specify which
+   * AutoTune can add additional fetch paths to the query and specify which
    * properties are included for each path. If you have explicitly defined some
-   * fetch paths Autofetch will not remove.
+   * fetch paths AutoTune will not remove them.
    * </p>
    */
-  public R setAutofetch(boolean autofetch) {
-    query.setAutofetch(autofetch);
+  public R setAutoTune(boolean autoTune) {
+    query.setAutoTune(autoTune);
     return root;
   }
 
