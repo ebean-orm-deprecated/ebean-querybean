@@ -80,9 +80,15 @@ public class PEnum<R,E> extends TQProperty<R> {
     return root;
   }
 
-//  public R notIn(E... value) {
-//    expr().notIn(name, value);
-//    return root;
-//  }
+  /**
+   * Is NOT in a list of values.
+   *
+   * @param values the list of enum values for the predicate
+   * @return the root query bean instance
+   */
+  public R notIn(E... values) {
+    expr().notIn(name, values);
+    return root;
+  }
 
 }
