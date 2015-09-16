@@ -31,6 +31,10 @@ public class TQProperty<R> {
     this.name = TQPath.add(prefix, name);
   }
 
+  public String toString() {
+    return name;
+  }
+
   /**
    * Internal method to return the underlying expression list.
    */
@@ -68,6 +72,13 @@ public class TQProperty<R> {
   public R desc() {
     expr().order().desc(name);
     return root;
+  }
+
+  /**
+   * Return the property name.
+   */
+  protected String propertyName() {
+    return name;
   }
 
 }

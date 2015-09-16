@@ -16,11 +16,6 @@ import java.util.List;
 @Table(name="be_contact")
 public class Contact extends BaseModel {
 
-  /**
-   * Convenience Finder for 'active record' style.
-   */
-  public static final Model.Finder<Long,Contact> find = new Model.Finder<>(Contact.class);
-  
   @Column(length=50)
   String firstName;
   

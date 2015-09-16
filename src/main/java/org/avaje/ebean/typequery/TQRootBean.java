@@ -75,7 +75,7 @@ public abstract class TQRootBean<T, R> {
   /**
    * The underlying expression lists held as a stack. Pushed and popped based on and/or (conjunction/disjunction).
    */
-  private final ArrayStack<ExpressionList<T>> expressionListStack = new ArrayStack<>();
+  private final ArrayStack<ExpressionList<T>> expressionListStack;
 
   /**
    * The root query bean instance. Used to provide fluid query construction.
@@ -100,7 +100,17 @@ public abstract class TQRootBean<T, R> {
    * Construct using a query.
    */
   public TQRootBean(Query<T> query) {
+    this.expressionListStack = new ArrayStack<>();
     this.query = query;
+  }
+
+  /**
+   * Construct for using as an 'Alias' to use the properties as known string
+   * values for select() and fetch().
+   */
+  public TQRootBean(boolean aliasDummy) {
+    this.expressionListStack = null;
+    this.query = null;
   }
 
   /**
@@ -147,6 +157,43 @@ public abstract class TQRootBean<T, R> {
    */
   public R select(String fetchProperties) {
     query.select(fetchProperties);
+    return root;
+  }
+
+  /**
+   * Tune the query by specifying the properties to be loaded on the
+   * 'main' root level entity bean (aka partial object).
+   * <pre>{@code
+   *
+   *   // alias for the customer properties in select()
+   *   QCustomer cust = QCustomer.alias();
+   *
+   *   // alias for the contact properties in contacts.fetch()
+   *   QContact contact = QContact.alias();
+   *
+   *   List<Customer> customers =
+   *     new QCustomer()
+   *       // tune query
+   *       .select(cust.id, cust.name)
+   *       .contacts.fetch(contact.firstName, contact.lastName, contact.email)
+   *
+   *       // predicates
+   *       .id.greaterThan(1)
+   *       .findList();
+   *
+   * }</pre>
+   * @param properties the list of properties to fetch
+   */
+  @SafeVarargs
+  public final R select(TQProperty<R>... properties) {
+    StringBuilder selectProps = new StringBuilder(50);
+    for (int i = 0; i < properties.length; i++) {
+      if (i > 0) {
+        selectProps.append(",");
+      }
+      selectProps.append(properties[i].propertyName());
+    }
+    query.select(selectProps.toString());
     return root;
   }
 

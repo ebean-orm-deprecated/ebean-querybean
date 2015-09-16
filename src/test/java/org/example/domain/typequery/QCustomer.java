@@ -14,6 +14,12 @@ import org.example.domain.typequery.assoc.QAssocContact;
 
 public class QCustomer extends TQRootBean<Customer,QCustomer> {
 
+  private static final QCustomer _alias = new QCustomer(true);
+
+  public static QCustomer alias() {
+    return _alias;
+  }
+
   public PLong<QCustomer> id;
 
   public PString<QCustomer> name;
@@ -35,7 +41,15 @@ public class QCustomer extends TQRootBean<Customer,QCustomer> {
     this.name = new PString<>("name", this);
     this.status = new PEnum<>("status",this);
     this.registered = new PUtilDate<>("registered", this);
-    this.contacts = new QAssocContact<>("contacts", this);
+    this.contacts = new QAssocContact<>("contacts", this, 1);
   }
 
+  protected QCustomer(boolean aliasDummy) {
+    super(aliasDummy);
+    this.id = new PLong<>("id", this);
+    this.name = new PString<>("name", this);
+    this.status = new PEnum<>("status",this);
+    this.registered = new PUtilDate<>("registered", this);
+    this.contacts = new QAssocContact<>("contacts", this, 1);
+  }
 }

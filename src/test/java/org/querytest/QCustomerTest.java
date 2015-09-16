@@ -1,16 +1,24 @@
 package org.querytest;
 
-import org.example.domain.Customer;
+import org.example.domain.typequery.QContact;
 import org.example.domain.typequery.QCustomer;
 import org.junit.Test;
-
-import java.util.Date;
-import java.util.List;
 
 public class QCustomerTest {
 
   @Test
   public void testQuery() {
+
+    QContact contact = QContact.alias();
+    QCustomer cust = QCustomer.alias();
+
+    new QCustomer()
+        // tune query
+        .select(cust.id, cust.name)
+        .contacts.fetch(contact.firstName, contact.lastName, contact.email)
+        // predicates
+        .id.greaterThan(1)
+        .findList();
 
 //    List<Contact> contacts
 //        = new QContact()
@@ -20,19 +28,19 @@ public class QCustomerTest {
 //          .id.desc()
 //        .findList();
 //
-//    Customer customer =
-    List<Customer> customers = new QCustomer()
-        .id.eq(1234)
-        .status.equalTo(Customer.Status.BAD)
-        .status.in(Customer.Status.GOOD, Customer.Status.MIDDLING)
-            //.status.eq(Order.Status.APPROVED)
-        .name.like("asd")
-        .name.istartsWith("ASdf")
-        .registered.after(new Date())
-        .contacts.email.endsWith("@foo.com")
-        .contacts.notes.id.greaterThan(123L)
-        .orderBy().id.asc()
-        .findList();
+
+//    List<Customer> customers = new QCustomer()
+//        .id.eq(1234)
+//        .status.equalTo(Customer.Status.BAD)
+//        .status.in(Customer.Status.GOOD, Customer.Status.MIDDLING)
+//            //.status.eq(Order.Status.APPROVED)
+//        .name.like("asd")
+//        .name.istartsWith("ASdf")
+//        .registered.after(new Date())
+//        .contacts.email.endsWith("@foo.com")
+//        .contacts.notes.id.greaterThan(123L)
+//        .orderBy().id.asc()
+//        .findList();
 
 //    //Customer customer3 =
 //    new QCustomer()
@@ -59,8 +67,8 @@ public class QCustomerTest {
 //        .disjunction().eq("id", 1234).like("name", "asd")
 //        .endJunction().findList();
 
-//    QCustomer c = QCustomer.I;
+//    QCustomer cust = QCustomer.I;
 //    ExpressionList<Customer> expr = new QCustomer().expr();
-//    expr.eq(c.contacts.email, 123);
+//    expr.eq(cust.contacts.email, 123);
   }
 }

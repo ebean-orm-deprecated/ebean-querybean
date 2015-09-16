@@ -32,6 +32,18 @@ public abstract class TQAssocBean<T, R> {
     this._name = TQPath.add(prefix, name);
   }
 
+  protected R fetchProperties(TQProperty<?>... props) {
+    StringBuilder selectProps = new StringBuilder(50);
+    for (int i = 0; i < props.length; i++) {
+      if (i > 0) {
+        selectProps.append(",");
+      }
+      selectProps.append(props[i].propertyName());
+    }
+    ((TQRootBean) _root).query().fetch(_name, selectProps.toString());
+    return _root;
+  }
+
   /**
    * Internal method to return the underlying expression list.
    */
