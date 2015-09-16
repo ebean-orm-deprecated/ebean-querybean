@@ -32,6 +32,18 @@ public abstract class TQAssocBean<T, R> {
     this._name = TQPath.add(prefix, name);
   }
 
+  /**
+   * Eagerly fetch this association fetching all the properties.
+   */
+  public R fetchAll() {
+
+    ((TQRootBean) _root).query().fetch(_name, "*");
+    return _root;
+  }
+
+  /**
+   * Eagerly fetch this association fetching some of the properties.
+   */
   protected R fetchProperties(TQProperty<?>... props) {
     StringBuilder selectProps = new StringBuilder(50);
     for (int i = 0; i < props.length; i++) {
