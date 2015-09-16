@@ -40,7 +40,7 @@ public abstract class PBaseNumber<R,T> extends TQProperty<R> {
   /**
    * Greater than.
    *
-   * @param value the equal to bind value
+   * @param value the bind value
    * @return the root query bean instance
    */
   public R gt(T value) {
@@ -49,13 +49,36 @@ public abstract class PBaseNumber<R,T> extends TQProperty<R> {
   }
 
   /**
+   * Greater than or Equal to.
+   *
+   * @param value the bind value
+   * @return the root query bean instance
+   */
+  public R ge(T value) {
+    expr().ge(name, value);
+    return root;
+  }
+
+  /**
    * Less than.
    *
-   * @param value the equal to bind value
+   * @param value the bind value
    * @return the root query bean instance
    */
   public R lt(T value) {
     expr().lt(name, value);
+    return root;
+  }
+
+
+  /**
+   * Less than or Equal to.
+   *
+   * @param value the bind value
+   * @return the root query bean instance
+   */
+  public R le(T value) {
+    expr().le(name, value);
     return root;
   }
 
@@ -86,7 +109,7 @@ public abstract class PBaseNumber<R,T> extends TQProperty<R> {
   /**
    * Greater than.
    *
-   * @param value the equal to bind value
+   * @param value the bind value
    * @return the root query bean instance
    */
   public R greaterThan(T value) {
@@ -95,15 +118,40 @@ public abstract class PBaseNumber<R,T> extends TQProperty<R> {
   }
 
   /**
+   * Greater than or Equal to.
+   *
+   * @param value the bind value
+   * @return the root query bean instance
+   */
+  public R greaterOrEqualTo(T value) {
+    expr().ge(name, value);
+    return root;
+  }
+
+
+  /**
    * Less than.
    *
-   * @param value the equal to bind value
+   * @param value the bind value
    * @return the root query bean instance
    */
   public R lessThan(T value) {
     expr().lt(name, value);
     return root;
   }
+
+
+  /**
+   * Less than or Equal to.
+   *
+   * @param value the bind value
+   * @return the root query bean instance
+   */
+  public R lessOrEqualTo(T value) {
+    expr().le(name, value);
+    return root;
+  }
+
 
   // Additional int versions -- seems the right thing to do
 
