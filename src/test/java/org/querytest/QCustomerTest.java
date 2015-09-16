@@ -14,6 +14,13 @@ public class QCustomerTest {
 
     new QCustomer()
         // tune query
+        .select(cust.name)
+        .contacts.fetchAll()
+        // predicates
+        .findList();
+
+    new QCustomer()
+        // tune query
         .select(cust.id, cust.name)
         .contacts.fetch(contact.firstName, contact.lastName, contact.email)
         // predicates
