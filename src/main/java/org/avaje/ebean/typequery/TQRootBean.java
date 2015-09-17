@@ -558,6 +558,67 @@ public abstract class TQRootBean<T, R> {
   }
 
   /**
+   * Add raw expression with no parameters.
+   * <p>
+   * When properties in the clause are fully qualified as table-column names
+   * then they are not translated. logical property name names (not fully
+   * qualified) will still be translated to their physical name.
+   * </p>
+   *
+   * <pre>{@code
+   *
+   *   raw("orderQty < shipQty")
+   *
+   * }</pre>
+   */
+  public R raw(String rawExpression) {
+    peekExprList().raw(rawExpression);
+    return root;
+  }
+
+  /**
+   * Add raw expression with an array of parameters.
+   * <p>
+   * The raw expression should contain the same number of ? as there are
+   * parameters.
+   * </p>
+   * <p>
+   * When properties in the clause are fully qualified as table-column names
+   * then they are not translated. logical property name names (not fully
+   * qualified) will still be translated to their physical name.
+   * </p>
+   */
+  public R raw(String rawExpression, Object[] bindValues) {
+    peekExprList().raw(rawExpression, bindValues);
+    return root;
+  }
+
+  /**
+   * Add raw expression with a single parameter.
+   * <p>
+   * The raw expression should contain a single ? at the location of the
+   * parameter.
+   * </p>
+   * <p>
+   * When properties in the clause are fully qualified as table-column names
+   * then they are not translated. logical property name names (not fully
+   * qualified) will still be translated to their physical name.
+   * </p>
+   *
+   * <h4>Example:</h4>
+   * <pre>{@code
+   *
+   *   // use a database function
+   *   raw("add_days(orderDate, 10) < ?", someDate)
+   *
+   * }</pre>
+   */
+  public R raw(String rawExpression, Object bindValue) {
+    peekExprList().raw(rawExpression, bindValue);
+    return root;
+  }
+
+  /**
    * Marker that can be used to indicate that the order by clause is defined after this.
    * <p>
    *   order() and orderBy() are synonyms and both exist for historic reasons.
