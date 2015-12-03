@@ -340,6 +340,22 @@ public abstract class TQRootBean<T, R> {
   }
 
   /**
+   * Execute the query against the draft set of tables.
+   */
+  public R asDraft() {
+    query.asDraft();
+    return root;
+  }
+
+  /**
+   * Execute the query including soft deleted rows.
+   */
+  public R includeSoftDeletes() {
+    query.includeSoftDeletes();
+    return root;
+  }
+
+  /**
    * Set root table alias.
    */
   public R alias(String alias) {

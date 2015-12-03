@@ -27,6 +27,14 @@ public class QCustomerTest {
         .id.greaterThan(1)
         .findList();
 
+//    new QCustomer()
+//        .asDraft()
+//        .findList();
+//
+//    new QCustomer()
+//        .includeSoftDeletes()
+//        .findList();
+
 //    List<Contact> contacts
 //        = new QContact()
 //        .email.like("asd")
