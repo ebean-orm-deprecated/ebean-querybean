@@ -1,5 +1,7 @@
 package org.querytest;
 
+import com.avaje.ebean.PagedList;
+import org.example.domain.Customer;
 import org.example.domain.typequery.QContact;
 import org.example.domain.typequery.QCustomer;
 import org.junit.Test;
@@ -26,6 +28,19 @@ public class QCustomerTest {
         // predicates
         .id.greaterThan(1)
         .findList();
+
+    PagedList<Customer> pagedList = new QCustomer()
+        // tune query
+        .select(cust.id, cust.name)
+        .contacts.fetch(contact.firstName, contact.lastName, contact.email)
+        // predicates
+        .id.greaterThan(1)
+        .setFirstRow(20)
+        .setMaxRows(10)
+        .findPagedList();
+
+    pagedList.getList();
+    pagedList.getList();
 
 //    new QCustomer()
 //        .asDraft()

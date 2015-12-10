@@ -1088,7 +1088,7 @@ public abstract class TQRootBean<T, R> {
 
 
   /**
-   * Return a PagedList for this query.
+   * Return a PagedList for this query using pageIndex and pageSize.
    * <p>
    * The benefit of using this over just using the normal {@link Query#setFirstRow(int)} and
    * {@link Query#setMaxRows(int)} is that it additionally wraps an optional call to
@@ -1133,6 +1133,38 @@ public abstract class TQRootBean<T, R> {
    */
   public PagedList<T> findPagedList(int pageIndex, int pageSize) {
     return query.findPagedList(pageIndex, pageSize);
+  }
+
+  /**
+   * Return a PagedList for this query using firstRow and maxRows.
+   * <p>
+   * The benefit of using this over findList() is that it provides functionality to get the
+   * total row count etc.
+   * </p>
+   * <p>
+   * If maxRows is not set on the query prior to calling findPagedList() then a
+   * PersistenceException is thrown.
+   * </p>
+   *
+   * <pre>{@code
+   *
+   *  PagedList<Order> pagedList = Ebean.find(Order.class)
+   *       .setFirstRow(50)
+   *       .setMaxRows(20)
+   *       .findPagedList();
+   *
+   *       // fetch the total row count in the background
+   *       pagedList.loadRowCount();
+   *
+   *       List<Order> orders = pagedList.getList();
+   *       int totalRowCount = pagedList.getTotalRowCount();
+   *
+   * }</pre>
+   *
+   * @return The PagedList
+   */
+  public PagedList<T> findPagedList() {
+    return query.findPagedList();
   }
 
   /**
