@@ -3,8 +3,8 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>org.avaje.ebeanorm</groupId>
-  <artifactId>avaje-ebeanorm-typequery</artifactId>
-  <version>1.7.2-SNAPSHOT</version>
+  <artifactId>avaje-ebeanorm-querybean</artifactId>
+  <version>2.1.1-SNAPSHOT</version>
 
   <parent>
     <groupId>org.avaje</groupId>
@@ -13,9 +13,9 @@
   </parent>
 
   <scm>
-    <connection>scm:git:https://github.com/ebean-orm/avaje-ebeanorm-typequery.git</connection>
-    <developerConnection>scm:git:https://github.com/ebean-orm/avaje-ebeanorm-typequery.git</developerConnection>
-    <url>https://github.com/ebean-orm/avaje-ebeanorm-typequery.git</url>
+    <connection>scm:git:https://github.com/ebean-orm/avaje-ebeanorm-querybean.git</connection>
+    <developerConnection>scm:git:https://github.com/ebean-orm/avaje-ebeanorm-querybean.git</developerConnection>
+    <url>https://github.com/ebean-orm/avaje-ebeanorm-querybean.git</url>
     <tag>HEAD</tag>
   </scm>
 
