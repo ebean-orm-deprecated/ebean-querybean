@@ -604,7 +604,7 @@ public abstract class TQRootBean<T, R> {
    * qualified) will still be translated to their physical name.
    * </p>
    */
-  public R raw(String rawExpression, Object[] bindValues) {
+  public R raw(String rawExpression, Object... bindValues) {
     peekExprList().raw(rawExpression, bindValues);
     return root;
   }
