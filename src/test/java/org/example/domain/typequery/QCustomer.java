@@ -2,6 +2,7 @@ package org.example.domain.typequery;
 
 import com.avaje.ebean.Ebean;
 import com.avaje.ebean.EbeanServer;
+import org.avaje.ebean.typequery.PBoolean;
 import org.avaje.ebean.typequery.PEnum;
 import org.avaje.ebean.typequery.PUtilDate;
 import org.example.domain.Customer;
@@ -24,6 +25,8 @@ public class QCustomer extends TQRootBean<Customer,QCustomer> {
 
   public PString<QCustomer> name;
 
+  public PBoolean<QCustomer> inactive;
+
   public PEnum<QCustomer,Status> status;
 
   public PUtilDate<QCustomer> registered;
@@ -39,6 +42,7 @@ public class QCustomer extends TQRootBean<Customer,QCustomer> {
     setRoot(this);
     this.id = new PLong<>("id", this);
     this.name = new PString<>("name", this);
+    this.inactive = new PBoolean<>("inactive", this);
     this.status = new PEnum<>("status",this);
     this.registered = new PUtilDate<>("registered", this);
     this.contacts = new QAssocContact<>("contacts", this, 1);

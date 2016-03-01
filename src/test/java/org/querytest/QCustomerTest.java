@@ -9,6 +9,18 @@ import org.junit.Test;
 public class QCustomerTest {
 
   @Test
+  public void testQueryBoolean() {
+
+    new QCustomer()
+        .inactive.isTrue()
+        .findList();
+
+    new QCustomer()
+        .inactive.isFalse()
+        .findList();
+  }
+
+  @Test
   public void testQuery() {
 
     QContact contact = QContact.alias();
