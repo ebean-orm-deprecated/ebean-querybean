@@ -8,18 +8,19 @@ import org.jetbrains.annotations.Nullable;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Base root query bean.
- *
+ * <p>
  * With code generation for each entity bean type a query bean is created that extends this.
  * <p>
- *   Provides common features for all root query beans
+ * Provides common features for all root query beans
  * </p>
- *
+ * <p>
  * <h2>Example - QCustomer extends TQRootBean</h2>
  * <p>
- *   These 'query beans' like QCustomer are generated using the <code>avaje-ebeanorm-typequery-generator</code>.
+ * These 'query beans' like QCustomer are generated using the <code>avaje-ebeanorm-typequery-generator</code>.
  * </p>
  * <pre>{@code
  *
@@ -32,7 +33,7 @@ import java.util.Map;
  *     ...
  *
  * }</pre>
- *
+ * <p>
  * <h2>Example - usage of QCustomer</h2>
  * <pre>{@code
  *
@@ -50,9 +51,9 @@ import java.util.Map;
  *          .findList();
  *
  * }</pre>
- *
+ * <p>
  * <h2>Resulting SQL where</h2>
- *
+ * <p>
  * <pre>{@code sql
  *
  *     where lower(t0.name) like ?  and t0.status = ?  and t0.registered > ?  and u1.email like ?
@@ -60,7 +61,6 @@ import java.util.Map;
  *
  *     --bind(rob,GOOD,Mon Jul 27 12:05:37 NZST 2015,%@foo.com)
  * }</pre>
- *
  *
  * @param <T> the entity bean type (normal entity bean type e.g. Customer)
  * @param <R> the specific root query bean type (e.g. QCustomer)
@@ -123,8 +123,8 @@ public abstract class TQRootBean<T, R> {
   /**
    * Return the underlying query.
    * <p>
-   *   Generally it is not expected that you will need to do this but typically use
-   *   the find methods available on this 'root query bean' instance like findList().
+   * Generally it is not expected that you will need to do this but typically use
+   * the find methods available on this 'root query bean' instance like findList().
    * </p>
    */
   public Query<T> query() {
@@ -139,7 +139,7 @@ public abstract class TQRootBean<T, R> {
    * You use {@link #fetch(String, String)} to specify specific properties to fetch
    * on other non-root level paths of the object graph.
    * </p>
-   *
+   * <p>
    * <pre>{@code
    *
    * List<Customer> customers =
@@ -152,8 +152,7 @@ public abstract class TQRootBean<T, R> {
    *
    * }</pre>
    *
-   * @param fetchProperties
-   *          the properties to fetch for this bean (* = all properties).
+   * @param fetchProperties the properties to fetch for this bean (* = all properties).
    */
   public R select(String fetchProperties) {
     query.select(fetchProperties);
@@ -182,6 +181,7 @@ public abstract class TQRootBean<T, R> {
    *       .findList();
    *
    * }</pre>
+   *
    * @param properties the list of properties to fetch
    */
   @SafeVarargs
@@ -213,8 +213,7 @@ public abstract class TQRootBean<T, R> {
    *
    * }</pre>
    *
-   * @param path
-   *          the property of an associated (1-1,1-M,M-1,M-M) bean.
+   * @param path the property of an associated (1-1,1-M,M-1,M-M) bean.
    */
   public R fetch(String path) {
     query.fetch(path);
@@ -232,7 +231,7 @@ public abstract class TQRootBean<T, R> {
    * only those properties are fetched and populated resulting in a
    * "Partial Object" - a bean that only has some of its properties populated.
    * </p>
-   *
+   * <p>
    * <pre>{@code
    *
    * // query orders...
@@ -246,12 +245,12 @@ public abstract class TQRootBean<T, R> {
    *       .fetch("customer.billingAddress", "*")
    *       .findList();
    * }</pre>
-   *
+   * <p>
    * <p>
    * If columns is null or "*" then all columns/properties for that path are
    * fetched.
    * </p>
-   *
+   * <p>
    * <pre>{@code
    *
    * // fetch customers (their id, name and status)
@@ -263,11 +262,9 @@ public abstract class TQRootBean<T, R> {
    *
    * }</pre>
    *
-   * @param path
-   *          the path of an associated (1-1,1-M,M-1,M-M) bean.
-   * @param fetchProperties
-   *          properties of the associated bean that you want to include in the
-   *          fetch (* means all properties, null also means all properties).
+   * @param path            the path of an associated (1-1,1-M,M-1,M-M) bean.
+   * @param fetchProperties properties of the associated bean that you want to include in the
+   *                        fetch (* means all properties, null also means all properties).
    */
   public R fetch(String path, String fetchProperties) {
     query.fetch(path, fetchProperties);
@@ -277,7 +274,7 @@ public abstract class TQRootBean<T, R> {
   /**
    * Additionally specify a FetchConfig to use a separate query or lazy loading
    * to load this path.
-   *
+   * <p>
    * <pre>{@code
    *
    * // fetch customers (their id, name and status)
@@ -297,7 +294,7 @@ public abstract class TQRootBean<T, R> {
   /**
    * Additionally specify a FetchConfig to specify a "query join" and or define
    * the lazy loading query.
-   *
+   * <p>
    * <pre>{@code
    *
    * // fetch customers (their id, name and status)
@@ -329,7 +326,7 @@ public abstract class TQRootBean<T, R> {
    * Perform an 'As of' query using history tables to return the object graph
    * as of a time in the past.
    * <p>
-   *   To perform this query the DB must have underlying history tables.
+   * To perform this query the DB must have underlying history tables.
    * </p>
    *
    * @param asOf the date time in the past at which you want to view the data
@@ -366,8 +363,7 @@ public abstract class TQRootBean<T, R> {
   /**
    * Set the maximum number of rows to return in the query.
    *
-   * @param maxRows
-   *          the maximum number of rows to return in the query.
+   * @param maxRows the maximum number of rows to return in the query.
    */
   public R setMaxRows(int maxRows) {
     query.setMaxRows(maxRows);
@@ -436,7 +432,7 @@ public abstract class TQRootBean<T, R> {
    * You can use this to have further control over the query. For example adding
    * fetch joins.
    * </p>
-   *
+   * <p>
    * <pre>{@code
    *
    * Order order =
@@ -482,7 +478,7 @@ public abstract class TQRootBean<T, R> {
    * <p>
    * If no property is set then the id property is used.
    * </p>
-   *
+   * <p>
    * <pre>{@code
    *
    * // Assuming sku is unique for products...
@@ -495,8 +491,7 @@ public abstract class TQRootBean<T, R> {
    *
    * }</pre>
    *
-   * @param mapKey
-   *          the property to use as keys for a map.
+   * @param mapKey the property to use as keys for a map.
    */
   public R setMapKey(String mapKey) {
     query.setMapKey(mapKey);
@@ -505,12 +500,12 @@ public abstract class TQRootBean<T, R> {
 
   /**
    * Specify the PersistenceContextScope to use for this query.
-   * <p/>
+   * <p>
    * When this is not set the 'default' configured on {@link com.avaje.ebean.config.ServerConfig#setPersistenceContextScope(PersistenceContextScope)}
    * is used - this value defaults to {@link com.avaje.ebean.PersistenceContextScope#TRANSACTION}.
-   * <p/>
+   * <p>
    * Note that the same persistence Context is used for subsequent lazy loading and query join queries.
-   * <p/>
+   * <p>
    * Note that #findEach uses a 'per object graph' PersistenceContext so this scope is ignored for
    * queries executed as #findIterate, #findEach, #findEachWhile.
    *
@@ -550,6 +545,41 @@ public abstract class TQRootBean<T, R> {
   }
 
   /**
+   * Set to true if this query should execute against the doc store.
+   * <p>
+   * When setting this you may also consider disabling lazy loading.
+   * </p>
+   */
+  public R setUseDocStore(boolean useDocStore) {
+    query.setUseDocStore(useDocStore);
+    return root;
+  }
+
+  /**
+   * Set true if you want to disable lazy loading.
+   * <p>
+   * That is, once the object graph is returned further lazy loading is disabled.
+   * </p>
+   */
+  public R setDisableLazyLoading(boolean disableLazyLoading) {
+    query.setDisableLazyLoading(disableLazyLoading);
+    return root;
+  }
+
+  /**
+   * Disable read auditing for this query.
+   * <p>
+   * This is intended to be used when the query is not a user initiated query and instead
+   * part of the internal processing in an application to load a cache or document store etc.
+   * In these cases we don't want the query to be part of read auditing.
+   * </p>
+   */
+  public R setDisableReadAuditing() {
+    query.setDisableReadAuditing();
+    return root;
+  }
+
+  /**
    * Set this to true to use the query cache.
    */
   public R setUseQueryCache(boolean useCache) {
@@ -565,12 +595,22 @@ public abstract class TQRootBean<T, R> {
    * will be a SQLException wrapped up in a PersistenceException.
    * </p>
    *
-   * @param secs
-   *          the query timeout limit in seconds. Zero means there is no limit.
+   * @param secs the query timeout limit in seconds. Zero means there is no limit.
    */
   public R setTimeout(int secs) {
     query.setTimeout(secs);
     return root;
+  }
+
+  /**
+   * Returns the set of properties or paths that are unknown (do not map to known properties or paths).
+   * <p>
+   * Validate the query checking the where and orderBy expression paths to confirm if
+   * they represent valid properties or paths for the given bean type.
+   * </p>
+   */
+  public Set<String> validate() {
+    return query.validate();
   }
 
   /**
@@ -580,7 +620,7 @@ public abstract class TQRootBean<T, R> {
    * then they are not translated. logical property name names (not fully
    * qualified) will still be translated to their physical name.
    * </p>
-   *
+   * <p>
    * <pre>{@code
    *
    *   raw("orderQty < shipQty")
@@ -620,7 +660,7 @@ public abstract class TQRootBean<T, R> {
    * then they are not translated. logical property name names (not fully
    * qualified) will still be translated to their physical name.
    * </p>
-   *
+   * <p>
    * <h4>Example:</h4>
    * <pre>{@code
    *
@@ -637,9 +677,9 @@ public abstract class TQRootBean<T, R> {
   /**
    * Marker that can be used to indicate that the order by clause is defined after this.
    * <p>
-   *   order() and orderBy() are synonyms and both exist for historic reasons.
+   * order() and orderBy() are synonyms and both exist for historic reasons.
    * </p>
-   *
+   * <p>
    * <h2>Example: order by customer name, order date</h2>
    * <pre>{@code
    *   List<Order> orders =
@@ -661,9 +701,9 @@ public abstract class TQRootBean<T, R> {
   /**
    * Marker that can be used to indicate that the order by clause is defined after this.
    * <p>
-   *   order() and orderBy() are synonyms and both exist for historic reasons.
+   * order() and orderBy() are synonyms and both exist for historic reasons.
    * </p>
-   *
+   * <p>
    * <h2>Example: order by customer name, order date</h2>
    * <pre>{@code
    *   List<Order> orders =
@@ -681,7 +721,6 @@ public abstract class TQRootBean<T, R> {
     // the query nicer to read and suggests that order by definitions are added after this
     return root;
   }
-
 
 
   /**
@@ -719,11 +758,11 @@ public abstract class TQRootBean<T, R> {
   /**
    * Begin a list of expressions added by 'OR'.
    * <p>
-   *   This should have an associated call to endOr() to close the 'OR' expression list.
+   * This should have an associated call to endOr() to close the 'OR' expression list.
    * </p>
    * <h2>Example</h2>
    * <p>
-   *   This example uses an 'OR' expression list with an inner 'AND' expression list.
+   * This example uses an 'OR' expression list with an inner 'AND' expression list.
    * </p>
    * <pre>{@code
    *
@@ -760,15 +799,15 @@ public abstract class TQRootBean<T, R> {
   /**
    * Begin a list of expressions added by 'AND'.
    * <p>
-   *   This should have an associated call to endAnd() to close the 'AND' expression list.
+   * This should have an associated call to endAnd() to close the 'AND' expression list.
    * </p>
    * <p>
-   *   Note that typically the AND expression is only used inside an outer 'OR' expression.
-   *   This is because the top level expression list is an 'AND' expression list.
+   * Note that typically the AND expression is only used inside an outer 'OR' expression.
+   * This is because the top level expression list is an 'AND' expression list.
    * </p>
    * <h2>Example</h2>
    * <p>
-   *   This example uses an 'OR' expression list with an inner 'AND' expression list.
+   * This example uses an 'OR' expression list with an inner 'AND' expression list.
    * </p>
    * <pre>{@code
    *
@@ -829,7 +868,7 @@ public abstract class TQRootBean<T, R> {
    * This is useful when your predicates dictate that your query should only
    * return 0 or 1 results.
    * </p>
-   *
+   * <p>
    * <pre>{@code
    *
    * // assuming the sku of products is unique...
@@ -839,12 +878,12 @@ public abstract class TQRootBean<T, R> {
    *         .findUnique();
    * ...
    * }</pre>
-   *
+   * <p>
    * <p>
    * It is also useful with finding objects by their id when you want to specify
    * further join information to optimise the query.
    * </p>
-   *
+   * <p>
    * <pre>{@code
    *
    * // Fetch order 42 and additionally fetch join its order details...
@@ -869,7 +908,7 @@ public abstract class TQRootBean<T, R> {
    * <p>
    * This query will execute against the EbeanServer that was used to create it.
    * </p>
-   *
+   * <p>
    * <pre>{@code
    *
    * List<Customer> customers =
@@ -925,7 +964,7 @@ public abstract class TQRootBean<T, R> {
    * You can use setMapKey() so specify the property values to be used as keys
    * on the map. If one is not specified then the id property is used.
    * </p>
-   *
+   * <p>
    * <pre>{@code
    *
    * Map<?, Product> map =
@@ -937,9 +976,10 @@ public abstract class TQRootBean<T, R> {
    *
    * @see EbeanServer#findMap(Query, Transaction)
    */
-  public Map<?,T> findMap() {
+  public Map<?, T> findMap() {
     return query.findMap();
   }
+
   /**
    * Return a typed map specifying the key property and type.
    */
@@ -970,7 +1010,7 @@ public abstract class TQRootBean<T, R> {
    * iterator uses the QueryEachConsumer (SAM) interface which is better suited to use
    * with Java8 closures.
    * </p>
-   *
+   * <p>
    * <pre>{@code
    *
    *  new QCustomer()
@@ -984,8 +1024,7 @@ public abstract class TQRootBean<T, R> {
    *
    * }</pre>
    *
-   * @param consumer
-   *          the consumer used to process the queried beans.
+   * @param consumer the consumer used to process the queried beans.
    */
   public void findEach(QueryEachConsumer<T> consumer) {
     query.findEach(consumer);
@@ -999,8 +1038,8 @@ public abstract class TQRootBean<T, R> {
    * iterator uses the QueryEachWhileConsumer (SAM) interface which is better suited to use
    * with Java8 closures.
    * </p>
-
-   *
+   * <p>
+   * <p>
    * <pre>{@code
    *
    *  new QCustomer()
@@ -1017,8 +1056,7 @@ public abstract class TQRootBean<T, R> {
    *
    * }</pre>
    *
-   * @param consumer
-   *          the consumer used to process the queried beans.
+   * @param consumer the consumer used to process the queried beans.
    */
   public void findEachWhile(QueryEachWhileConsumer<T> consumer) {
     query.findEachWhile(consumer);
@@ -1027,8 +1065,8 @@ public abstract class TQRootBean<T, R> {
   /**
    * Return versions of a @History entity bean.
    * <p>
-   *   Generally this query is expected to be a find by id or unique predicates query.
-   *   It will execute the query against the history returning the versions of the bean.
+   * Generally this query is expected to be a find by id or unique predicates query.
+   * It will execute the query against the history returning the versions of the bean.
    * </p>
    */
   public List<Version<T>> findVersions() {
@@ -1099,7 +1137,7 @@ public abstract class TQRootBean<T, R> {
    * the query. This translates into SQL that uses limit offset, rownum or row_number function to
    * limit the result set.
    * </p>
-   *
+   * <p>
    * <h4>Example: typical use including total row count</h4>
    * <pre>{@code
    *
@@ -1125,10 +1163,8 @@ public abstract class TQRootBean<T, R> {
    *
    * }</pre>
    *
-   * @param pageIndex
-   *          The zero based index of the page.
-   * @param pageSize
-   *          The number of beans to return per page.
+   * @param pageIndex The zero based index of the page.
+   * @param pageSize  The number of beans to return per page.
    * @return The PagedList
    */
   public PagedList<T> findPagedList(int pageIndex, int pageSize) {
@@ -1145,7 +1181,7 @@ public abstract class TQRootBean<T, R> {
    * If maxRows is not set on the query prior to calling findPagedList() then a
    * PersistenceException is thrown.
    * </p>
-   *
+   * <p>
    * <pre>{@code
    *
    *  PagedList<Order> pagedList = Ebean.find(Order.class)

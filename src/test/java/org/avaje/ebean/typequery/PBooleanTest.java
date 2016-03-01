@@ -1,7 +1,7 @@
 package org.avaje.ebean.typequery;
 
+import com.avaje.ebeaninternal.server.expression.DefaultExpressionList;
 import com.avaje.ebeaninternal.server.expression.SimpleExpression;
-import com.avaje.ebeaninternal.util.DefaultExpressionList;
 import org.example.domain.Customer;
 import org.example.domain.typequery.QCustomer;
 import org.junit.Test;

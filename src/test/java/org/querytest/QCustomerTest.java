@@ -12,8 +12,10 @@ public class QCustomerTest {
   public void testQueryBoolean() {
 
     new QCustomer()
-        .inactive.isTrue()
-        .findList();
+        .name.contains("rob")
+        //.setUseDocStore(true)
+        .setMaxRows(10)
+        .findPagedList();
 
     new QCustomer()
         .inactive.isFalse()
