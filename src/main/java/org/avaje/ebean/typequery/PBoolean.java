@@ -40,7 +40,7 @@ public class PBoolean<R> extends TQProperty<R> {
    * @return the root query bean instance
    */
   public R isFalse() {
-    expr().eq(name, Boolean.TRUE);
+    expr().eq(name, Boolean.FALSE);
     return root;
   }
 
