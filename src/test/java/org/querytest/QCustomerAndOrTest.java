@@ -23,15 +23,14 @@ public class QCustomerAndOrTest {
 
     List<Customer> customers =
 
-        Customer.find.typed() //new QCustomer()
+        Customer.find.typed()
           .status.equalTo(Customer.Status.GOOD)
           .or()
             .id.greaterThan(1000)
             .and()
               .name.startsWith("super")
               .registered.after(fiveDays)
-            .endAnd()
-          .endOr()
+              .endJunction()
           .orderBy().id.desc()
           .findList();
 

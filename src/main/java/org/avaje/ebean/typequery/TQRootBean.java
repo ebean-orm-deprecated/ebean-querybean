@@ -1,6 +1,10 @@
 package org.avaje.ebean.typequery;
 
 import com.avaje.ebean.*;
+import com.avaje.ebean.search.MultiMatch;
+import com.avaje.ebean.search.TextCommonTerms;
+import com.avaje.ebean.search.TextQueryString;
+import com.avaje.ebean.search.TextSimple;
 import com.avaje.ebean.text.PathProperties;
 import com.avaje.ebeaninternal.server.util.ArrayStack;
 import org.jetbrains.annotations.Nullable;
@@ -75,7 +79,18 @@ public abstract class TQRootBean<T, R> {
   /**
    * The underlying expression lists held as a stack. Pushed and popped based on and/or (conjunction/disjunction).
    */
-  private final ArrayStack<ExpressionList<T>> expressionListStack;
+  private ArrayStack<ExpressionList<T>> whereStack;
+
+  /**
+   * Stack of Text expressions ("query" section of ElasticSearch query rather than "filter" section).
+   */
+  private ArrayStack<ExpressionList<T>> textStack;
+
+  /**
+   * When true expressions should be added to the "text" stack - ElasticSearch "query" section
+   * rather than the "where" stack.
+   */
+  private boolean textMode;
 
   /**
    * The root query bean instance. Used to provide fluid query construction.
@@ -100,7 +115,6 @@ public abstract class TQRootBean<T, R> {
    * Construct using a query.
    */
   public TQRootBean(Query<T> query) {
-    this.expressionListStack = new ArrayStack<>();
     this.query = query;
   }
 
@@ -109,7 +123,6 @@ public abstract class TQRootBean<T, R> {
    * values for select() and fetch().
    */
   public TQRootBean(boolean aliasDummy) {
-    this.expressionListStack = null;
     this.query = null;
   }
 
@@ -758,8 +771,9 @@ public abstract class TQRootBean<T, R> {
   /**
    * Begin a list of expressions added by 'OR'.
    * <p>
-   * This should have an associated call to endOr() to close the 'OR' expression list.
+   * Use endJunction() to stop added to OR and 'pop' to the parent expression list.
    * </p>
+   *
    * <h2>Example</h2>
    * <p>
    * This example uses an 'OR' expression list with an inner 'AND' expression list.
@@ -790,20 +804,18 @@ public abstract class TQRootBean<T, R> {
    * }</pre>
    */
   public R or() {
-
-    Junction<T> junction = peekExprList().disjunction();
-    expressionListStack.push(junction);
+    pushExprList(peekExprList().or());
     return root;
   }
 
   /**
    * Begin a list of expressions added by 'AND'.
    * <p>
-   * This should have an associated call to endAnd() to close the 'AND' expression list.
+   * Use endJunction() to stop added to AND and 'pop' to the parent expression list.
    * </p>
    * <p>
    * Note that typically the AND expression is only used inside an outer 'OR' expression.
-   * This is because the top level expression list is an 'AND' expression list.
+   * This is because the top level expression list defaults to an 'AND' expression list.
    * </p>
    * <h2>Example</h2>
    * <p>
@@ -819,8 +831,8 @@ public abstract class TQRootBean<T, R> {
    *              .and()  // NESTED 'AND' expression list
    *                .name.startsWith("super")
    *                .registered.after(fiveDaysAgo)
-   *              .endAnd()
-   *            .endOr()
+   *                .endJunction()
+   *              .endJunction()
    *            .orderBy().id.desc()
    *            .findList();
    *
@@ -835,25 +847,185 @@ public abstract class TQRootBean<T, R> {
    * }</pre>
    */
   public R and() {
-
-    Junction<T> junction = peekExprList().conjunction();
-    expressionListStack.push(junction);
+    pushExprList(peekExprList().and());
     return root;
+  }
+
+  /**
+   * Begin a list of expressions added by NOT.
+   * <p>
+   * Use endJunction() to stop added to NOT and 'pop' to the parent expression list.
+   * </p>
+   */
+  public R not() {
+    pushExprList(peekExprList().not());
+    return root;
+  }
+
+  /**
+   * Begin a list of expressions added by MUST.
+   * <p>
+   * This automatically makes this query a document store query.
+   * </p>
+   * <p>
+   * Use endJunction() to stop added to MUST and 'pop' to the parent expression list.
+   * </p>
+   */
+  public R must() {
+    pushExprList(peekExprList().must());
+    return root;
+  }
+
+  /**
+   * Begin a list of expressions added by MUST NOT.
+   * <p>
+   * This automatically makes this query a document store query.
+   * </p>
+   * <p>
+   * Use endJunction() to stop added to MUST NOT and 'pop' to the parent expression list.
+   * </p>
+   */
+  public R mustNot() {
+    return pushExprList(peekExprList().mustNot());
+  }
+
+  /**
+   * Begin a list of expressions added by SHOULD.
+   * <p>
+   * This automatically makes this query a document store query.
+   * </p>
+   * <p>
+   * Use endJunction() to stop added to SHOULD and 'pop' to the parent expression list.
+   * </p>
+   */
+  public R should() {
+    return pushExprList(peekExprList().should());
   }
 
   /**
    * End a list of expressions added by 'OR'.
    */
-  public R endOr() {
-    expressionListStack.pop();
+  public R endJunction() {
+    if (textMode) {
+      textStack.pop();
+    } else {
+      whereStack.pop();
+    }
     return root;
   }
 
   /**
-   * End to a list of expressions joined by 'AND'.
+   * Deprecated - replace with endJunction().
+   * @deprecated
+   */
+  public R endOr() {
+    return endJunction();
+  }
+
+  /**
+   * Deprecated - replace with endJunction().
+   * @deprecated
    */
   public R endAnd() {
-    expressionListStack.pop();
+    return endJunction();
+  }
+
+  /**
+   * Push the expression list onto the appropriate stack.
+   */
+  private R pushExprList(ExpressionList<T> list) {
+    if (textMode) {
+      textStack.push(list);
+    } else {
+      whereStack.push(list);
+    }
+    return root;
+  }
+
+  /**
+   * Add expression after this to the WHERE expression list.
+   * <p>
+   * For queries against the normal database (not the doc store) this has no effect.
+   * </p>
+   * <p>
+   * This is intended for use with Document Store / ElasticSearch where expressions can be put into either
+   * the "query" section or the "filter" section of the query. Full text expressions like MATCH are in the
+   * "query" section but many expression can be in either - expressions after the where() are put into the
+   * "filter" section which means that they don't add to the relevance and are also cache-able.
+   * </p>
+   */
+  public R where() {
+    textMode = false;
+    return root;
+  }
+
+  /**
+   * Begin added expressions to the 'Text' expression list.
+   * <p>
+   * This automatically makes the query a document store query.
+   * </p>
+   * <p>
+   * For ElasticSearch expressions added to 'text' go into the ElasticSearch 'query context'
+   * and expressions added to 'where' go into the ElasticSearch 'filter context'.
+   * </p>
+   */
+  public R text() {
+    textMode = true;
+    return root;
+  }
+
+  /**
+   * Add a Text Multi-match expression (document store only).
+   * <p>
+   * This automatically makes the query a document store query.
+   * </p>
+   */
+  public R multiMatch(String query, MultiMatch multiMatch) {
+    peekExprList().multiMatch(query, multiMatch);
+    return root;
+  }
+
+  /**
+   * Add a Text Multi-match expression (document store only).
+   * <p>
+   * This automatically makes the query a document store query.
+   * </p>
+   */
+  public R multiMatch(String query, String... properties) {
+    peekExprList().multiMatch(query, properties);
+    return root;
+  }
+
+  /**
+   * Add a Text common terms expression (document store only).
+   * <p>
+   * This automatically makes the query a document store query.
+   * </p>
+   */
+  public R textCommonTerms(String query, TextCommonTerms options) {
+    peekExprList().textCommonTerms(query, options);
+    return root;
+  }
+
+  /**
+   * Add a Text simple expression (document store only).
+   * <p>
+   * This automatically makes the query a document store query.
+   * </p>
+   */
+  public R textSimple(String query, TextSimple options) {
+    peekExprList().textSimple(query, options);
+    return root;
+  }
+
+  /**
+   * Add a Text query string expression (document store only).
+   * <p>
+   * This automatically makes the query a document store query.
+   * </p>
+   */
+  public R textQueryString(String query, TextQueryString options) {
+    peekExprList().textQueryString(query, options);
     return root;
   }
 
@@ -1247,12 +1419,26 @@ public abstract class TQRootBean<T, R> {
    */
   protected ExpressionList<T> peekExprList() {
 
-    if (expressionListStack.isEmpty()) {
-      // empty so push on the queries base expression list
-      expressionListStack.push(query.where());
+    if (textMode) {
+      // return the current text expression list
+      return _peekText();
+    }
+
+    if (whereStack == null) {
+      whereStack = new ArrayStack<ExpressionList<T>>();
+      whereStack.push(query.where());
     }
     // return the current expression list
-    return expressionListStack.peek();
+    return whereStack.peek();
   }
 
+  protected ExpressionList<T> _peekText() {
+    if (textStack == null) {
+      textStack = new ArrayStack<ExpressionList<T>>();
+      // empty so push on the queries base expression list
+      textStack.push(query.text());
+    }
+    // return the current expression list
+    return textStack.peek();
+  }
 }
