@@ -10,6 +10,16 @@ import java.util.Date;
 
 public class QCustomerTest {
 
+
+  @Test
+  public void setIncludeSoftDeletes() {
+
+    new QCustomer()
+        .setIdIn(42L)
+        .setIncludeSoftDeletes()
+        .findList();
+  }
+
   @Test
   public void testIdIn() {
 

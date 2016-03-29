@@ -358,10 +358,19 @@ public abstract class TQRootBean<T, R> {
   }
 
   /**
+   * Deprecated in favour of setIncludeSoftDeletes().
+   */
+  @Deprecated
+  public R includeSoftDeletes() {
+    query.setIncludeSoftDeletes();
+    return root;
+  }
+
+  /**
    * Execute the query including soft deleted rows.
    */
-  public R includeSoftDeletes() {
-    query.includeSoftDeletes();
+  public R setIncludeSoftDeletes() {
+    query.setIncludeSoftDeletes();
     return root;
   }
 
