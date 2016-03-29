@@ -465,6 +465,26 @@ public abstract class TQRootBean<T, R> {
   }
 
   /**
+   * Set a list of Id values to match.
+   * <p>
+   * <pre>{@code
+   *
+   * List<Order> orders =
+   *   new QOrder()
+   *     .setIdIn(42, 43, 44)
+   *     .findList();
+   *
+   * // the order details were eagerly fetched
+   * List<OrderDetail> details = order.getDetails();
+   *
+   * }</pre>
+   */
+  public R setIdIn(Object... ids) {
+    query.where().idIn(ids);
+    return root;
+  }
+
+  /**
    * Set the default lazy loading batch size to use.
    * <p>
    * When lazy loading is invoked on beans loaded by this query then this sets the

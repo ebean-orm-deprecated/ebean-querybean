@@ -11,6 +11,18 @@ import java.util.Date;
 public class QCustomerTest {
 
   @Test
+  public void testIdIn() {
+
+    new QCustomer()
+        .setIdIn("1", "2")
+        .findList();
+
+    new QCustomer()
+        .id.in(1L, 2L, 3L)
+        .findList();
+  }
+
+  @Test
   public void testIn() {
     new QCustomer()
         .id.in(34L, 33L)
