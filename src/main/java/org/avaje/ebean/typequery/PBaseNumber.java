@@ -152,6 +152,27 @@ public abstract class PBaseNumber<R,T> extends TQProperty<R> {
     return root;
   }
 
+  /**
+   * Is in a list of values.
+   *
+   * @param values the list of values for the predicate
+   * @return the root query bean instance
+   */
+  public R in(T... values) {
+    expr().in(name, values);
+    return root;
+  }
+
+  /**
+   * Is NOT in a list of values.
+   *
+   * @param values the list of values for the predicate
+   * @return the root query bean instance
+   */
+  public R notIn(T... values) {
+    expr().notIn(name, values);
+    return root;
+  }
 
   // Additional int versions -- seems the right thing to do
 

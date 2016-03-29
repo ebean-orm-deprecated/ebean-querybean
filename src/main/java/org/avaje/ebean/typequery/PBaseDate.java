@@ -37,6 +37,28 @@ public abstract class PBaseDate<R,D> extends TQProperty<R> {
   }
 
   /**
+   * Is in a list of values.
+   *
+   * @param values the list of values for the predicate
+   * @return the root query bean instance
+   */
+  public R in(D... values) {
+    expr().in(name, values);
+    return root;
+  }
+
+  /**
+   * Is NOT in a list of values.
+   *
+   * @param values the list of values for the predicate
+   * @return the root query bean instance
+   */
+  public R notIn(D... values) {
+    expr().notIn(name, values);
+    return root;
+  }
+
+  /**
    * Same as greater than.
    *
    * @param value the equal to bind value

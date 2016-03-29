@@ -6,7 +6,18 @@ import org.example.domain.typequery.QContact;
 import org.example.domain.typequery.QCustomer;
 import org.junit.Test;
 
+import java.util.Date;
+
 public class QCustomerTest {
+
+  @Test
+  public void testIn() {
+    new QCustomer()
+        .id.in(34L, 33L)
+        .name.in("asd")
+        .registered.in(new Date())
+        .findList();
+  }
 
   @Test
   public void testQueryBoolean() {
