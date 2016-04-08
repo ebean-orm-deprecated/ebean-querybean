@@ -114,7 +114,7 @@ public abstract class TQAssocBean<T, R> {
    * </p>
    */
   public R isNotEmpty() {
-    expr().isEmpty(_name);
+    expr().isNotEmpty(_name);
     return _root;
   }
 
