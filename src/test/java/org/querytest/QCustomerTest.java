@@ -10,6 +10,17 @@ import java.util.Date;
 
 public class QCustomerTest {
 
+  @Test
+  public void isEmpty() {
+
+    new QCustomer()
+        .contacts.isEmpty()
+        .findList();
+
+    new QCustomer()
+        .contacts.isNotEmpty()
+        .findList();
+  }
 
   @Test
   public void setIncludeSoftDeletes() {

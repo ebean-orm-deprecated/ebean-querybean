@@ -89,4 +89,33 @@ public abstract class TQAssocBean<T, R> {
     expressionList.addAll(filter);
     return _root;
   }
+
+  /**
+   * Is empty for a collection property.
+   * <p>
+   * This effectively adds a not exists sub-query on the collection property.
+   * </p>
+   * <p>
+   * This expression only works on OneToMany and ManyToMany properties.
+   * </p>
+   */
+  public R isEmpty() {
+    expr().isEmpty(_name);
+    return _root;
+  }
+
+  /**
+   * Is not empty for a collection property.
+   * <p>
+   * This effectively adds an exists sub-query on the collection property.
+   * </p>
+   * <p>
+   * This expression only works on OneToMany and ManyToMany properties.
+   * </p>
+   */
+  public R isNotEmpty() {
+    expr().isEmpty(_name);
+    return _root;
+  }
+
 }
