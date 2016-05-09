@@ -4,6 +4,7 @@ import com.avaje.ebean.PagedList;
 import org.example.domain.Customer;
 import org.example.domain.typequery.QContact;
 import org.example.domain.typequery.QCustomer;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.Date;
@@ -19,6 +20,20 @@ public class QCustomerTest {
 
     new QCustomer()
         .contacts.isNotEmpty()
+        .findList();
+  }
+
+
+  @Ignore
+  @Test
+  public void arrayContains() {
+
+    new QContact()
+        .phoneNumbers.contains("4312")
+        .findList();
+
+    new QCustomer()
+        .contacts.phoneNumbers.contains("4312")
         .findList();
   }
 

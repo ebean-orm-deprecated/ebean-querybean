@@ -1,12 +1,13 @@
 package org.example.domain;
 
-import com.avaje.ebean.Model;
+import com.avaje.ebean.annotation.DbArray;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,6 +16,9 @@ import java.util.List;
 @Entity
 @Table(name="be_contact")
 public class Contact extends BaseModel {
+
+  @DbArray
+  List<String> phoneNumbers = new ArrayList();
 
   @Column(length=50)
   String firstName;
@@ -94,5 +98,13 @@ public class Contact extends BaseModel {
 
   public void setNotes(List<ContactNote> notes) {
     this.notes = notes;
+  }
+
+  public List<String> getPhoneNumbers() {
+    return phoneNumbers;
+  }
+
+  public void setPhoneNumbers(List<String> phoneNumbers) {
+    this.phoneNumbers = phoneNumbers;
   }
 }

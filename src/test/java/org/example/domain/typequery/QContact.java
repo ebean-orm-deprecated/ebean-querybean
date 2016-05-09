@@ -1,5 +1,6 @@
 package org.example.domain.typequery;
 
+import org.avaje.ebean.typequery.PArray;
 import org.avaje.ebean.typequery.TQRootBean;
 import org.avaje.ebean.typequery.PLong;
 import org.avaje.ebean.typequery.PString;
@@ -15,6 +16,7 @@ public class QContact extends TQRootBean<Contact,QContact> {
   }
 
   public PLong<QContact> id;
+  public PArray<QContact,String> phoneNumbers;
   public PString<QContact> firstName;
   public PString<QContact> lastName;
   public PString<QContact> email;
@@ -24,6 +26,7 @@ public class QContact extends TQRootBean<Contact,QContact> {
     super(Contact.class);
     setRoot(this);
     this.id = new PLong<>("id", this);
+    this.phoneNumbers = new PArray<>("phoneNumbers", this);
     this.firstName = new PString<>("firstName", this);
     this.lastName = new PString<>("lastName", this);
     this.email = new PString<>("email", this);
@@ -33,6 +36,7 @@ public class QContact extends TQRootBean<Contact,QContact> {
   private QContact(boolean alias) {
     super(alias);
     this.id = new PLong<>("id", this);
+    this.phoneNumbers = new PArray<>("phoneNumbers", this);
     this.firstName = new PString<>("firstName", this);
     this.lastName = new PString<>("lastName", this);
     this.email = new PString<>("email", this);

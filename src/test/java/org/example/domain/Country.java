@@ -1,8 +1,5 @@
 package org.example.domain;
 
-import com.avaje.ebean.annotation.CacheStrategy;
-import com.avaje.ebean.annotation.CacheTuning;
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -10,8 +7,6 @@ import javax.persistence.Table;
 /**
  * Country entity bean.
  */
-@CacheStrategy(readOnly=true,warmingQuery="order by name")
-@CacheTuning(maxSize=500)
 @Entity
 @Table(name="o_country")
 public class Country {
