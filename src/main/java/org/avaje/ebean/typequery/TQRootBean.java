@@ -1138,25 +1138,6 @@ public abstract class TQRootBean<T, R> {
   }
 
   /**
-   * Execute the query iterating over the results.
-   * <p>
-   * Remember that with {@link QueryIterator} you must call
-   * {@link QueryIterator#close()} when you have finished iterating the results
-   * (typically in a finally block).
-   * </p>
-   * <p>
-   * findEach() and findEachWhile() are preferred to findIterate() as they ensure
-   * the jdbc statement and resultSet are closed at the end of the iteration.
-   * </p>
-   * <p>
-   * This query will execute against the EbeanServer that was used to create it.
-   * </p>
-   */
-  public QueryIterator<T> findIterate() {
-    return query.findIterate();
-  }
-
-  /**
    * Execute the query returning a map of the objects.
    * <p>
    * This query will execute against the EbeanServer that was used to create it.
@@ -1323,53 +1304,6 @@ public abstract class TQRootBean<T, R> {
    */
   public FutureList<T> findFutureList() {
     return query.findFutureList();
-  }
-
-
-  /**
-   * Return a PagedList for this query using pageIndex and pageSize.
-   * <p>
-   * The benefit of using this over just using the normal {@link Query#setFirstRow(int)} and
-   * {@link Query#setMaxRows(int)} is that it additionally wraps an optional call to
-   * {@link Query#findFutureRowCount()} to determine total row count, total page count etc.
-   * </p>
-   * <p>
-   * Internally this works using {@link Query#setFirstRow(int)} and {@link Query#setMaxRows(int)} on
-   * the query. This translates into SQL that uses limit offset, rownum or row_number function to
-   * limit the result set.
-   * </p>
-   * <p>
-   * <h4>Example: typical use including total row count</h4>
-   * <pre>{@code
-   *
-   *     // We want to find the first 100 new orders
-   *     //  ... 0 means first page
-   *     //  ... page size is 100
-   *
-   *     PagedList<Order> pagedList
-   *       = new QOrder()
-   *       .status.equalTo(Order.Status.NEW)
-   *       .order().id.asc()
-   *       .findPagedList(0, 100);
-   *
-   *     // Optional: initiate the loading of the total
-   *     // row count in a background thread
-   *     pagedList.loadRowCount();
-   *
-   *     // fetch and return the list in the foreground thread
-   *     List<Order> orders = pagedList.getList();
-   *
-   *     // get the total row count (from the future)
-   *     int totalRowCount = pagedList.getTotalRowCount();
-   *
-   * }</pre>
-   *
-   * @param pageIndex The zero based index of the page.
-   * @param pageSize  The number of beans to return per page.
-   * @return The PagedList
-   */
-  public PagedList<T> findPagedList(int pageIndex, int pageSize) {
-    return query.findPagedList(pageIndex, pageSize);
   }
 
   /**
