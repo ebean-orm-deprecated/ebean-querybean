@@ -800,7 +800,7 @@ public abstract class TQRootBean<T, R> {
   /**
    * Begin a list of expressions added by 'OR'.
    * <p>
-   * Use endJunction() to stop added to OR and 'pop' to the parent expression list.
+   * Use endOr() or endJunction() to stop added to OR and 'pop' to the parent expression list.
    * </p>
    *
    * <h2>Example</h2>
@@ -825,6 +825,7 @@ public abstract class TQRootBean<T, R> {
    * }</pre>
    * <h2>Resulting SQL where clause</h2>
    * <pre>{@code sql
+   *
    *    where t0.status = ?  and (t0.id > ?  or (t0.name like ?  and t0.registered > ? ) )
    *    order by t0.id desc;
    *
@@ -840,7 +841,7 @@ public abstract class TQRootBean<T, R> {
   /**
    * Begin a list of expressions added by 'AND'.
    * <p>
-   * Use endJunction() to stop added to AND and 'pop' to the parent expression list.
+   * Use endAnd() or endJunction() to stop added to AND and 'pop' to the parent expression list.
    * </p>
    * <p>
    * Note that typically the AND expression is only used inside an outer 'OR' expression.
@@ -860,14 +861,15 @@ public abstract class TQRootBean<T, R> {
    *              .and()  // NESTED 'AND' expression list
    *                .name.startsWith("super")
    *                .registered.after(fiveDaysAgo)
-   *                .endJunction()
-   *              .endJunction()
+   *                .endAnd()
+   *              .endOr()
    *            .orderBy().id.desc()
    *            .findList();
    *
    * }</pre>
    * <h2>Resulting SQL where clause</h2>
    * <pre>{@code sql
+   *
    *    where t0.status = ?  and (t0.id > ?  or (t0.name like ?  and t0.registered > ? ) )
    *    order by t0.id desc;
    *
@@ -883,7 +885,7 @@ public abstract class TQRootBean<T, R> {
   /**
    * Begin a list of expressions added by NOT.
    * <p>
-   * Use endJunction() to stop added to NOT and 'pop' to the parent expression list.
+   * Use endNot() or endJunction() to stop added to NOT and 'pop' to the parent expression list.
    * </p>
    */
   public R not() {
@@ -944,18 +946,23 @@ public abstract class TQRootBean<T, R> {
   }
 
   /**
-   * Deprecated - replace with endJunction().
-   * @deprecated
+   * End OR junction - synonym for endJunction().
    */
   public R endOr() {
     return endJunction();
   }
 
   /**
-   * Deprecated - replace with endJunction().
-   * @deprecated
+   * End AND junction - synonym for endJunction().
    */
   public R endAnd() {
+    return endJunction();
+  }
+
+  /**
+   * End NOT junction - synonym for endJunction().
+   */
+  public R endNot() {
     return endJunction();
   }
 
