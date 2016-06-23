@@ -1263,6 +1263,17 @@ public abstract class TQRootBean<T, R> {
   }
 
   /**
+   * Return versions of a @History entity bean between a start and end timestamp.
+   * <p>
+   * Generally this query is expected to be a find by id or unique predicates query.
+   * It will execute the query against the history returning the versions of the bean.
+   * </p>
+   */
+  public List<Version<T>> findVersionsBetween(Timestamp start, Timestamp end) {
+    return query.findVersionsBetween(start, end);
+  }
+
+  /**
    * Return the count of entities this query should return.
    * <p>
    * This is the number of 'top level' or 'root level' entities.
