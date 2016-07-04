@@ -35,10 +35,19 @@ public abstract class TQAssocBean<T, R> {
   /**
    * Eagerly fetch this association fetching all the properties.
    */
-  public R fetchAll() {
-
+  public R fetch() {
     ((TQRootBean) _root).query().fetch(_name, "*");
     return _root;
+  }
+
+  /**
+   * Eagerly fetch this association fetching all the properties.
+   * <p>
+   * This is a synonym for fetch() and probably marked deprecated shortly.
+   * </p>
+   */
+  public R fetchAll() {
+    return fetch();
   }
 
   /**

@@ -90,6 +90,13 @@ public class QCustomerTest {
     new QCustomer()
         // tune query
         .select(cust.name)
+        .contacts.fetch()
+        // predicates
+        .findList();
+
+    new QCustomer()
+        // tune query
+        .select(cust.name)
         .contacts.fetchAll()
         // predicates
         .findList();
