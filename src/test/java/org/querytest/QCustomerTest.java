@@ -1,6 +1,7 @@
 package org.querytest;
 
 import com.avaje.ebean.PagedList;
+import com.avaje.ebean.Query;
 import org.example.domain.Customer;
 import org.example.domain.typequery.QContact;
 import org.example.domain.typequery.QCustomer;
@@ -8,6 +9,8 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.Date;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class QCustomerTest {
 
@@ -79,6 +82,42 @@ public class QCustomerTest {
     new QCustomer()
         .inactive.isFalse()
         .findList();
+  }
+
+  @Test
+  public void testDate_lessThan() {
+
+    assertContains(new QCustomer().registered.lt(new Date()).query(), " where t0.registered < ?");
+    assertContains(new QCustomer().registered.before(new Date()).query(), " where t0.registered < ?");
+    assertContains(new QCustomer().registered.lessThan(new Date()).query(), " where t0.registered < ?");
+  }
+
+  @Test
+  public void testDate_lessOrEqualTo() {
+
+    assertContains(new QCustomer().registered.le(new Date()).query(), " where t0.registered <= ?");
+    assertContains(new QCustomer().registered.lessOrEqualTo(new Date()).query(), " where t0.registered <= ?");
+  }
+
+  @Test
+  public void testDate_greaterThan() {
+
+    assertContains(new QCustomer().registered.after(new Date()).query(), " where t0.registered > ?");
+    assertContains(new QCustomer().registered.gt(new Date()).query(), " where t0.registered > ?");
+    assertContains(new QCustomer().registered.greaterThan(new Date()).query(), " where t0.registered > ?");
+  }
+
+
+  @Test
+  public void testDate_greaterOrEqualTo() {
+
+    assertContains(new QCustomer().registered.ge(new Date()).query(), " where t0.registered >= ?");
+    assertContains(new QCustomer().registered.greaterOrEqualTo(new Date()).query(), " where t0.registered >= ?");
+  }
+
+  private void assertContains(Query<Customer> query, String match) {
+    query.findList();
+    assertThat(query.getGeneratedSql()).contains(match);
   }
 
   @Test

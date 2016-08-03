@@ -81,6 +81,52 @@ public abstract class PBaseDate<R,D> extends TQProperty<R> {
   }
 
   /**
+   * Greater than.
+   *
+   * @param value the bind value
+   * @return the root query bean instance
+   */
+  public R greaterThan(D value) {
+    expr().gt(name, value);
+    return root;
+  }
+
+  /**
+   * Greater than or Equal to.
+   *
+   * @param value the bind value
+   * @return the root query bean instance
+   */
+  public R greaterOrEqualTo(D value) {
+    expr().ge(name, value);
+    return root;
+  }
+
+
+  /**
+   * Less than.
+   *
+   * @param value the bind value
+   * @return the root query bean instance
+   */
+  public R lessThan(D value) {
+    expr().lt(name, value);
+    return root;
+  }
+
+
+  /**
+   * Less than or Equal to.
+   *
+   * @param value the bind value
+   * @return the root query bean instance
+   */
+  public R lessOrEqualTo(D value) {
+    expr().le(name, value);
+    return root;
+  }
+
+  /**
    * Is equal to.
    *
    * @param value the equal to bind value
