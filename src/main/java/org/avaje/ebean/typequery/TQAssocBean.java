@@ -36,15 +36,30 @@ public abstract class TQAssocBean<T, R> {
    * Eagerly fetch this association fetching all the properties.
    */
   public R fetch() {
-    ((TQRootBean) _root).query().fetch(_name, "*");
+    ((TQRootBean) _root).query().fetch(_name);
     return _root;
   }
 
   /**
-   * Eagerly fetch this association fetching all the properties.
-   * <p>
-   * This is a synonym for fetch() and probably marked deprecated shortly.
-   * </p>
+   * Eagerly fetch this association using a "query join".
+   */
+  public R fetchQuery() {
+    ((TQRootBean) _root).query().fetchQuery(_name);
+    return _root;
+  }
+
+  /**
+   * Use lazy loading for fetching this association.
+   */
+  public R fetchLazy() {
+    ((TQRootBean) _root).query().fetchLazy(_name);
+    return _root;
+  }
+
+  /**
+   * Deprecated in favor of fetch().
+   *
+   * @deprecated
    */
   public R fetchAll() {
     return fetch();
@@ -54,6 +69,30 @@ public abstract class TQAssocBean<T, R> {
    * Eagerly fetch this association fetching some of the properties.
    */
   protected R fetchProperties(TQProperty<?>... props) {
+    ((TQRootBean) _root).query().fetch(_name, properties(props));
+    return _root;
+  }
+
+  /**
+   * Eagerly fetch query this association fetching some of the properties.
+   */
+  protected R fetchQueryProperties(TQProperty<?>... props) {
+    ((TQRootBean) _root).query().fetchQuery(_name, properties(props));
+    return _root;
+  }
+
+  /**
+   * Eagerly fetch query this association fetching some of the properties.
+   */
+  protected R fetchLazyProperties(TQProperty<?>... props) {
+    ((TQRootBean) _root).query().fetchLazy(_name, properties(props));
+    return _root;
+  }
+
+  /**
+   * Append the properties as a comma delimited string.
+   */
+  protected String properties(TQProperty<?>... props) {
     StringBuilder selectProps = new StringBuilder(50);
     for (int i = 0; i < props.length; i++) {
       if (i > 0) {
@@ -61,8 +100,7 @@ public abstract class TQAssocBean<T, R> {
       }
       selectProps.append(props[i].propertyName());
     }
-    ((TQRootBean) _root).query().fetch(_name, selectProps.toString());
-    return _root;
+    return selectProps.toString();
   }
 
   /**
@@ -93,8 +131,7 @@ public abstract class TQAssocBean<T, R> {
    */
   public R filterMany(ExpressionList<T> filter) {
 
-    ExpressionList<T> expressionList = (ExpressionList<T>)expr().filterMany(_name);
-
+    ExpressionList<T> expressionList = (ExpressionList<T>) expr().filterMany(_name);
     expressionList.addAll(filter);
     return _root;
   }
