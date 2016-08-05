@@ -1140,7 +1140,7 @@ public abstract class TQRootBean<T, R> {
    *
    * @see EbeanServer#findIds(Query, Transaction)
    */
-  public List<Object> findIds() {
+  public <A> List<A> findIds() {
     return query.findIds();
   }
 
@@ -1165,15 +1165,72 @@ public abstract class TQRootBean<T, R> {
    *
    * @see EbeanServer#findMap(Query, Transaction)
    */
-  public Map<?, T> findMap() {
+  public <K> Map<K, T> findMap() {
     return query.findMap();
   }
 
   /**
-   * Return a typed map specifying the key property and type.
+   * Execute the query iterating over the results.
+   * <p>
+   * Note that findIterate (and findEach and findEachWhile) uses a "per graph"
+   * persistence context scope and adjusts jdbc fetch buffer size for large
+   * queries. As such it is better to use findList for small queries.
+   * </p>
+   * <p>
+   * Remember that with {@link QueryIterator} you must call {@link QueryIterator#close()}
+   * when you have finished iterating the results (typically in a finally block).
+   * </p>
+   * <p>
+   * findEach() and findEachWhile() are preferred to findIterate() as they ensure
+   * the jdbc statement and resultSet are closed at the end of the iteration.
+   * </p>
+   * <p>
+   * This query will execute against the EbeanServer that was used to create it.
+   * </p>
+   * <pre>{@code
+   *
+   *  Query<Customer> query =
+   *    new QCustomer()
+   *     .status.equalTo(Customer.Status.NEW)
+   *     .order()
+   *       id.asc()
+   *     .query();
+   *
+   *  QueryIterator<Customer> it = query.findIterate();
+   *  try {
+   *    while (it.hasNext()) {
+   *      Customer customer = it.next();
+   *      // do something with customer ...
+   *    }
+   *  } finally {
+   *    // close the underlying resources
+   *    it.close();
+   *  }
+   *
+   * }</pre>
    */
-  public <K> Map<K, T> findMap(String keyProperty, Class<K> keyType) {
-    return query.findMap(keyProperty, keyType);
+  public QueryIterator<T> findIterate() {
+    return query.findIterate();
+  }
+
+  /**
+   * Execute the query returning a list of values for a single property.
+   *
+   * <h3>Example</h3>
+   * <pre>{@code
+   *
+   *  List<String> names =
+   *    new QCustomer()
+   *      .setDistinct(true)
+   *      .select(name)
+   *      .findSingleAttributeList();
+   *
+   * }</pre>
+   *
+   * @return the list of values for the selected property
+   */
+  public <A> List<A> findSingleAttributeList() {
+    return query.findSingleAttributeList();
   }
 
   /**

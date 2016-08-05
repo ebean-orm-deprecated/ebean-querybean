@@ -2,6 +2,7 @@ package org.querytest;
 
 import com.avaje.ebean.PagedList;
 import com.avaje.ebean.Query;
+import com.avaje.ebean.QueryIterator;
 import org.example.domain.Customer;
 import org.example.domain.typequery.QContact;
 import org.example.domain.typequery.QCustomer;
@@ -9,10 +10,60 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class QCustomerTest {
+
+  @Test
+  public void findSingleAttribute() {
+
+    List<String> names = new QCustomer()
+        .setDistinct(true)
+        .select(QCustomer.alias().name)
+        .status.equalTo(Customer.Status.BAD)
+        .findSingleAttributeList();
+
+    assertThat(names).isNotNull();
+  }
+
+  @Test
+  public void findIterate() {
+
+    Customer cust = new Customer();
+    cust.setName("foo");
+    cust.setStatus(Customer.Status.GOOD);
+    cust.save();
+
+    List<Long> ids = new QCustomer()
+        .status.equalTo(Customer.Status.GOOD)
+        .findIds();
+
+    assertThat(ids).isNotEmpty();
+
+
+    Map<List, Customer> map = new QCustomer()
+        .status.equalTo(Customer.Status.GOOD)
+        .findMap();
+
+    assertThat(map.size()).isEqualTo(ids.size());
+
+    QueryIterator<Customer> iterate = new QCustomer()
+        .status.equalTo(Customer.Status.GOOD)
+        .findIterate();
+
+    try {
+      while (iterate.hasNext()) {
+        Customer customer = iterate.next();
+        customer.getName();
+      }
+    } finally {
+      iterate.close();
+    }
+  }
+
 
   @Test
   public void isEmpty() {
