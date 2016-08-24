@@ -164,4 +164,19 @@ public abstract class TQAssocBean<T, R> {
     return _root;
   }
 
+  /**
+   * Is null for a property.
+   */
+  public R isNull() {
+    expr().isNull(_name);
+    return _root;
+  }
+
+  /**
+   * Is not null for a property.
+   */
+  public R isNotNull() {
+    expr().isNotNull(_name);
+    return _root;
+  }
 }
