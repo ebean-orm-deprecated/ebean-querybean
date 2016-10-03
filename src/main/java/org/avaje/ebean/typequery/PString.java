@@ -75,7 +75,7 @@ public class PString<R> extends TQProperty<R> {
    * @return the root query bean instance
    */
   public R in(String... values) {
-    expr().in(name, values);
+    expr().in(name, (Object[]) values);
     return root;
   }
 
@@ -86,7 +86,7 @@ public class PString<R> extends TQProperty<R> {
    * @return the root query bean instance
    */
   public R notIn(String... values) {
-    expr().notIn(name, values);
+    expr().notIn(name, (Object[]) values);
     return root;
   }
 

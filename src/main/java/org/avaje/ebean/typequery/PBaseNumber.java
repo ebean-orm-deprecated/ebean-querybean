@@ -158,8 +158,9 @@ public abstract class PBaseNumber<R,T> extends TQProperty<R> {
    * @param values the list of values for the predicate
    * @return the root query bean instance
    */
-  public R in(T... values) {
-    expr().in(name, values);
+  @SafeVarargs
+  public final R in(T... values) {
+    expr().in(name, (Object[]) values);
     return root;
   }
 
@@ -169,8 +170,9 @@ public abstract class PBaseNumber<R,T> extends TQProperty<R> {
    * @param values the list of values for the predicate
    * @return the root query bean instance
    */
-  public R notIn(T... values) {
-    expr().notIn(name, values);
+  @SafeVarargs
+  public final R notIn(T... values) {
+    expr().notIn(name, (Object[]) values);
     return root;
   }
 
