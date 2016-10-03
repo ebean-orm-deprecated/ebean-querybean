@@ -1336,8 +1336,8 @@ public abstract class TQRootBean<T, R> {
    * This is the number of 'top level' or 'root level' entities.
    * </p>
    */
-  public int findRowCount() {
-    return query.findRowCount();
+  public int findCount() {
+    return query.findCount();
   }
 
   /**
@@ -1350,8 +1350,8 @@ public abstract class TQRootBean<T, R> {
    *
    * @return a Future object for the row count query
    */
-  public FutureRowCount<T> findFutureRowCount() {
-    return query.findFutureRowCount();
+  public FutureRowCount<T> findFutureCount() {
+    return query.findFutureCount();
   }
 
   /**

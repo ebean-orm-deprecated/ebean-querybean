@@ -116,7 +116,16 @@ public class QCustomerTest {
   public void testIn() {
     new QCustomer()
         .id.in(34L, 33L)
-        .name.in("asd")
+        .name.in("asd", "foo", "bar")
+        .registered.in(new Date())
+        .findList();
+  }
+
+  @Test
+  public void testNotIn() {
+    new QCustomer()
+        .id.in(34L, 33L)
+        .name.notIn("asd", "foo", "bar")
         .registered.in(new Date())
         .findList();
   }
@@ -187,7 +196,7 @@ public class QCustomerTest {
     new QCustomer()
         // tune query
         .select(cust.name)
-        .contacts.fetchAll()
+        .contacts.fetch()
         // predicates
         .findList();
 
