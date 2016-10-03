@@ -4,7 +4,7 @@
 
   <groupId>org.avaje.ebean</groupId>
   <artifactId>ebean-querybean</artifactId>
-  <version>8.2.3-SNAPSHOT</version>
+  <version>8.4.1-SNAPSHOT</version>
 
   <parent>
     <groupId>org.avaje</groupId>
@@ -13,9 +13,9 @@
   </parent>
 
   <scm>
-    <connection>scm:git:https://github.com/ebean-orm/avaje-ebeanorm-querybean.git</connection>
-    <developerConnection>scm:git:https://github.com/ebean-orm/avaje-ebeanorm-querybean.git</developerConnection>
-    <url>https://github.com/ebean-orm/avaje-ebeanorm-querybean.git</url>
+    <connection>scm:git:https://github.com/ebean-orm/ebean-querybean.git</connection>
+    <developerConnection>scm:git:https://github.com/ebean-orm/ebean-querybean.git</developerConnection>
+    <url>https://github.com/ebean-orm/ebean-querybean.git</url>
     <tag>HEAD</tag>
   </scm>
 
@@ -25,7 +25,7 @@
     <dependency>
       <groupId>org.avaje.ebean</groupId>
       <artifactId>ebean</artifactId>
-      <version>8.2.1</version>
+      <version>8.4.1</version>
       <scope>provided</scope>
     </dependency>
 
