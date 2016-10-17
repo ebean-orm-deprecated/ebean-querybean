@@ -6,7 +6,7 @@ package org.avaje.ebean.typequery;
  * @param <E> the enum specific type
  * @param <R> the root query bean type
  */
-public class PEnum<R,E> extends TQProperty<R> {
+public class PEnum<R,E extends Enum<?>> extends TQProperty<R> {
 
   /**
    * Construct with a property name and root instance.
@@ -32,7 +32,7 @@ public class PEnum<R,E> extends TQProperty<R> {
    * @return the root query bean instance
    */
   public R equalTo(E value) {
-    expr().eq(name, value);
+    expr().eq(name, value.name());
     return root;
   }
 
@@ -43,7 +43,7 @@ public class PEnum<R,E> extends TQProperty<R> {
    * @return the root query bean instance
    */
   public R notEqualTo(E value) {
-    expr().ne(name, value);
+    expr().ne(name, value.name());
     return root;
   }
 
@@ -54,7 +54,7 @@ public class PEnum<R,E> extends TQProperty<R> {
    * @return the root query bean instance
    */
   public R eq(E value) {
-    expr().eq(name, value);
+    expr().eq(name, value.name());
     return root;
   }
 
@@ -65,7 +65,7 @@ public class PEnum<R,E> extends TQProperty<R> {
    * @return the root query bean instance
    */
   public R ne(E value) {
-    expr().ne(name, value);
+    expr().ne(name, value.name());
     return root;
   }
 
@@ -76,7 +76,11 @@ public class PEnum<R,E> extends TQProperty<R> {
    * @return the root query bean instance
    */
   public R in(E... values) {
-    expr().in(name, values);
+    String[] enumNames = new String[values.length];
+    for (int i = 0; i < values.length; i++) {
+        enumNames[i] = values[i].name();
+    }
+    expr().in(name, enumNames);
     return root;
   }
 
@@ -87,7 +91,11 @@ public class PEnum<R,E> extends TQProperty<R> {
    * @return the root query bean instance
    */
   public R notIn(E... values) {
-    expr().notIn(name, values);
+    String[] enumNames = new String[values.length];
+    for (int i = 0; i < values.length; i++) {
+        enumNames[i] = values[i].name();
+    }
+    expr().notIn(name, enumNames);
     return root;
   }
 
