@@ -4,12 +4,12 @@
 
   <groupId>org.avaje.ebean</groupId>
   <artifactId>ebean-querybean</artifactId>
-  <version>8.4.2-SNAPSHOT</version>
+  <version>9.3.1-SNAPSHOT</version>
 
   <parent>
     <groupId>org.avaje</groupId>
-    <artifactId>avaje-javaparent</artifactId>
-    <version>2.1</version>
+    <artifactId>java8-parent</artifactId>
+    <version>1.1</version>
   </parent>
 
   <scm>
@@ -25,7 +25,7 @@
     <dependency>
       <groupId>org.avaje.ebean</groupId>
       <artifactId>ebean</artifactId>
-      <version>8.4.1</version>
+      <version>9.3.1-SNAPSHOT</version>
       <scope>provided</scope>
     </dependency>
 
