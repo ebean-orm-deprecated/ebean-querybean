@@ -1,6 +1,5 @@
 package org.querytest;
 
-import com.avaje.ebean.QueryEachConsumer;
 import org.example.domain.Customer;
 import org.example.domain.typequery.QCustomer;
 import org.junit.Test;
@@ -33,11 +32,6 @@ public class QCustomerSimpleLikeQueryTest {
     new QCustomer()
          .status.equalTo(Customer.Status.GOOD)
          .orderBy().id.asc()
-         .findEach(new QueryEachConsumer<Customer>() {
-           @Override
-           public void accept(Customer customer) {
-             System.out.println("-- visit " + customer);
-           }
-         });
+         .findEach(customer -> System.out.println("-- visit " + customer));
   }
 }

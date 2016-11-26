@@ -13,6 +13,8 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 /**
  * Base root query bean.
@@ -1272,7 +1274,7 @@ public abstract class TQRootBean<T, R> {
    *
    * @param consumer the consumer used to process the queried beans.
    */
-  public void findEach(QueryEachConsumer<T> consumer) {
+  public void findEach(Consumer<T> consumer) {
     query.findEach(consumer);
   }
 
@@ -1304,7 +1306,7 @@ public abstract class TQRootBean<T, R> {
    *
    * @param consumer the consumer used to process the queried beans.
    */
-  public void findEachWhile(QueryEachWhileConsumer<T> consumer) {
+  public void findEachWhile(Predicate<T> consumer) {
     query.findEachWhile(consumer);
   }
 
