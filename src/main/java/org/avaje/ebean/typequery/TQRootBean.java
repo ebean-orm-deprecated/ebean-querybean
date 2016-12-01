@@ -442,6 +442,46 @@ public abstract class TQRootBean<T, R> {
   }
 
   /**
+   * Set the index(es) to search for a document store which uses partitions.
+   * <p>
+   * For example, when executing a query against ElasticSearch with daily indexes we can
+   * explicitly specify the indexes to search against.
+   * </p>
+   * <pre>{@code
+   *
+   *   // explicitly specify the indexes to search
+   *   query.setDocIndexName("logstash-2016.11.5,logstash-2016.11.6")
+   *
+   *   // search today's index
+   *   query.setDocIndexName("$today")
+   *
+   *   // search the last 3 days
+   *   query.setDocIndexName("$last-3")
+   *
+   * }</pre>
+   * <p>
+   * If the indexName is specified with ${daily} e.g. "logstash-${daily}" ... then we can use
+   * $today and $last-x as the search docIndexName like the examples below.
+   * </p>
+   * <pre>{@code
+   *
+   *   // search today's index
+   *   query.setDocIndexName("$today")
+   *
+   *   // search the last 3 days
+   *   query.setDocIndexName("$last-3")
+   *
+   * }</pre>
+   *
+   * @param indexName The index or indexes to search against
+   * @return This query
+   */
+  public R setDocIndexName(String indexName) {
+    query.setDocIndexName(indexName);
+    return root;
+  }
+
+  /**
    * executed the select with "for update" which should lock the record
    * "on read"
    */
