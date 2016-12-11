@@ -1,8 +1,8 @@
 package org.querytest;
 
-import com.avaje.ebean.PagedList;
-import com.avaje.ebean.Query;
-import com.avaje.ebean.QueryIterator;
+import io.ebean.PagedList;
+import io.ebean.Query;
+import io.ebean.QueryIterator;
 import org.example.domain.Customer;
 import org.example.domain.typequery.QContact;
 import org.example.domain.typequery.QCustomer;

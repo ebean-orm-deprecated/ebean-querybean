@@ -1,11 +1,11 @@
 package org.example.domain.typequery.assoc;
 
-import org.avaje.ebean.typequery.PArray;
-import org.avaje.ebean.typequery.PLong;
-import org.avaje.ebean.typequery.PString;
-import org.avaje.ebean.typequery.TQAssocBean;
-import org.avaje.ebean.typequery.TQPath;
-import org.avaje.ebean.typequery.TQProperty;
+import io.ebean.typequery.PArray;
+import io.ebean.typequery.PLong;
+import io.ebean.typequery.PString;
+import io.ebean.typequery.TQAssocBean;
+import io.ebean.typequery.TQPath;
+import io.ebean.typequery.TQProperty;
 import org.example.domain.Contact;
 import org.example.domain.typequery.QContact;
 

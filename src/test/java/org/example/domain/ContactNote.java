@@ -1,6 +1,6 @@
 package org.example.domain;
 
-import com.avaje.ebean.Model;
+import io.ebean.Finder;
 
 import javax.persistence.Entity;
 import javax.persistence.Lob;
@@ -9,7 +9,7 @@ import javax.persistence.ManyToOne;
 @Entity
 public class ContactNote extends BaseModel {
 
-  public static final Model.Finder<Long, ContactNote> find = new Model.Finder<>(ContactNote.class);
+  public static final Finder<Long, ContactNote> find = new Finder<>(ContactNote.class);
 
   @ManyToOne(optional = false)
   Contact contact;

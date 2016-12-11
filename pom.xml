@@ -2,9 +2,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>org.avaje.ebean</groupId>
+  <groupId>io.ebean</groupId>
   <artifactId>ebean-querybean</artifactId>
-  <version>9.3.2-SNAPSHOT</version>
+  <version>10.1.1-SNAPSHOT</version>
 
   <parent>
     <groupId>org.avaje</groupId>
@@ -21,9 +21,9 @@
 
     <!-- provided scope for now -->
     <dependency>
-      <groupId>org.avaje.ebean</groupId>
+      <groupId>io.ebean</groupId>
       <artifactId>ebean</artifactId>
-      <version>9.3.1</version>
+      <version>10.1.1-SNAPSHOT</version>
       <scope>provided</scope>
     </dependency>
 
@@ -56,9 +56,9 @@
 
       <!-- Enhancement for the entity beans used in the tests -->
       <plugin>
-        <groupId>org.avaje.ebean</groupId>
+        <groupId>io.ebean</groupId>
         <artifactId>ebean-maven-plugin</artifactId>
-        <version>8.1.1</version>
+        <version>10.1.1</version>
         <executions>
           <!--   Not going to enhance Model bean -->
           <execution>

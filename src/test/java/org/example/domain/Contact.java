@@ -1,6 +1,6 @@
 package org.example.domain;
 
-import com.avaje.ebean.annotation.DbArray;
+import io.ebean.annotation.DbArray;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

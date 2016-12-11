@@ -1,6 +1,7 @@
 package org.example.domain;
 
-import com.avaje.ebean.Model;
+import io.ebean.Finder;
+import io.ebean.Model;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -20,7 +21,7 @@ import java.util.List;
 @Table(name = "o_order")
 public class Order extends BaseModel {
 
-  public static final Model.Finder<Long,Order> find = new Model.Finder<>(Order.class);
+  public static final Finder<Long,Order> find = new Finder<>(Order.class);
 
   public enum Status {
     NEW, APPROVED, SHIPPED, COMPLETE
