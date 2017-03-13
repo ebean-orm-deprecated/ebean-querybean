@@ -1,6 +1,19 @@
 package io.ebean.typequery;
 
-import io.ebean.*;
+import io.ebean.Ebean;
+import io.ebean.EbeanServer;
+import io.ebean.ExpressionList;
+import io.ebean.FetchConfig;
+import io.ebean.FutureIds;
+import io.ebean.FutureList;
+import io.ebean.FutureRowCount;
+import io.ebean.PagedList;
+import io.ebean.PersistenceContextScope;
+import io.ebean.Query;
+import io.ebean.QueryIterator;
+import io.ebean.RawSql;
+import io.ebean.Transaction;
+import io.ebean.Version;
 import io.ebean.search.MultiMatch;
 import io.ebean.search.TextCommonTerms;
 import io.ebean.search.TextQueryString;
@@ -491,6 +504,36 @@ public abstract class TQRootBean<T, R> {
   }
 
   /**
+   * executed the select with "for update" which should lock the record "on read"
+   */
+  public R forUpdate() {
+    query.forUpdate();
+    return root;
+  }
+
+  /**
+   * Execute using "for update" clause with "no wait" option.
+   * <p>
+   * This is typically a Postgres and Oracle only option at this stage.
+   * </p>
+   */
+  public R forUpdateNoWait() {
+    query.forUpdateNoWait();
+    return root;
+  }
+
+  /**
+   * Execute using "for update" clause with "skip locked" option.
+   * <p>
+   * This is typically a Postgres and Oracle only option at this stage.
+   * </p>
+   */
+  public R forUpdateSkipLocked() {
+    query.forUpdateSkipLocked();
+    return root;
+  }
+
+  /**
    * Set the Id value to query. This is used with findUnique().
    * <p>
    * You can use this to have further control over the query. For example adding
@@ -844,7 +887,7 @@ public abstract class TQRootBean<T, R> {
    * <p>
    * Use endOr() or endJunction() to stop added to OR and 'pop' to the parent expression list.
    * </p>
-   *
+   * <p>
    * <h2>Example</h2>
    * <p>
    * This example uses an 'OR' expression list with an inner 'AND' expression list.
@@ -1257,7 +1300,7 @@ public abstract class TQRootBean<T, R> {
 
   /**
    * Execute the query returning a list of values for a single property.
-   *
+   * <p>
    * <h3>Example</h3>
    * <pre>{@code
    *

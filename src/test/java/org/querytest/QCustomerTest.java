@@ -3,6 +3,7 @@ package org.querytest;
 import io.ebean.PagedList;
 import io.ebean.Query;
 import io.ebean.QueryIterator;
+import io.ebean.annotation.Transactional;
 import org.example.domain.Customer;
 import org.example.domain.typequery.QContact;
 import org.example.domain.typequery.QCustomer;
@@ -75,6 +76,26 @@ public class QCustomerTest {
     new QCustomer()
         .contacts.isNotEmpty()
         .findList();
+  }
+
+  @Transactional
+  @Test
+  public void forUpdate() {
+
+    new QCustomer()
+        .id.eq(42)
+        .forUpdate()
+        .findUnique();
+
+    new QCustomer()
+        .id.eq(42)
+        .forUpdateNoWait()
+        .findUnique();
+
+    new QCustomer()
+        .id.eq(42)
+        .forUpdateSkipLocked()
+        .findUnique();
   }
 
 
