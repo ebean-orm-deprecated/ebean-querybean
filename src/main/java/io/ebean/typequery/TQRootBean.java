@@ -25,6 +25,7 @@ import org.jetbrains.annotations.Nullable;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
@@ -1184,7 +1185,7 @@ public abstract class TQRootBean<T, R> {
    *     new QOrder()
    *         .fetch("details") // eagerly load the order details
    *         .id.equalTo(42)
-   *         .findUnique();
+   *         .findOne();
    *
    * // the order details were eagerly loaded
    * List<OrderDetail> details = order.getDetails();
@@ -1192,8 +1193,27 @@ public abstract class TQRootBean<T, R> {
    * }</pre>
    */
   @Nullable
+  public T findOne() {
+    return query.findOne();
+  }
+
+  /**
+   * Execute the query returning an optional bean.
+   */
+  public Optional<T> findOneOrEmpty() {
+    return query.findOneOrEmpty();
+  }
+
+  /**
+   * Synonym for findOne().
+   * <p>
+   * This proceeded findOne which was introduced to better match spring data.
+   * This will be deprecated at some future point.
+   * </p>
+   */
+  @Nullable
   public T findUnique() {
-    return query.findUnique();
+    return query.findOne();
   }
 
   /**
