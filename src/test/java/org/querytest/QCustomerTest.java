@@ -146,7 +146,7 @@ public class QCustomerTest {
   @Test
   public void testNotIn() {
     new QCustomer()
-        .id.in(34L, 33L)
+        .id.isIn(34L, 33L)
         .name.notIn("asd", "foo", "bar")
         .registered.in(new Date())
         .findList();
@@ -170,7 +170,7 @@ public class QCustomerTest {
   public void testFindOne() {
 
     new QCustomer()
-      .name.contains("rob")
+      .name.isIn("rob", "foo")
       //.setUseDocStore(true)
       .setMaxRows(1)
       .findOne();
@@ -233,6 +233,7 @@ public class QCustomerTest {
     new QCustomer()
         // tune query
         .select(cust.name)
+        .status.isIn(Customer.Status.BAD, Customer.Status.BAD)
         .contacts.fetch()
         // predicates
         .findList();

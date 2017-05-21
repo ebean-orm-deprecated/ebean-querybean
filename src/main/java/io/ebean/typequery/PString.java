@@ -80,6 +80,17 @@ public class PString<R> extends TQProperty<R> {
   }
 
   /**
+   * Is in a list of values. Synonym for in().
+   *
+   * @param values the list of values for the predicate
+   * @return the root query bean instance
+   */
+  public R isIn(String... values) {
+    expr().in(name, (Object[]) values);
+    return root;
+  }
+
+  /**
    * Is NOT in a list of values.
    *
    * @param values the list of values for the predicate
