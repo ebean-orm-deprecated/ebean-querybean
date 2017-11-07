@@ -85,17 +85,17 @@ public class QCustomerTest {
     new QCustomer()
         .id.eq(42)
         .forUpdate()
-        .findUnique();
+        .findOne();
 
     new QCustomer()
         .id.eq(42)
         .forUpdateNoWait()
-        .findUnique();
+        .findOne();
 
     new QCustomer()
         .id.eq(42)
         .forUpdateSkipLocked()
-        .findUnique();
+        .findOne();
   }
 
 

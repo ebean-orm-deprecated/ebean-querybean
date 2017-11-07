@@ -1,7 +1,6 @@
 package org.querytest;
 
 import org.example.domain.Customer;
-import org.jetbrains.annotations.NotNull;
 import org.junit.Test;
 
 import java.time.LocalDate;
