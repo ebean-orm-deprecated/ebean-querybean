@@ -59,6 +59,17 @@ public abstract class PBaseValueEqual<R,T> extends TQProperty<R> {
   }
 
   /**
+   * Is in a list of values. Synonym for in().
+   *
+   * @param values the list of values for the predicate
+   * @return the root query bean instance
+   */
+  public R isIn(T... values) {
+    expr().in(name, values);
+    return root;
+  }
+
+  /**
    * Is NOT in a list of values.
    *
    * @param values the list of values for the predicate

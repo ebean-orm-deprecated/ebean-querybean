@@ -1178,7 +1178,7 @@ public abstract class TQRootBean<T, R> {
    *     new QOrder()
    *         .fetch("details") // eagerly load the order details
    *         .id.equalTo(42)
-   *         .findUnique();
+   *         .findOne();
    *
    * // the order details were eagerly loaded
    * List<OrderDetail> details = order.getDetails();
@@ -1191,7 +1191,7 @@ public abstract class TQRootBean<T, R> {
   }
 
   /**
-   * Execute the query returning a single optional bean.
+   * Execute the query returning an optional bean.
    */
   @Nonnull
   public Optional<T> findOneOrEmpty() {

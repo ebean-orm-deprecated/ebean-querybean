@@ -13,6 +13,7 @@ import org.junit.Test;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -145,7 +146,7 @@ public class QCustomerTest {
   @Test
   public void testNotIn() {
     new QCustomer()
-        .id.in(34L, 33L)
+        .id.isIn(34L, 33L)
         .name.notIn("asd", "foo", "bar")
         .registered.in(new Date())
         .findList();
@@ -163,6 +164,28 @@ public class QCustomerTest {
     new QCustomer()
         .inactive.isFalse()
         .findList();
+  }
+
+  @Test
+  public void testFindOne() {
+
+    new QCustomer()
+      .name.isIn("rob", "foo")
+      //.setUseDocStore(true)
+      .setMaxRows(1)
+      .findOne();
+
+    Optional<Customer> maybe = new QCustomer()
+      .name.contains("rob")
+      //.setUseDocStore(true)
+      .setMaxRows(1)
+      .findOneOrEmpty();
+
+    maybe.isPresent();
+
+    new QCustomer()
+      .inactive.isFalse()
+      .findList();
   }
 
   @Test
@@ -210,6 +233,7 @@ public class QCustomerTest {
     new QCustomer()
         // tune query
         .select(cust.name)
+        .status.isIn(Customer.Status.BAD, Customer.Status.BAD)
         .contacts.fetch()
         // predicates
         .findList();

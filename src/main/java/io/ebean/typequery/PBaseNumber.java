@@ -165,6 +165,18 @@ public abstract class PBaseNumber<R,T> extends TQProperty<R> {
   }
 
   /**
+   * Is in a list of values. A synonym for in().
+   *
+   * @param values the list of values for the predicate
+   * @return the root query bean instance
+   */
+  @SafeVarargs
+  public final R isIn(T... values) {
+    expr().in(name, (Object[]) values);
+    return root;
+  }
+
+  /**
    * Is NOT in a list of values.
    *
    * @param values the list of values for the predicate
