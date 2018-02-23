@@ -6,6 +6,7 @@ package io.ebean.typequery;
  * @param <R> the root query bean type
  * @param <T> the number type
  */
+@SuppressWarnings("rawtypes")
 public abstract class PBaseNumber<R,T extends Comparable> extends PBaseCompareable<R,T> {
 
   /**

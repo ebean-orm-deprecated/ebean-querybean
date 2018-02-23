@@ -38,8 +38,9 @@ public class PArray<R, E> extends TQProperty<R> {
    *
    * @param values The values that should be contained in the array
    */
-  public R contains(E... values) {
-    expr().arrayContains(name, values);
+  @SafeVarargs
+  public final R contains(E... values) {
+    expr().arrayContains(name, (Object[]) values);
     return root;
   }
 
@@ -56,8 +57,9 @@ public class PArray<R, E> extends TQProperty<R> {
    *
    * @param values The values that should not be contained in the array
    */
-  public R notContains(E... values) {
-    expr().arrayNotContains(name, values);
+  @SafeVarargs
+  public final R notContains(E... values) {
+    expr().arrayNotContains(name, (Object[]) values);
     return root;
   }
 

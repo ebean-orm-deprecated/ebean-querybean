@@ -96,17 +96,6 @@ public abstract class PBaseValueEqual<R,T> extends TQProperty<R> {
   }
 
   /**
-   * Is in a list of values.
-   *
-   * @param values the list of values for the predicate
-   * @return the root query bean instance
-   */
-  public final R in(Collection<T> values) {
-    expr().in(name, values);
-    return root;
-  }
-
-  /**
    * Is in a list of values. Synonym for in().
    *
    * @param values the list of values for the predicate
@@ -114,6 +103,17 @@ public abstract class PBaseValueEqual<R,T> extends TQProperty<R> {
    */
   @SafeVarargs
   public final R isIn(T... values) {
+    expr().in(name, (Object[]) values);
+    return root;
+  }
+  
+  /**
+   * Is in a list of values.
+   *
+   * @param values the list of values for the predicate
+   * @return the root query bean instance
+   */
+  public final R in(Collection<T> values) {
     expr().in(name, values);
     return root;
   }
@@ -128,4 +128,15 @@ public abstract class PBaseValueEqual<R,T> extends TQProperty<R> {
     expr().notIn(name, values);
     return root;
   }
+  
+  /**
+   * Is in a list of values. Synonym for in().
+   *
+   * @param values the list of values for the predicate
+   * @return the root query bean instance
+   */
+  public final R isIn(Collection<T> values) {
+    expr().in(name, values);
+    return root;
+  }  
 }
