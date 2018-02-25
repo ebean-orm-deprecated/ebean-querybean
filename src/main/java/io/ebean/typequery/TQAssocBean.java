@@ -8,6 +8,7 @@ import io.ebean.ExpressionList;
  * @param <T> the entity bean type (normal entity bean type e.g. Customer)
  * @param <R> the specific root query bean type (e.g. QCustomer)
  */
+@SuppressWarnings("rawtypes")
 public abstract class TQAssocBean<T, R> {
 
   protected final String _name;
@@ -131,6 +132,7 @@ public abstract class TQAssocBean<T, R> {
    */
   public R filterMany(ExpressionList<T> filter) {
 
+    @SuppressWarnings("unchecked")
     ExpressionList<T> expressionList = (ExpressionList<T>) expr().filterMany(_name);
     expressionList.addAll(filter);
     return _root;

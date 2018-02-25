@@ -5,7 +5,7 @@ package io.ebean.typequery;
  *
  * @param <R> the root query bean type
  */
-public class PString<R> extends TQProperty<R> {
+public class PString<R> extends PBaseCompareable<R, String> {
 
   /**
    * Construct with a property name and root instance.
@@ -25,17 +25,6 @@ public class PString<R> extends TQProperty<R> {
   }
 
   /**
-   * Is equal to.
-   *
-   * @param value the equal to bind value
-   * @return the root query bean instance
-   */
-  public R eq(String value) {
-    expr().eq(name, value);
-    return root;
-  }
-
-  /**
    * Case insensitive is equal to.
    *
    * @param value the equal to bind value
@@ -47,17 +36,6 @@ public class PString<R> extends TQProperty<R> {
   }
 
   /**
-   * Is equal to.
-   *
-   * @param value the equal to bind value
-   * @return the root query bean instance
-   */
-  public R equalTo(String value) {
-    expr().eq(name, value);
-    return root;
-  }
-
-  /**
    * Case insensitive is equal to.
    *
    * @param value the equal to bind value
@@ -65,39 +43,6 @@ public class PString<R> extends TQProperty<R> {
    */
   public R iequalTo(String value) {
     expr().ieq(name, value);
-    return root;
-  }
-
-  /**
-   * Is in a list of values.
-   *
-   * @param values the list of values for the predicate
-   * @return the root query bean instance
-   */
-  public R in(String... values) {
-    expr().in(name, (Object[]) values);
-    return root;
-  }
-
-  /**
-   * Is in a list of values. Synonym for in().
-   *
-   * @param values the list of values for the predicate
-   * @return the root query bean instance
-   */
-  public R isIn(String... values) {
-    expr().in(name, (Object[]) values);
-    return root;
-  }
-
-  /**
-   * Is NOT in a list of values.
-   *
-   * @param values the list of values for the predicate
-   * @return the root query bean instance
-   */
-  public R notIn(String... values) {
-    expr().notIn(name, (Object[]) values);
     return root;
   }
 

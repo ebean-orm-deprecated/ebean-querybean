@@ -6,7 +6,7 @@ package io.ebean.typequery;
  * @param <E> the enum specific type
  * @param <R> the root query bean type
  */
-public class PEnum<R,E> extends TQProperty<R> {
+public class PEnum<R,E> extends PBaseValueEqual<R,E> {
 
   /**
    * Construct with a property name and root instance.
@@ -23,83 +23,6 @@ public class PEnum<R,E> extends TQProperty<R> {
    */
   public PEnum(String name, R root, String prefix) {
     super(name, root, prefix);
-  }
-
-  /**
-   * Is equal to.
-   *
-   * @param value the equal to bind value
-   * @return the root query bean instance
-   */
-  public R equalTo(E value) {
-    expr().eq(name, value);
-    return root;
-  }
-
-  /**
-   * Is not equal to.
-   *
-   * @param value the equal to bind value
-   * @return the root query bean instance
-   */
-  public R notEqualTo(E value) {
-    expr().ne(name, value);
-    return root;
-  }
-
-  /**
-   * Is equal to.
-   *
-   * @param value the equal to bind value
-   * @return the root query bean instance
-   */
-  public R eq(E value) {
-    expr().eq(name, value);
-    return root;
-  }
-
-  /**
-   * Is not equal to.
-   *
-   * @param value the equal to bind value
-   * @return the root query bean instance
-   */
-  public R ne(E value) {
-    expr().ne(name, value);
-    return root;
-  }
-
-  /**
-   * Is in a list of values.
-   *
-   * @param values the list of enum values for the predicate
-   * @return the root query bean instance
-   */
-  public R in(E... values) {
-    expr().in(name, values);
-    return root;
-  }
-
-  /**
-   * Is in a list of values. Synonym for in().
-   *
-   * @param values the list of enum values for the predicate
-   * @return the root query bean instance
-   */
-  public R isIn(E... values) {
-    expr().in(name, values);
-    return root;
-  }
-
-  /**
-   * Is NOT in a list of values.
-   *
-   * @param values the list of enum values for the predicate
-   * @return the root query bean instance
-   */
-  public R notIn(E... values) {
-    expr().notIn(name, values);
-    return root;
   }
 
 }
