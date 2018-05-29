@@ -6,7 +6,7 @@ import org.example.domain.Customer;
 import org.example.domain.typequery.QCustomer;
 import org.junit.Test;
 
-import static org.assertj.core.api.StrictAssertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class PBooleanTest {
 
