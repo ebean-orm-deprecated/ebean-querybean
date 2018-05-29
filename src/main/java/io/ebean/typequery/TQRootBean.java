@@ -1221,6 +1221,28 @@ public abstract class TQRootBean<T, R> {
   }
 
   /**
+   * Execute the query returning the set of objects.
+   * <p>
+   * This query will execute against the EbeanServer that was used to create it.
+   * </p>
+   * <p>
+   * <pre>{@code
+   *
+   * List<Customer> customers =
+   *     new QCustomer()
+   *       .name.ilike("rob%")
+   *       .findSet();
+   *
+   * }</pre>
+   *
+   * @see EbeanServer#findSet(Query, Transaction)
+   */
+  @Nonnull
+  public Set<T> findSet() {
+    return query.findSet();
+  }
+
+  /**
    * Execute the query returning the list of Id's.
    * <p>
    * This query will execute against the EbeanServer that was used to create it.
