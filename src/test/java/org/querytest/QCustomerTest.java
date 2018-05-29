@@ -7,6 +7,7 @@ import io.ebean.annotation.Transactional;
 import org.example.domain.Customer;
 import org.example.domain.typequery.QContact;
 import org.example.domain.typequery.QCustomer;
+import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -14,6 +15,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -324,5 +326,12 @@ public class QCustomerTest {
 //    QCustomer cust = QCustomer.I;
 //    ExpressionList<Customer> expr = new QCustomer().expr();
 //    expr.eq(cust.contacts.email, 123);
+  }
+
+  @Test
+  public void testFindSet() {
+
+    Set<Customer> customerSet = new QCustomer().findSet();
+    Assert.assertNotNull(customerSet);
   }
 }
