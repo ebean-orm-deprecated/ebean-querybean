@@ -1228,7 +1228,7 @@ public abstract class TQRootBean<T, R> {
    * <p>
    * <pre>{@code
    *
-   * List<Customer> customers =
+   * Set<Customer> customers =
    *     new QCustomer()
    *       .name.ilike("rob%")
    *       .findSet();
