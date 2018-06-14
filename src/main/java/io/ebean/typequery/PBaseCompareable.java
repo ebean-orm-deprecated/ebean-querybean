@@ -2,13 +2,13 @@ package io.ebean.typequery;
 
 
 /**
- * Base property for all comparable types. 
+ * Base property for all comparable types.
  *
  * @param <R> the root query bean type
  * @param <T> the type of the scalar property
  */
 @SuppressWarnings("rawtypes")
-public class PBaseCompareable<R,T extends Comparable> extends PBaseValueEqual<R,T> {
+public class PBaseCompareable<R,T> extends PBaseValueEqual<R,T> {
 
   /**
    * Construct with a property name and root instance.
