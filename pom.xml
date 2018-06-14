@@ -4,7 +4,7 @@
 
   <groupId>io.ebean</groupId>
   <artifactId>ebean-querybean</artifactId>
-  <version>11.3.2-SNAPSHOT</version>
+  <version>11.4.1-SNAPSHOT</version>
 
   <parent>
     <groupId>org.avaje</groupId>
