@@ -5,6 +5,7 @@ import io.ebean.Ebean;
 import io.ebean.EbeanServer;
 import io.ebean.ExpressionList;
 import io.ebean.FetchConfig;
+import io.ebean.FetchGroup;
 import io.ebean.FutureIds;
 import io.ebean.FutureList;
 import io.ebean.FutureRowCount;
@@ -13,7 +14,6 @@ import io.ebean.PersistenceContextScope;
 import io.ebean.Query;
 import io.ebean.QueryIterator;
 import io.ebean.RawSql;
-import io.ebean.Transaction;
 import io.ebean.Version;
 import io.ebean.search.MultiMatch;
 import io.ebean.search.TextCommonTerms;
@@ -188,6 +188,14 @@ public abstract class TQRootBean<T, R> {
    */
   public R select(String fetchProperties) {
     query.select(fetchProperties);
+    return root;
+  }
+
+  /**
+   * Set a FetchGroup to control what part of the object graph is loaded.
+   */
+  public R select(FetchGroup<T> fetchGroup) {
+    query.select(fetchGroup);
     return root;
   }
 
@@ -665,8 +673,8 @@ public abstract class TQRootBean<T, R> {
     query.setUseCache(useCache);
     return root;
   }
-  
-  
+
+
   /**
    * Set the mode to use the bean cache when executing this query.
    * <p>
@@ -726,7 +734,7 @@ public abstract class TQRootBean<T, R> {
     query.setUseQueryCache(useCache);
     return root;
   }
-  
+
   /**
    * Set the {@link CacheMode} to use the query for executing this query.
    */
@@ -1240,7 +1248,7 @@ public abstract class TQRootBean<T, R> {
    *
    * }</pre>
    *
-   * @see EbeanServer#findList(Query, Transaction)
+   * @see Query#findList()
    */
   @Nonnull
   public List<T> findList() {
@@ -1262,7 +1270,7 @@ public abstract class TQRootBean<T, R> {
    *
    * }</pre>
    *
-   * @see EbeanServer#findSet(Query, Transaction)
+   * @see Query#findSet()
    */
   @Nonnull
   public Set<T> findSet() {
@@ -1275,7 +1283,7 @@ public abstract class TQRootBean<T, R> {
    * This query will execute against the EbeanServer that was used to create it.
    * </p>
    *
-   * @see EbeanServer#findIds(Query, Transaction)
+   * @see Query#findIds()
    */
   @Nonnull
   public <A> List<A> findIds() {
@@ -1301,7 +1309,7 @@ public abstract class TQRootBean<T, R> {
    *
    * }</pre>
    *
-   * @see EbeanServer#findMap(Query, Transaction)
+   * @see Query#findMap()
    */
   @Nonnull
   public <K> Map<K, T> findMap() {
