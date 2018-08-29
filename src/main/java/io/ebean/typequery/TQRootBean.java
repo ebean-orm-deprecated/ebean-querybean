@@ -1,5 +1,6 @@
 package io.ebean.typequery;
 
+import io.ebean.CacheMode;
 import io.ebean.Ebean;
 import io.ebean.EbeanServer;
 import io.ebean.ExpressionList;
@@ -664,6 +665,24 @@ public abstract class TQRootBean<T, R> {
     query.setUseCache(useCache);
     return root;
   }
+  
+  
+  /**
+   * Set the mode to use the bean cache when executing this query.
+   * <p>
+   * By default "find by id" and "find by natural key" will use the bean cache
+   * when bean caching is enabled. Setting this to false means that the query
+   * will not use the bean cache and instead hit the database.
+   * </p>
+   * <p>
+   * By default findList() with natural keys will not use the bean cache. In that
+   * case we need to explicitly use the bean cache.
+   * </p>
+   */
+  public R setBeanCacheMode(CacheMode beanCacheMode) {
+    query.setBeanCacheMode(beanCacheMode);
+    return root;
+  }
 
   /**
    * Set to true if this query should execute against the doc store.
@@ -705,6 +724,14 @@ public abstract class TQRootBean<T, R> {
    */
   public R setUseQueryCache(boolean useCache) {
     query.setUseQueryCache(useCache);
+    return root;
+  }
+  
+  /**
+   * Set the {@link CacheMode} to use the query for executing this query.
+   */
+  public R setUseQueryCache(CacheMode cacheMode) {
+    query.setUseQueryCache(cacheMode);
     return root;
   }
 
