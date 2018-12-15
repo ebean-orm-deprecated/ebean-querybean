@@ -498,15 +498,6 @@ public abstract class TQRootBean<T, R> {
   }
 
   /**
-   * executed the select with "for update" which should lock the record
-   * "on read"
-   */
-  public R setForUpdate(boolean forUpdate) {
-    query.setForUpdate(forUpdate);
-    return root;
-  }
-
-  /**
    * executed the select with "for update" which should lock the record "on read"
    */
   public R forUpdate() {
