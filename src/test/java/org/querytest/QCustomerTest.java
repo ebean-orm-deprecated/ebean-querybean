@@ -334,4 +334,20 @@ public class QCustomerTest {
     Set<Customer> customerSet = new QCustomer().findSet();
     Assert.assertNotNull(customerSet);
   }
-}
+
+  @Test
+  public void testFindMap() {
+
+    Customer cust = new Customer();
+    cust.setName("banana");
+    cust.setStatus(Customer.Status.GOOD);
+    cust.save();
+
+    Map<String, Customer> map = new QCustomer()
+      .id.greaterOrEqualTo(1L)
+      .name.asMapKey()
+      .findMap();
+
+    assertThat(map.get("banana")).isNotNull();
+
+  }}
