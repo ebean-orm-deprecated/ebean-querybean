@@ -365,11 +365,6 @@ public class QCustomerTest {
 
     assertThat(rows).isEqualTo(0);
 
-    int rowsUpdated = new QCustomer()
-      .name.startsWith("Rob")
-      .asUpdate()
-      .set("active", false)
-      .update();
   }
 
 
