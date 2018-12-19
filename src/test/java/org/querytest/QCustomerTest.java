@@ -350,4 +350,72 @@ public class QCustomerTest {
 
     assertThat(map.get("banana")).isNotNull();
 
-  }}
+  }
+
+  @Test
+  public void testAsUpdate() {
+
+    int rows = new QContact()
+      .notes.note.startsWith("Make Inactive")
+      .email.endsWith("@foo.com")
+      .asUpdate()
+      .setRaw("email = lower(email)")
+      //.set("inactive", true)
+      .update();
+
+    assertThat(rows).isEqualTo(0);
+
+    int rowsUpdated = new QCustomer()
+      .name.startsWith("Rob")
+      .asUpdate()
+      .set("active", false)
+      .update();
+  }
+
+
+  @Test
+  public void testSelectFormula() {
+
+    Customer cust = new Customer();
+    cust.setName("junk junk");
+    cust.setStatus(Customer.Status.GOOD);
+    cust.setRegistered(new Date());
+    cust.save();
+
+    java.util.Date maxDate =  new QCustomer()
+      .select("max(registered)")
+      .findSingleAttribute();
+
+    assertThat(maxDate).isNotNull();
+  }
+
+
+  @Test
+  public void testFetchFormula() {
+
+    Customer cust = new Customer();
+    cust.setName("junk junk");
+    cust.setStatus(Customer.Status.GOOD);
+    cust.setRegistered(new Date());
+    cust.save();
+
+    List<C1dto> dtos = new QCustomer()
+      .select("id, name")
+      .asDto(C1dto.class)
+      .findList();
+
+    assertThat(dtos).isNotEmpty();
+  }
+
+  public static class C1dto {
+
+    final long id;
+    final String name;
+
+    public C1dto(long id, String name) {
+      this.id = id;
+      this.name = name;
+    }
+  }
+
+}

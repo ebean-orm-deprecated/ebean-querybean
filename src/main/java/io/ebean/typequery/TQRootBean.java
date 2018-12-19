@@ -1,6 +1,7 @@
 package io.ebean.typequery;
 
 import io.ebean.CacheMode;
+import io.ebean.DtoQuery;
 import io.ebean.Ebean;
 import io.ebean.EbeanServer;
 import io.ebean.ExpressionList;
@@ -14,6 +15,7 @@ import io.ebean.PersistenceContextScope;
 import io.ebean.Query;
 import io.ebean.QueryIterator;
 import io.ebean.RawSql;
+import io.ebean.UpdateQuery;
 import io.ebean.Version;
 import io.ebean.search.MultiMatch;
 import io.ebean.search.TextCommonTerms;
@@ -528,7 +530,38 @@ public abstract class TQRootBean<T, R> {
   }
 
   /**
-   * Set the Id value to query. This is used with findUnique().
+   * Return this query as an UpdateQuery.
+   *
+   * <pre>{@code
+   *
+   *   int rows =
+   *     new QCustomer()
+   *     .name.startsWith("Rob")
+   *     .organisation.id.equalTo(42)
+   *     .asUpdate()
+   *       .set("active", false)
+   *       .update()
+   *
+   * }</pre>
+   *
+   * @return This query as an UpdateQuery
+   */
+  public UpdateQuery<T> asUpdate() {
+    return query.asUpdate();
+  }
+
+  /**
+   * Convert the query to a DTO bean query.
+   * <p>
+   * We effectively use the underlying ORM query to build the SQL and then execute
+   * and map it into DTO beans.
+   */
+  public <D> DtoQuery<D> asDto(Class<D> dtoClass) {
+    return query.asDto(dtoClass);
+  }
+
+  /**
+   * Set the Id value to query. This is used with findOne().
    * <p>
    * You can use this to have further control over the query. For example adding
    * fetch joins.
@@ -540,7 +573,7 @@ public abstract class TQRootBean<T, R> {
    *   new QOrder()
    *     .setId(1)
    *     .fetch("details")
-   *     .findUnique();
+   *     .findOne();
    *
    * // the order details were eagerly fetched
    * List<OrderDetail> details = order.getDetails();
@@ -1188,7 +1221,7 @@ public abstract class TQRootBean<T, R> {
    * Product product =
    *     new QProduct()
    *         .sku.equalTo("aa113")
-   *         .findUnique();
+   *         .findOne();
    * ...
    * }</pre>
    * <p>
@@ -1334,15 +1367,11 @@ public abstract class TQRootBean<T, R> {
    *       id.asc()
    *     .query();
    *
-   *  QueryIterator<Customer> it = query.findIterate();
-   *  try {
+   *  try (QueryIterator<Customer> it = query.findIterate()) {
    *    while (it.hasNext()) {
    *      Customer customer = it.next();
    *      // do something with customer ...
    *    }
-   *  } finally {
-   *    // close the underlying resources
-   *    it.close();
    *  }
    *
    * }</pre>
@@ -1371,6 +1400,25 @@ public abstract class TQRootBean<T, R> {
   @Nonnull
   public <A> List<A> findSingleAttributeList() {
     return query.findSingleAttributeList();
+  }
+
+  /**
+   * Execute the query returning a single value for a single property.
+   * <p>
+   * <h3>Example</h3>
+   * <pre>{@code
+   *
+   *  LocalDate maxDate =
+   *    new QCustomer()
+   *      .select("max(startDate)")
+   *      .findSingleAttribute();
+   *
+   * }</pre>
+   *
+   * @return the list of values for the selected property
+   */
+  public <A> A findSingleAttribute() {
+    return query.findSingleAttribute();
   }
 
   /**
