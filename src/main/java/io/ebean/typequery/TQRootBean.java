@@ -423,6 +423,30 @@ public abstract class TQRootBean<T, R> {
   }
 
   /**
+   * Execute the query allowing properties with invalid JSON to be collected and not fail the query.
+   * <pre>{@code
+   *
+   *   // fetch a bean with JSON content
+   *   EBasicJsonList bean= new QEBasicJsonList()
+   *       .id.equalTo(42)
+   *       .setAllowLoadErrors()  // collect errors into bean state if we have invalid JSON
+   *       .findOne();
+   *
+   *
+   *   // get the invalid JSON errors from the bean state
+   *   Map<String, Exception> errors = server().getBeanState(bean).getLoadErrors();
+   *
+   *   // If this map is not empty tell we have invalid JSON
+   *   // and should try and fix the JSON content or inform the user
+   *
+   * }</pre>
+   */
+  public R setAllowLoadErrors() {
+    query.setAllowLoadErrors();
+    return root;
+  }
+
+  /**
    * Explicitly specify whether to use AutoTune for this query.
    * <p>
    * If you do not call this method on a query the "Implicit AutoTune mode" is
@@ -496,6 +520,43 @@ public abstract class TQRootBean<T, R> {
    */
   public R setDocIndexName(String indexName) {
     query.setDocIndexName(indexName);
+    return root;
+  }
+
+  /**
+   * Restrict the query to only return subtypes of the given inherit type.
+   * <pre>{@code
+   *
+   *   List<Animal> animals =
+   *     new QAnimal()
+   *       .name.startsWith("Fluffy")
+   *       .setInheritType(Cat.class)
+   *       .findList();
+   *
+   * }</pre>
+   */
+  public R setInheritType(Class<? extends T> type) {
+    query.setInheritType(type);
+    return root;
+  }
+
+  /**
+   * Set the base table to use for this query.
+   * <p>
+   * Typically this is used when a table has partitioning and we wish to specify a specific
+   * partition/table to query against.
+   * </p>
+   * <pre>{@code
+   *
+   *   QOrder()
+   *   .setBaseTable("order_2019_05")
+   *   .status.equalTo(Status.NEW)
+   *   .findList();
+   *
+   * }</pre>
+   */
+  public R setBaseTable(String baseTable) {
+    query.setBaseTable(baseTable);
     return root;
   }
 
@@ -1201,6 +1262,39 @@ public abstract class TQRootBean<T, R> {
   public R textQueryString(String query, TextQueryString options) {
     peekExprList().textQueryString(query, options);
     return root;
+  }
+
+  /**
+   * Execute the query returning true if a row is found.
+   * <p>
+   * The query is executed using max rows of 1 and will only select the id property.
+   * This method is really just a convenient way to optimise a query to perform a
+   * 'does a row exist in the db' check.
+   * </p>
+   *
+   * <h2>Example using a query bean:</h2>
+   * <pre>{@code
+   *
+   *   boolean userExists =
+   *     new QContact()
+   *       .email.equalTo("rob@foo.com")
+   *       .exists();
+   *
+   * }</pre>
+   *
+   * <h2>Example:</h2>
+   * <pre>{@code
+   *
+   *   boolean userExists = query()
+   *     .where().eq("email", "rob@foo.com")
+   *     .exists();
+   *
+   * }</pre>
+   *
+   * @return True if the query finds a matching row in the database
+   */
+  public boolean exists() {
+    return query.exists();
   }
 
   /**

@@ -4,7 +4,11 @@ import io.ebean.PagedList;
 import io.ebean.Query;
 import io.ebean.QueryIterator;
 import io.ebean.annotation.Transactional;
+import org.example.domain.ACat;
+import org.example.domain.ADog;
+import org.example.domain.Animal;
 import org.example.domain.Customer;
+import org.example.domain.typequery.QAnimal;
 import org.example.domain.typequery.QContact;
 import org.example.domain.typequery.QCustomer;
 import org.junit.Assert;
@@ -224,6 +228,54 @@ public class QCustomerTest {
   private void assertContains(Query<Customer> query, String match) {
     query.findList();
     assertThat(query.getGeneratedSql()).contains(match);
+  }
+
+  @Test
+  public void query_setAllowLoadErrors() {
+
+    new QCustomer()
+      .status.in(Customer.Status.GOOD)
+      .setAllowLoadErrors()
+      .findList();
+  }
+
+  @Test
+  public void query_setInheritType() {
+
+    ACat cat = new ACat("C1");
+    cat.save();
+
+    ACat cat2 = new ACat("C2");
+    cat2.save();
+
+    ADog dog = new ADog("D1", "D878");
+    dog.save();
+
+    List<Animal> animals = new QAnimal()
+      .id.greaterOrEqualTo(1L)
+      .setInheritType(ACat.class)
+      .findList();
+
+    System.out.println(animals);
+  }
+
+  @Test
+  public void query_setBaseTable() {
+
+    new QCustomer()
+      .setBaseTable("BE_CUSTOMER")
+      .findList();
+  }
+
+  @Test
+  public void query_exists() {
+
+    boolean customerExists =
+      new QCustomer()
+      .name.equalTo("DoesNotExistReally")
+      .exists();
+
+    assertThat(customerExists).isFalse();
   }
 
   @Test
