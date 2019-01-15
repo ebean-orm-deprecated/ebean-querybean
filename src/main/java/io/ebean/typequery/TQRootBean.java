@@ -867,6 +867,13 @@ public abstract class TQRootBean<T, R> {
    *   raw("orderQty < shipQty")
    *
    * }</pre>
+   *
+   * <h4>Subquery example:</h4>
+   * <pre>{@code
+   *
+   *   .raw("t0.customer_id in (select customer_id from customer_group where group_id = any(?::uuid[]))", groupIds)
+   *
+   * }</pre>
    */
   public R raw(String rawExpression) {
     peekExprList().raw(rawExpression);
@@ -907,6 +914,13 @@ public abstract class TQRootBean<T, R> {
    *
    *   // use a database function
    *   raw("add_days(orderDate, 10) < ?", someDate)
+   *
+   * }</pre>
+   *
+   * <h4>Subquery example:</h4>
+   * <pre>{@code
+   *
+   *   .raw("t0.customer_id in (select customer_id from customer_group where group_id = any(?::uuid[]))", groupIds)
    *
    * }</pre>
    */
