@@ -186,10 +186,10 @@ public abstract class TQRootBean<T, R> {
    *
    * }</pre>
    *
-   * @param fetchProperties the properties to fetch for this bean (* = all properties).
+   * @param properties the properties to fetch for this bean (* = all properties).
    */
-  public R select(String fetchProperties) {
-    query.select(fetchProperties);
+  public R select(String properties) {
+    query.select(properties);
     return root;
   }
 
@@ -356,12 +356,12 @@ public abstract class TQRootBean<T, R> {
    *
    * }</pre>
    *
-   * @param path            the path of an associated (OneToOne, OneToMany, ManyToOne or ManyToMany) bean.
-   * @param fetchProperties properties of the associated bean that you want to include in the
-   *                        fetch (* means all properties, null also means all properties).
+   * @param path       the path of an associated (OneToOne, OneToMany, ManyToOne or ManyToMany) bean.
+   * @param properties properties of the associated bean that you want to include in the
+   *                   fetch (* means all properties, null also means all properties).
    */
-  public R fetch(String path, String fetchProperties) {
-    query.fetch(path, fetchProperties);
+  public R fetch(String path, String properties) {
+    query.fetch(path, properties);
     return root;
   }
 
@@ -380,8 +380,8 @@ public abstract class TQRootBean<T, R> {
    *
    * }</pre>
    */
-  public R fetch(String path, String fetchProperties, FetchConfig fetchConfig) {
-    query.fetch(path, fetchProperties, fetchConfig);
+  public R fetch(String path, String properties, FetchConfig fetchConfig) {
+    query.fetch(path, properties, fetchConfig);
     return root;
   }
 
@@ -1480,15 +1480,15 @@ public abstract class TQRootBean<T, R> {
    * This query will execute against the EbeanServer that was used to create it.
    * </p>
    * <p>
-   * You can use setMapKey() so specify the property values to be used as keys
+   * You can use setMapKey() or asMapKey() to specify the property to be used as keys
    * on the map. If one is not specified then the id property is used.
    * </p>
    * <p>
    * <pre>{@code
    *
-   * Map<?, Product> map =
-   *   ebeanServer.find(Product.class)
-   *     .setMapKey("sku")
+   * Map<String, Product> map =
+   *   new QProduct()
+   *     .sku.asMapKey()
    *     .findMap();
    *
    * }</pre>
@@ -1748,7 +1748,8 @@ public abstract class TQRootBean<T, R> {
    * <p>
    * <pre>{@code
    *
-   *  PagedList<Order> pagedList = Ebean.find(Order.class)
+   *  PagedList<Order> pagedList =
+   *    new QOrder()
    *       .setFirstRow(50)
    *       .setMaxRows(20)
    *       .findPagedList();
