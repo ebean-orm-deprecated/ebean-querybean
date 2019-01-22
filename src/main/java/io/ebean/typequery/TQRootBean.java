@@ -1758,6 +1758,64 @@ public abstract class TQRootBean<T, R> {
   }
 
   /**
+   * Start adding expressions to the having clause when using @Aggregation properties.
+   *
+   * <pre>{@code
+   *
+   *   new QMachineUse()
+   *   // where ...
+   *   .date.inRange(fromDate, toDate)
+   *
+   *   .having()
+   *   .sumHours.greaterThan(1)
+   *   .findList()
+   *
+   *   // The sumHours property uses @Aggregation
+   *   // e.g. @Aggregation("sum(hours)")
+   *
+   * }</pre>
+   */
+  public R having() {
+    if (whereStack == null) {
+      whereStack = new ArrayStack<>();
+    }
+    // effectively putting having expression list onto stack
+    // such that expression now add to the having clause
+    whereStack.push(query.having());
+    return root;
+  }
+
+  /**
+   * Return the underlying having clause to typically when using dynamic aggregation formula.
+   * <p>
+   * Note that after this we no longer have the query bean so typically we use this right
+   * at the end of the query.
+   * </p>
+   *
+   * <pre>{@code
+   *
+   *  // sum(distanceKms) ... is a "dynamic formula"
+   *  // so we use havingClause() for it like:
+   *
+   *  List<MachineUse> machineUse =
+   *
+   *    new QMachineUse()
+   *      .select("machine, sum(fuelUsed), sum(distanceKms)")
+   *
+   *      // where ...
+   *      .date.greaterThan(LocalDate.now().minusDays(7))
+   *
+   *      .havingClause()
+   *        .gt("sum(distanceKms)", 2)
+   *        .findList();
+   *
+   * }</pre>
+   */
+  public ExpressionList<T> havingClause() {
+    return query.having();
+  }
+
+  /**
    * Return the current expression list that expressions should be added to.
    */
   protected ExpressionList<T> peekExprList() {
@@ -1768,7 +1826,7 @@ public abstract class TQRootBean<T, R> {
     }
 
     if (whereStack == null) {
-      whereStack = new ArrayStack<ExpressionList<T>>();
+      whereStack = new ArrayStack<>();
       whereStack.push(query.where());
     }
     // return the current expression list
@@ -1777,7 +1835,7 @@ public abstract class TQRootBean<T, R> {
 
   protected ExpressionList<T> _peekText() {
     if (textStack == null) {
-      textStack = new ArrayStack<ExpressionList<T>>();
+      textStack = new ArrayStack<>();
       // empty so push on the queries base expression list
       textStack.push(query.text());
     }
