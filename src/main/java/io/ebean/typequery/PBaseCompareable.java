@@ -95,6 +95,23 @@ public class PBaseCompareable<R, T> extends PBaseValueEqual<R, T> {
   }
 
   /**
+   * Greater or equal to lower value and strictly less than upper value.
+   * <p>
+   * This is generally preferable over Between for date and datetime types
+   * as SQL Between is inclusive on the upper bound (<=) and generally we
+   * need the upper bound to be exclusive (<).
+   * </p>
+   *
+   * @param lower the lower bind value (>=)
+   * @param upper the upper bind value (<)
+   * @return the root query bean instance
+   */
+  public final R inRange(T lower, T upper) {
+    expr().inRange(name, lower, upper);
+    return root;
+  }
+
+  /**
    * Between lower and upper values.
    *
    * @param lower the lower bind value

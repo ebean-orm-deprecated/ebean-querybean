@@ -268,6 +268,14 @@ public class QCustomerTest {
   }
 
   @Test
+  public void query_inRange() {
+
+      new QCustomer()
+        .name.inRange("A", "B")
+        .findList();
+  }
+
+  @Test
   public void query_exists() {
 
     boolean customerExists =
