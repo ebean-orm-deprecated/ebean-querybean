@@ -195,6 +195,25 @@ public abstract class TQRootBean<T, R> {
 
   /**
    * Set a FetchGroup to control what part of the object graph is loaded.
+   * <p>
+   * This is an alternative to using select() and fetch() providing a nice clean separation
+   * between what a query should load and the query predicates.
+   * </p>
+   *
+   * <pre>{@code
+   *
+   * FetchGroup<Customer> fetchGroup = FetchGroup.of(Customer.class)
+   *   .select("name, status")
+   *   .fetch("contacts", "firstName, lastName, email")
+   *   .build();
+   *
+   * List<Customer> customers =
+   *
+   *   new QCustomer()
+   *   .select(fetchGroup)
+   *   .findList();
+   *
+   * }</pre>
    */
   public R select(FetchGroup<T> fetchGroup) {
     query.select(fetchGroup);
@@ -246,19 +265,58 @@ public abstract class TQRootBean<T, R> {
    * </p>
    * <pre>{@code
    *
-   * // fetch customers (their id, name and status)
    * List<Customer> customers =
-   *     ebeanServer.find(Customer.class)
+   *     new QCustomer()
    *     // eager fetch the contacts
    *     .fetch("contacts")
    *     .findList();
    *
    * }</pre>
    *
-   * @param path the property of an associated (1-1,1-M,M-1,M-M) bean.
+   * @param path the property path of an associated (OneToOne, OneToMany, ManyToOne or ManyToMany) bean.
    */
   public R fetch(String path) {
     query.fetch(path);
+    return root;
+  }
+
+  /**
+   * Specify a path to load including all its properties using a "query join".
+   *
+   * <pre>{@code
+   *
+   * List<Customer> customers =
+   *     new QCustomer()
+   *     // eager fetch the contacts using a "query join"
+   *     .fetchQuery("contacts")
+   *     .findList();
+   *
+   * }</pre>
+   *
+   * @param path the property path of an associated (OneToOne, OneToMany, ManyToOne or ManyToMany) bean.
+   */
+  public R fetchQuery(String path) {
+    query.fetchQuery(path);
+    return root;
+  }
+
+  /**
+   * Specify a path and properties to load using a "query join".
+   *
+   * <pre>{@code
+   *
+   * List<Customer> customers =
+   *     new QCustomer()
+   *     // eager fetch contacts using a "query join"
+   *     .fetchQuery("contacts", "email, firstName, lastName")
+   *     .findList();
+   *
+   * }</pre>
+   *
+   * @param path the property path of an associated (OneToOne, OneToMany, ManyToOne or ManyToMany) bean.
+   */
+  public R fetchQuery(String path, String properties) {
+    query.fetchQuery(path, properties);
     return root;
   }
 
@@ -278,24 +336,18 @@ public abstract class TQRootBean<T, R> {
    *
    * // query orders...
    * List<Order> orders =
-   *     ebeanserver.find(Order.class)
-   *       // fetch the customer...
-   *       // ... getting the customers name and phone number
+   *     new QOrder()
    *       .fetch("customer", "name, phoneNumber")
-   *
-   *       // ... also fetch the customers billing address (* = all properties)
    *       .fetch("customer.billingAddress", "*")
    *       .findList();
+   *
    * }</pre>
    * <p>
-   * <p>
-   * If columns is null or "*" then all columns/properties for that path are
-   * fetched.
+   * If columns is null or "*" then all columns/properties for that path are fetched.
    * </p>
-   * <p>
+   *
    * <pre>{@code
    *
-   * // fetch customers (their id, name and status)
    * List<Customer> customers =
    *     new QCustomer()
    *     .select("name, status")
@@ -304,7 +356,7 @@ public abstract class TQRootBean<T, R> {
    *
    * }</pre>
    *
-   * @param path            the path of an associated (1-1,1-M,M-1,M-M) bean.
+   * @param path            the path of an associated (OneToOne, OneToMany, ManyToOne or ManyToMany) bean.
    * @param fetchProperties properties of the associated bean that you want to include in the
    *                        fetch (* means all properties, null also means all properties).
    */
