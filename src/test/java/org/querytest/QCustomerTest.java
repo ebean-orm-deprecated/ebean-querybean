@@ -260,6 +260,29 @@ public class QCustomerTest {
   }
 
   @Test
+  public void query_fetchString() {
+
+    Customer cust = new Customer();
+    cust.setName("baz");
+    cust.setStatus(Customer.Status.GOOD);
+    cust.save();
+
+    new QCustomer()
+      .contacts.fetch("email")
+      .orderBy()
+        .name.asc()
+        .contacts.email.asc()
+      .findList();
+
+    new QCustomer()
+      .contacts.fetchQuery("email")
+      .orderBy()
+        .name.asc()
+        .contacts.email.asc()
+      .findList();
+  }
+
+  @Test
   public void query_setBaseTable() {
 
     new QCustomer()

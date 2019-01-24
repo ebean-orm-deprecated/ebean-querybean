@@ -58,6 +58,22 @@ public abstract class TQAssocBean<T, R> {
   }
 
   /**
+   * Eagerly fetch this association with the properties specified.
+   */
+  public R fetch(String properties) {
+    ((TQRootBean) _root).query().fetch(_name, properties);
+    return _root;
+  }
+
+  /**
+   * Eagerly fetch this association using a "query join" with the properties specified.
+   */
+  public R fetchQuery(String properties) {
+    ((TQRootBean) _root).query().fetchQuery(_name, properties);
+    return _root;
+  }
+
+  /**
    * Deprecated in favor of fetch().
    *
    * @deprecated
