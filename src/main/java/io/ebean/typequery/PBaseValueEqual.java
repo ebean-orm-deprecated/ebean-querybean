@@ -8,7 +8,7 @@ import java.util.Collection;
  * @param <R> the root query bean type
  * @param <T> the number type
  */
-public abstract class PBaseValueEqual<R,T> extends TQProperty<R> {
+public abstract class PBaseValueEqual<R, T> extends TQProperty<R> {
 
   /**
    * Construct with a property name and root instance.
@@ -17,7 +17,7 @@ public abstract class PBaseValueEqual<R,T> extends TQProperty<R> {
    * @param root the root query bean instance
    */
   public PBaseValueEqual(String name, R root) {
-    super(name , root);
+    super(name, root);
   }
 
   /**
@@ -25,6 +25,26 @@ public abstract class PBaseValueEqual<R,T> extends TQProperty<R> {
    */
   public PBaseValueEqual(String name, R root, String prefix) {
     super(name, root, prefix);
+  }
+
+  /**
+   * Set the property as the map key for a <code>findMap</code> query.
+   *
+   * <pre>{@code
+   *
+   *   Map<String, Customer> map =
+   *     new QCustomer()
+   *       .organisation.id.equalTo(42)
+   *       .email.asMapKey() // email property as map key
+   *       .findMap();
+   *
+   * }</pre>
+   *
+   * @return the root query bean instance
+   */
+  public final R asMapKey() {
+    expr().setMapKey(name);
+    return root;
   }
 
   /**
@@ -48,7 +68,7 @@ public abstract class PBaseValueEqual<R,T> extends TQProperty<R> {
     expr().eq(name, value);
     return root;
   }
-  
+
   /**
    * Is not equal to.
    *
@@ -59,7 +79,7 @@ public abstract class PBaseValueEqual<R,T> extends TQProperty<R> {
     expr().ne(name, value);
     return root;
   }
-  
+
   /**
    * Is not equal to.
    *
@@ -70,7 +90,7 @@ public abstract class PBaseValueEqual<R,T> extends TQProperty<R> {
     expr().ne(name, value);
     return root;
   }
-  
+
   /**
    * Is in a list of values.
    *
@@ -106,7 +126,7 @@ public abstract class PBaseValueEqual<R,T> extends TQProperty<R> {
     expr().in(name, (Object[]) values);
     return root;
   }
-  
+
   /**
    * Is in a list of values.
    *
@@ -128,7 +148,7 @@ public abstract class PBaseValueEqual<R,T> extends TQProperty<R> {
     expr().notIn(name, values);
     return root;
   }
-  
+
   /**
    * Is in a list of values. Synonym for in().
    *
@@ -138,5 +158,5 @@ public abstract class PBaseValueEqual<R,T> extends TQProperty<R> {
   public final R isIn(Collection<T> values) {
     expr().in(name, values);
     return root;
-  }  
+  }
 }

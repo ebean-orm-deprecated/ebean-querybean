@@ -27,26 +27,6 @@ public class PBaseCompareable<R, T> extends PBaseValueEqual<R, T> {
     super(name, root, prefix);
   }
 
-  /**
-   * Set the property as the map key for a <code>findMap</code> query.
-   *
-   * <pre>{@code
-   *
-   *   Map<String, Customer> map =
-   *     new QCustomer()
-   *       .organisation.id.equalTo(42)
-   *       .email.asMapKey() // email property as map key
-   *       .findMap();
-   *
-   * }</pre>
-   *
-   * @return the root query bean instance
-   */
-  public final R asMapKey() {
-    expr().setMapKey(name);
-    return root;
-  }
-
   // ---- range comparisons -------
 
   /**
