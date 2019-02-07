@@ -2,8 +2,8 @@ package io.ebean.typequery;
 
 import io.ebean.CacheMode;
 import io.ebean.DtoQuery;
-import io.ebean.Ebean;
-import io.ebean.EbeanServer;
+import io.ebean.DB;
+import io.ebean.Database;
 import io.ebean.ExpressionList;
 import io.ebean.FetchConfig;
 import io.ebean.FetchGroup;
@@ -118,17 +118,17 @@ public abstract class TQRootBean<T, R> {
   private R root;
 
   /**
-   * Construct using the type of bean to query on and the default server.
+   * Construct using the type of bean to query on and the default database.
    */
   public TQRootBean(Class<T> beanType) {
-    this(beanType, Ebean.getDefaultServer());
+    this(beanType, DB.getDefault());
   }
 
   /**
-   * Construct using the type of bean to query on and a given server.
+   * Construct using the type of bean to query on and a given database.
    */
-  public TQRootBean(Class<T> beanType, EbeanServer server) {
-    this(server.find(beanType));
+  public TQRootBean(Class<T> beanType, Database database) {
+    this(database.find(beanType));
   }
 
   /**
