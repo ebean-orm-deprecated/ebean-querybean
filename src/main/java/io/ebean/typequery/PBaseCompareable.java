@@ -92,6 +92,28 @@ public class PBaseCompareable<R, T> extends PBaseValueEqual<R, T> {
   }
 
   /**
+   * Value in Range between 2 properties.
+   *
+   * <pre>{@code
+   *
+   *    .startDate.inRangeWith(endDate, now)
+   *
+   *    // which equates to
+   *    startDate <= now and (endDate > now or endDate is null)
+   *
+   * }</pre>
+   *
+   * <p>
+   * This is a convenience expression combining a number of simple expressions.
+   * The most common use of this could be called "effective dating" where 2 date or
+   * timestamp columns represent the date range in which
+   */
+  public final R inRangeWith(TQProperty<R> highProperty, T value) {
+    expr().inRangeWith(name, highProperty.name, value);
+    return root;
+  }
+
+  /**
    * Between lower and upper values.
    *
    * @param lower the lower bind value
@@ -115,6 +137,17 @@ public class PBaseCompareable<R, T> extends PBaseValueEqual<R, T> {
   }
 
   /**
+   * Greater than or Null.
+   *
+   * @param value the bind value
+   * @return the root query bean instance
+   */
+  public final R greaterThanOrNull(T value) {
+    expr().gtOrNull(name, value);
+    return root;
+  }
+
+  /**
    * Greater than or Equal to.
    *
    * @param value the bind value
@@ -124,7 +157,6 @@ public class PBaseCompareable<R, T> extends PBaseValueEqual<R, T> {
     expr().ge(name, value);
     return root;
   }
-
 
   /**
    * Less than.
@@ -137,6 +169,16 @@ public class PBaseCompareable<R, T> extends PBaseValueEqual<R, T> {
     return root;
   }
 
+  /**
+   * Less than or Null.
+   *
+   * @param value the bind value
+   * @return the root query bean instance
+   */
+  public final R lessThanOrNull(T value) {
+    expr().ltOrNull(name, value);
+    return root;
+  }
 
   /**
    * Less than or Equal to.

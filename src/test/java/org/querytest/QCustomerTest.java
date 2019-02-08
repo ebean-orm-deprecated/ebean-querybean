@@ -22,6 +22,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.example.domain.typequery.QContact.Alias.lastName;
 
 public class QCustomerTest {
 
@@ -293,9 +294,13 @@ public class QCustomerTest {
   @Test
   public void query_inRange() {
 
-      new QCustomer()
-        .name.inRange("A", "B")
-        .findList();
+    new QCustomer()
+      .name.inRange("A", "B")
+      .findList();
+
+    new QContact()
+      .firstName.inRangeWith(lastName, "B")
+      .findList();
   }
 
   @Test

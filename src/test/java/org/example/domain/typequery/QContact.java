@@ -1,9 +1,9 @@
 package org.example.domain.typequery;
 
 import io.ebean.typequery.PArray;
-import io.ebean.typequery.TQRootBean;
 import io.ebean.typequery.PLong;
 import io.ebean.typequery.PString;
+import io.ebean.typequery.TQRootBean;
 import org.example.domain.Contact;
 import org.example.domain.typequery.assoc.QAssocContactNote;
 
@@ -43,4 +43,10 @@ public class QContact extends TQRootBean<Contact,QContact> {
     this.notes = new QAssocContactNote<>("notes", this);
   }
 
+  public static class Alias {
+    public static PLong<QContact> id = _alias.id;
+    public static PString<QContact> firstName = _alias.firstName;
+    public static PString<QContact> lastName = _alias.lastName;
+    public static PString<QContact> email = _alias.email;
+  }
 }
