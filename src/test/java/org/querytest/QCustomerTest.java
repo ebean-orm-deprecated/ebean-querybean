@@ -292,10 +292,31 @@ public class QCustomerTest {
   }
 
   @Test
+  public void query_orNull() {
+
+    new QCustomer()
+      .name.equalToOrNull("A")
+      .findList();
+
+    new QCustomer()
+      .name.greaterThanOrNull("B")
+      .findList();
+
+    new QCustomer()
+      .name.lessThanOrNull("C")
+      .findList();
+  }
+
+  @Test
   public void query_inRange() {
 
     new QCustomer()
       .name.inRange("A", "B")
+      .findList();
+
+    new QCustomer()
+      .name.greaterOrEqualTo("A")
+      .name.lessThan("B")
       .findList();
 
     new QContact()
