@@ -1,16 +1,19 @@
 package org.querytest;
 
+import io.ebean.DB;
 import io.ebean.PagedList;
 import io.ebean.Query;
 import io.ebean.QueryIterator;
 import io.ebean.annotation.Transactional;
 import org.example.domain.ACat;
 import org.example.domain.ADog;
+import org.example.domain.Address;
 import org.example.domain.Animal;
+import org.example.domain.Country;
 import org.example.domain.Customer;
-import org.example.domain.typequery.QAnimal;
-import org.example.domain.typequery.QContact;
-import org.example.domain.typequery.QCustomer;
+import org.example.domain.query.QAnimal;
+import org.example.domain.query.QContact;
+import org.example.domain.query.QCustomer;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -22,7 +25,10 @@ import java.util.Optional;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.example.domain.typequery.QContact.Alias.lastName;
+import static org.example.domain.query.QAddress.Alias.country;
+import static org.example.domain.query.QAddress.Alias.line1;
+import static org.example.domain.query.QContact.Alias.lastName;
+import static org.example.domain.query.QCustomer.Alias.billingAddress;
 
 public class QCustomerTest {
 
@@ -258,6 +264,52 @@ public class QCustomerTest {
       .findList();
 
     System.out.println(animals);
+  }
+
+  @Test
+  public void select_assocManyToOne() {
+
+    Country nz = new Country("NZ", "New Zealand");
+    DB.merge(nz);
+
+    Address address = new Address();
+    address.setLine1("42 below");
+    address.setCountry(nz);
+
+    Customer customer0 = new Customer();
+    customer0.setName("asdBilling0");
+    customer0.setBillingAddress(address);
+    customer0.save();
+
+    Customer customer1 = new Customer();
+    customer1.setName("asdBilling1");
+    customer1.setBillingAddress(new Address());
+    customer1.save();
+
+    List<Long> billingAddressIds
+      = new QCustomer()
+      .select(billingAddress)
+      .name.startsWith("asdBilling")
+      .findSingleAttributeList();
+
+    assertThat(billingAddressIds).hasSize(2);
+
+
+    Map<Long,Customer> map
+      = new QCustomer()
+      .billingAddress.id.asMapKey()
+      .name.startsWith("asdBilling")
+      .findMap();
+
+    assertThat(map).hasSize(2);
+
+
+    List<Customer> customers = new QCustomer()
+      .billingAddress.fetch(line1, country)
+      .findList();
+
+    assertThat(customers).isNotEmpty();
+
   }
 
   @Test

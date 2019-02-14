@@ -1,7 +1,7 @@
 package org.querytest;
 
 import org.example.domain.Customer;
-import org.example.domain.typequery.QCustomer;
+import org.example.domain.query.QCustomer;
 import org.junit.Test;
 
 import java.util.Date;
@@ -11,7 +11,6 @@ public class QCustomerSimpleLikeQueryTest {
 
   @Test
   public void testQuery() {
-
 
     List<Customer> customers =
         new QCustomer()
@@ -29,6 +28,7 @@ public class QCustomerSimpleLikeQueryTest {
 
   @Test
   public void testFindEach() {
+
     new QCustomer()
          .status.equalTo(Customer.Status.GOOD)
          .orderBy().id.asc()

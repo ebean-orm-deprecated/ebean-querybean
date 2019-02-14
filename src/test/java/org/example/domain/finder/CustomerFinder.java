@@ -2,7 +2,7 @@ package org.example.domain.finder;
 
 import io.ebean.Finder;
 import org.example.domain.Customer;
-import org.example.domain.typequery.QCustomer;
+import org.example.domain.query.QCustomer;
 
 /**
  */

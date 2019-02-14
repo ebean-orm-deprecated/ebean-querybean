@@ -3,7 +3,7 @@ package io.ebean.typequery;
 import io.ebeaninternal.server.expression.DefaultExpressionList;
 import io.ebeaninternal.server.expression.SimpleExpression;
 import org.example.domain.Customer;
-import org.example.domain.typequery.QCustomer;
+import org.example.domain.query.QCustomer;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
