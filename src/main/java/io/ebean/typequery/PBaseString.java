@@ -31,8 +31,8 @@ public abstract class PBaseString<R,T> extends PBaseCompareable<R, String> {
    * @return the root query bean instance
    */
   public final R equalToType(T value) {
-    expr().eq(name, value);
-    return root;
+    expr().eq(_name, value);
+    return _root;
   }
 
   /**
@@ -42,8 +42,8 @@ public abstract class PBaseString<R,T> extends PBaseCompareable<R, String> {
    * @return the root query bean instance
    */
   public final R notEqualToType(T value) {
-    expr().ne(name, value);
-    return root;
+    expr().ne(_name, value);
+    return _root;
   }
 
   //  common string / expressions ------------
@@ -55,8 +55,8 @@ public abstract class PBaseString<R,T> extends PBaseCompareable<R, String> {
    * @return the root query bean instance
    */
   public R ieq(String value) {
-    expr().ieq(name, value);
-    return root;
+    expr().ieq(_name, value);
+    return _root;
   }
 
   /**
@@ -66,8 +66,8 @@ public abstract class PBaseString<R,T> extends PBaseCompareable<R, String> {
    * @return the root query bean instance
    */
   public R iequalTo(String value) {
-    expr().ieq(name, value);
-    return root;
+    expr().ieq(_name, value);
+    return _root;
   }
 
   /**
@@ -77,8 +77,8 @@ public abstract class PBaseString<R,T> extends PBaseCompareable<R, String> {
    * @return the root query bean instance
    */
   public R like(String value) {
-    expr().like(name, value);
-    return root;
+    expr().like(_name, value);
+    return _root;
   }
 
   /**
@@ -88,8 +88,8 @@ public abstract class PBaseString<R,T> extends PBaseCompareable<R, String> {
    * @return the root query bean instance
    */
   public R startsWith(String value) {
-    expr().startsWith(name, value);
-    return root;
+    expr().startsWith(_name, value);
+    return _root;
   }
 
   /**
@@ -99,8 +99,8 @@ public abstract class PBaseString<R,T> extends PBaseCompareable<R, String> {
    * @return the root query bean instance
    */
   public R endsWith(String value) {
-    expr().endsWith(name, value);
-    return root;
+    expr().endsWith(_name, value);
+    return _root;
   }
 
   /**
@@ -110,8 +110,8 @@ public abstract class PBaseString<R,T> extends PBaseCompareable<R, String> {
    * @return the root query bean instance
    */
   public R contains(String value) {
-    expr().contains(name, value);
-    return root;
+    expr().contains(_name, value);
+    return _root;
   }
 
   /**
@@ -121,8 +121,8 @@ public abstract class PBaseString<R,T> extends PBaseCompareable<R, String> {
    * @return the root query bean instance
    */
   public R ilike(String value) {
-    expr().ilike(name, value);
-    return root;
+    expr().ilike(_name, value);
+    return _root;
   }
 
   /**
@@ -132,8 +132,8 @@ public abstract class PBaseString<R,T> extends PBaseCompareable<R, String> {
    * @return the root query bean instance
    */
   public R istartsWith(String value) {
-    expr().istartsWith(name, value);
-    return root;
+    expr().istartsWith(_name, value);
+    return _root;
   }
 
   /**
@@ -143,8 +143,8 @@ public abstract class PBaseString<R,T> extends PBaseCompareable<R, String> {
    * @return the root query bean instance
    */
   public R iendsWith(String value) {
-    expr().iendsWith(name, value);
-    return root;
+    expr().iendsWith(_name, value);
+    return _root;
   }
 
   /**
@@ -154,8 +154,8 @@ public abstract class PBaseString<R,T> extends PBaseCompareable<R, String> {
    * @return the root query bean instance
    */
   public R icontains(String value) {
-    expr().icontains(name, value);
-    return root;
+    expr().icontains(_name, value);
+    return _root;
   }
 
   /**
@@ -167,7 +167,7 @@ public abstract class PBaseString<R,T> extends PBaseCompareable<R, String> {
    * @param value the match expression
    */
   public R match(String value) {
-    expr().match(name, value);
-    return root;
+    expr().match(_name, value);
+    return _root;
   }
 }

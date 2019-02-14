@@ -9,9 +9,9 @@ import io.ebean.ExpressionList;
  */
 public class TQProperty<R> {
 
-  protected final String name;
+  protected final String _name;
 
-  protected final R root;
+  protected final R _root;
 
   /**
    * Construct with a property name and root instance.
@@ -27,58 +27,42 @@ public class TQProperty<R> {
    * Construct with additional path prefix.
    */
   public TQProperty(String name, R root, String prefix) {
-    this.root = root;
-    this.name = TQPath.add(prefix, name);
+    this._root = root;
+    this._name = TQPath.add(prefix, name);
   }
 
   public String toString() {
-    return name;
+    return _name;
   }
 
   /**
    * Internal method to return the underlying expression list.
    */
   protected ExpressionList<?> expr() {
-    return ((TQRootBean) root).peekExprList();
-  }
-
-  /**
-   * Is null.
-   */
-  public R isNull() {
-    expr().isNull(name);
-    return root;
-  }
-
-  /**
-   * Is not null.
-   */
-  public R isNotNull() {
-    expr().isNotNull(name);
-    return root;
-  }
-
-  /**
-   * Order by ascending on this property.
-   */
-  public R asc() {
-    expr().order().asc(name);
-    return root;
-  }
-
-  /**
-   * Order by descending on this property.
-   */
-  public R desc() {
-    expr().order().desc(name);
-    return root;
+    return ((TQRootBean) _root).peekExprList();
   }
 
   /**
    * Return the property name.
    */
   protected String propertyName() {
-    return name;
+    return _name;
+  }
+
+  /**
+   * Is null.
+   */
+  public R isNull() {
+    expr().isNull(_name);
+    return _root;
+  }
+
+  /**
+   * Is not null.
+   */
+  public R isNotNull() {
+    expr().isNotNull(_name);
+    return _root;
   }
 
 }

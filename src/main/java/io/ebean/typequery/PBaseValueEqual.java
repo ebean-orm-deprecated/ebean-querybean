@@ -8,7 +8,7 @@ import java.util.Collection;
  * @param <R> the root query bean type
  * @param <T> the number type
  */
-public abstract class PBaseValueEqual<R, T> extends TQProperty<R> {
+public abstract class PBaseValueEqual<R, T> extends TQPropertyBase<R> {
 
   /**
    * Construct with a property name and root instance.
@@ -43,8 +43,8 @@ public abstract class PBaseValueEqual<R, T> extends TQProperty<R> {
    * @return the root query bean instance
    */
   public final R asMapKey() {
-    expr().setMapKey(name);
-    return root;
+    expr().setMapKey(_name);
+    return _root;
   }
 
   /**
@@ -54,8 +54,8 @@ public abstract class PBaseValueEqual<R, T> extends TQProperty<R> {
    * @return the root query bean instance
    */
   public final R equalToOrNull(T value) {
-    expr().eqOrNull(name, value);
-    return root;
+    expr().eqOrNull(_name, value);
+    return _root;
   }
 
   /**
@@ -65,8 +65,8 @@ public abstract class PBaseValueEqual<R, T> extends TQProperty<R> {
    * @return the root query bean instance
    */
   public final R equalTo(T value) {
-    expr().eq(name, value);
-    return root;
+    expr().eq(_name, value);
+    return _root;
   }
 
   /**
@@ -76,8 +76,8 @@ public abstract class PBaseValueEqual<R, T> extends TQProperty<R> {
    * @return the root query bean instance
    */
   public final R eq(T value) {
-    expr().eq(name, value);
-    return root;
+    expr().eq(_name, value);
+    return _root;
   }
 
   /**
@@ -87,8 +87,8 @@ public abstract class PBaseValueEqual<R, T> extends TQProperty<R> {
    * @return the root query bean instance
    */
   public final R notEqualTo(T value) {
-    expr().ne(name, value);
-    return root;
+    expr().ne(_name, value);
+    return _root;
   }
 
   /**
@@ -98,8 +98,8 @@ public abstract class PBaseValueEqual<R, T> extends TQProperty<R> {
    * @return the root query bean instance
    */
   public final R ne(T value) {
-    expr().ne(name, value);
-    return root;
+    expr().ne(_name, value);
+    return _root;
   }
 
   /**
@@ -110,8 +110,8 @@ public abstract class PBaseValueEqual<R, T> extends TQProperty<R> {
    */
   @SafeVarargs
   public final R in(T... values) {
-    expr().in(name, (Object[]) values);
-    return root;
+    expr().in(_name, (Object[]) values);
+    return _root;
   }
 
   /**
@@ -122,8 +122,8 @@ public abstract class PBaseValueEqual<R, T> extends TQProperty<R> {
    */
   @SafeVarargs
   public final R notIn(T... values) {
-    expr().notIn(name, (Object[]) values);
-    return root;
+    expr().notIn(_name, (Object[]) values);
+    return _root;
   }
 
   /**
@@ -134,8 +134,8 @@ public abstract class PBaseValueEqual<R, T> extends TQProperty<R> {
    */
   @SafeVarargs
   public final R isIn(T... values) {
-    expr().in(name, (Object[]) values);
-    return root;
+    expr().in(_name, (Object[]) values);
+    return _root;
   }
 
   /**
@@ -145,8 +145,8 @@ public abstract class PBaseValueEqual<R, T> extends TQProperty<R> {
    * @return the root query bean instance
    */
   public final R in(Collection<T> values) {
-    expr().in(name, values);
-    return root;
+    expr().in(_name, values);
+    return _root;
   }
 
   /**
@@ -156,8 +156,8 @@ public abstract class PBaseValueEqual<R, T> extends TQProperty<R> {
    * @return the root query bean instance
    */
   public final R notIn(Collection<T> values) {
-    expr().notIn(name, values);
-    return root;
+    expr().notIn(_name, values);
+    return _root;
   }
 
   /**
@@ -167,7 +167,7 @@ public abstract class PBaseValueEqual<R, T> extends TQProperty<R> {
    * @return the root query bean instance
    */
   public final R isIn(Collection<T> values) {
-    expr().in(name, values);
-    return root;
+    expr().in(_name, values);
+    return _root;
   }
 }

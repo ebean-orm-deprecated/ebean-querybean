@@ -9,11 +9,7 @@ import io.ebean.ExpressionList;
  * @param <R> the specific root query bean type (e.g. QCustomer)
  */
 @SuppressWarnings("rawtypes")
-public abstract class TQAssocBean<T, R> {
-
-  protected final String _name;
-
-  protected final R _root;
+public abstract class TQAssocBean<T, R> extends TQProperty<R> {
 
   /**
    * Construct with a property name and root instance.
@@ -29,8 +25,7 @@ public abstract class TQAssocBean<T, R> {
    * Construct with additional path prefix.
    */
   public TQAssocBean(String name, R root, String prefix) {
-    this._root = root;
-    this._name = TQPath.add(prefix, name);
+    super(name, root, prefix);
   }
 
   /**
@@ -121,13 +116,6 @@ public abstract class TQAssocBean<T, R> {
   }
 
   /**
-   * Internal method to return the underlying expression list.
-   */
-  protected ExpressionList<?> expr() {
-    return ((TQRootBean) _root).peekExprList();
-  }
-
-  /**
    * Is equal to by ID property.
    */
   public R equalTo(T other) {
@@ -182,19 +170,4 @@ public abstract class TQAssocBean<T, R> {
     return _root;
   }
 
-  /**
-   * Is null for a property.
-   */
-  public R isNull() {
-    expr().isNull(_name);
-    return _root;
-  }
-
-  /**
-   * Is not null for a property.
-   */
-  public R isNotNull() {
-    expr().isNotNull(_name);
-    return _root;
-  }
 }

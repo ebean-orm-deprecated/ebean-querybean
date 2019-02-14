@@ -17,7 +17,7 @@ package io.ebean.typequery;
  *
  * @param <R> the root query bean type
  */
-public class PJson<R> extends TQProperty<R> {
+public class PJson<R> extends TQPropertyBase<R> {
 
   /**
    * Construct with a property name and root instance.
@@ -50,8 +50,8 @@ public class PJson<R> extends TQProperty<R> {
    * @param path the nested path in the JSON document in dot notation
    */
   public R jsonExists(String path) {
-    expr().jsonExists(name, path);
-    return root;
+    expr().jsonExists(_name, path);
+    return _root;
   }
 
   /**
@@ -68,8 +68,8 @@ public class PJson<R> extends TQProperty<R> {
    * @param path the nested path in the JSON document in dot notation
    */
   public R jsonNotExists(String path) {
-    expr().jsonNotExists(name, path);
-    return root;
+    expr().jsonNotExists(_name, path);
+    return _root;
   }
 
   /**
@@ -96,8 +96,8 @@ public class PJson<R> extends TQProperty<R> {
    * @param value the equal to bind value
    */
   public R jsonEqualTo(String path, Object value) {
-    expr().jsonEqualTo(name, path, value);
-    return root;
+    expr().jsonEqualTo(_name, path, value);
+    return _root;
   }
 
   /**
@@ -107,8 +107,8 @@ public class PJson<R> extends TQProperty<R> {
    * @param value the value used to test equality against the document path's value
    */
   public R jsonNotEqualTo(String path, Object value) {
-    expr().jsonNotEqualTo(name, path, value);
-    return root;
+    expr().jsonNotEqualTo(_name, path, value);
+    return _root;
   }
 
   /**
@@ -118,8 +118,8 @@ public class PJson<R> extends TQProperty<R> {
    * @param value the value used to test against the document path's value
    */
   public R jsonGreaterThan(String path, Object value) {
-    expr().jsonGreaterThan(name, path, value);
-    return root;
+    expr().jsonGreaterThan(_name, path, value);
+    return _root;
   }
 
   /**
@@ -129,8 +129,8 @@ public class PJson<R> extends TQProperty<R> {
    * @param value the value used to test against the document path's value
    */
   public R jsonGreaterOrEqual(String path, Object value) {
-    expr().jsonGreaterOrEqual(name, path, value);
-    return root;
+    expr().jsonGreaterOrEqual(_name, path, value);
+    return _root;
   }
 
   /**
@@ -140,8 +140,8 @@ public class PJson<R> extends TQProperty<R> {
    * @param value the value used to test against the document path's value
    */
   public R jsonLessThan(String path, Object value) {
-    expr().jsonLessThan(name, path, value);
-    return root;
+    expr().jsonLessThan(_name, path, value);
+    return _root;
   }
 
   /**
@@ -151,7 +151,7 @@ public class PJson<R> extends TQProperty<R> {
    * @param value the value used to test against the document path's value
    */
   public R jsonLessOrEqualTo(String path, Object value) {
-    expr().jsonLessOrEqualTo(name, path, value);
-    return root;
+    expr().jsonLessOrEqualTo(_name, path, value);
+    return _root;
   }
 }

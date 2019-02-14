@@ -9,7 +9,7 @@ package io.ebean.typequery;
  *
  * @param <R> the root query bean type
  */
-public class PFile<R> extends TQProperty<R> {
+public class PFile<R> extends TQPropertyBase<R> {
 
   /**
    * Construct with a property name and root instance.

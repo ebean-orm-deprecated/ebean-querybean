@@ -30,8 +30,8 @@ public class PBoolean<R> extends PBaseValueEqual<R, Boolean> {
    * @return the root query bean instance
    */
   public R isTrue() {
-    expr().eq(name, Boolean.TRUE);
-    return root;
+    expr().eq(_name, Boolean.TRUE);
+    return _root;
   }
 
   /**
@@ -40,8 +40,8 @@ public class PBoolean<R> extends PBaseValueEqual<R, Boolean> {
    * @return the root query bean instance
    */
   public R isFalse() {
-    expr().eq(name, Boolean.FALSE);
-    return root;
+    expr().eq(_name, Boolean.FALSE);
+    return _root;
   }
 
   /**
@@ -52,8 +52,8 @@ public class PBoolean<R> extends PBaseValueEqual<R, Boolean> {
    * @return the root query bean instance
    */
   public R is(boolean value) {
-    expr().eq(name, value);
-    return root;
+    expr().eq(_name, value);
+    return _root;
   }
 
   /**
@@ -64,7 +64,7 @@ public class PBoolean<R> extends PBaseValueEqual<R, Boolean> {
    * @return the root query bean instance
    */
   public R eq(boolean value) {
-    expr().eq(name, value);
-    return root;
+    expr().eq(_name, value);
+    return _root;
   }
 }

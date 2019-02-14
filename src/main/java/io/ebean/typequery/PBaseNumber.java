@@ -26,7 +26,6 @@ public abstract class PBaseNumber<R,T extends Comparable> extends PBaseCompareab
     super(name, root, prefix);
   }
 
- 
   // Additional int versions -- seems the right thing to do
 
   /**
@@ -36,8 +35,8 @@ public abstract class PBaseNumber<R,T extends Comparable> extends PBaseCompareab
    * @return the root query bean instance
    */
   public R equalTo(int value) {
-    expr().eq(name, value);
-    return root;
+    expr().eq(_name, value);
+    return _root;
   }
 
   /**
@@ -47,8 +46,8 @@ public abstract class PBaseNumber<R,T extends Comparable> extends PBaseCompareab
    * @return the root query bean instance
    */
   public R greaterThan(int value) {
-    expr().gt(name, value);
-    return root;
+    expr().gt(_name, value);
+    return _root;
   }
 
   /**
@@ -58,8 +57,8 @@ public abstract class PBaseNumber<R,T extends Comparable> extends PBaseCompareab
    * @return the root query bean instance
    */
   public R lessThan(int value) {
-    expr().lt(name, value);
-    return root;
+    expr().lt(_name, value);
+    return _root;
   }
 
 
@@ -70,8 +69,8 @@ public abstract class PBaseNumber<R,T extends Comparable> extends PBaseCompareab
    * @return the root query bean instance
    */
   public R eq(int value) {
-    expr().eq(name, value);
-    return root;
+    expr().eq(_name, value);
+    return _root;
   }
 
   /**
@@ -81,8 +80,8 @@ public abstract class PBaseNumber<R,T extends Comparable> extends PBaseCompareab
    * @return the root query bean instance
    */
   public R gt(int value) {
-    expr().gt(name, value);
-    return root;
+    expr().gt(_name, value);
+    return _root;
   }
 
   /**
@@ -92,8 +91,8 @@ public abstract class PBaseNumber<R,T extends Comparable> extends PBaseCompareab
    * @return the root query bean instance
    */
   public R lt(int value) {
-    expr().lt(name, value);
-    return root;
+    expr().lt(_name, value);
+    return _root;
   }
 
   /**
@@ -104,7 +103,7 @@ public abstract class PBaseNumber<R,T extends Comparable> extends PBaseCompareab
    * @return the root query bean instance
    */
   public R between(int lower, int upper) {
-    expr().between(name, lower, upper);
-    return root;
+    expr().between(_name, lower, upper);
+    return _root;
   }
 }

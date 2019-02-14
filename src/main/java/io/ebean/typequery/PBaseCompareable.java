@@ -36,8 +36,8 @@ public class PBaseCompareable<R, T> extends PBaseValueEqual<R, T> {
    * @return the root query bean instance
    */
   public final R gt(T value) {
-    expr().gt(name, value);
-    return root;
+    expr().gt(_name, value);
+    return _root;
   }
 
   /**
@@ -47,8 +47,8 @@ public class PBaseCompareable<R, T> extends PBaseValueEqual<R, T> {
    * @return the root query bean instance
    */
   public final R ge(T value) {
-    expr().ge(name, value);
-    return root;
+    expr().ge(_name, value);
+    return _root;
   }
 
   /**
@@ -58,8 +58,8 @@ public class PBaseCompareable<R, T> extends PBaseValueEqual<R, T> {
    * @return the root query bean instance
    */
   public final R lt(T value) {
-    expr().lt(name, value);
-    return root;
+    expr().lt(_name, value);
+    return _root;
   }
 
 
@@ -70,8 +70,8 @@ public class PBaseCompareable<R, T> extends PBaseValueEqual<R, T> {
    * @return the root query bean instance
    */
   public final R le(T value) {
-    expr().le(name, value);
-    return root;
+    expr().le(_name, value);
+    return _root;
   }
 
   /**
@@ -87,8 +87,8 @@ public class PBaseCompareable<R, T> extends PBaseValueEqual<R, T> {
    * @return the root query bean instance
    */
   public final R inRange(T lower, T upper) {
-    expr().inRange(name, lower, upper);
-    return root;
+    expr().inRange(_name, lower, upper);
+    return _root;
   }
 
   /**
@@ -109,8 +109,8 @@ public class PBaseCompareable<R, T> extends PBaseValueEqual<R, T> {
    * timestamp columns represent the date range in which
    */
   public final R inRangeWith(TQProperty<R> highProperty, T value) {
-    expr().inRangeWith(name, highProperty.name, value);
-    return root;
+    expr().inRangeWith(_name, highProperty._name, value);
+    return _root;
   }
 
   /**
@@ -121,8 +121,8 @@ public class PBaseCompareable<R, T> extends PBaseValueEqual<R, T> {
    * @return the root query bean instance
    */
   public final R between(T lower, T upper) {
-    expr().between(name, lower, upper);
-    return root;
+    expr().between(_name, lower, upper);
+    return _root;
   }
 
   /**
@@ -132,8 +132,8 @@ public class PBaseCompareable<R, T> extends PBaseValueEqual<R, T> {
    * @return the root query bean instance
    */
   public final R greaterThan(T value) {
-    expr().gt(name, value);
-    return root;
+    expr().gt(_name, value);
+    return _root;
   }
 
   /**
@@ -143,8 +143,8 @@ public class PBaseCompareable<R, T> extends PBaseValueEqual<R, T> {
    * @return the root query bean instance
    */
   public final R greaterThanOrNull(T value) {
-    expr().gtOrNull(name, value);
-    return root;
+    expr().gtOrNull(_name, value);
+    return _root;
   }
 
   /**
@@ -154,8 +154,8 @@ public class PBaseCompareable<R, T> extends PBaseValueEqual<R, T> {
    * @return the root query bean instance
    */
   public final R greaterOrEqualTo(T value) {
-    expr().ge(name, value);
-    return root;
+    expr().ge(_name, value);
+    return _root;
   }
 
   /**
@@ -165,8 +165,8 @@ public class PBaseCompareable<R, T> extends PBaseValueEqual<R, T> {
    * @return the root query bean instance
    */
   public final R lessThan(T value) {
-    expr().lt(name, value);
-    return root;
+    expr().lt(_name, value);
+    return _root;
   }
 
   /**
@@ -176,8 +176,8 @@ public class PBaseCompareable<R, T> extends PBaseValueEqual<R, T> {
    * @return the root query bean instance
    */
   public final R lessThanOrNull(T value) {
-    expr().ltOrNull(name, value);
-    return root;
+    expr().ltOrNull(_name, value);
+    return _root;
   }
 
   /**
@@ -187,8 +187,8 @@ public class PBaseCompareable<R, T> extends PBaseValueEqual<R, T> {
    * @return the root query bean instance
    */
   public final R lessOrEqualTo(T value) {
-    expr().le(name, value);
-    return root;
+    expr().le(_name, value);
+    return _root;
   }
 
 }

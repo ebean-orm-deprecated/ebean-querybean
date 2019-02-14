@@ -6,7 +6,7 @@ package io.ebean.typequery;
  * @param <R> the root query bean type
  * @param <E> the element type of the DbArray
  */
-public class PArray<R, E> extends TQProperty<R> {
+public class PArray<R, E> extends TQPropertyBase<R> {
 
   /**
    * Construct with a property name and root instance.
@@ -40,8 +40,8 @@ public class PArray<R, E> extends TQProperty<R> {
    */
   @SafeVarargs
   public final R contains(E... values) {
-    expr().arrayContains(name, (Object[]) values);
-    return root;
+    expr().arrayContains(_name, (Object[]) values);
+    return _root;
   }
 
   /**
@@ -59,8 +59,8 @@ public class PArray<R, E> extends TQProperty<R> {
    */
   @SafeVarargs
   public final R notContains(E... values) {
-    expr().arrayNotContains(name, (Object[]) values);
-    return root;
+    expr().arrayNotContains(_name, (Object[]) values);
+    return _root;
   }
 
   /**
@@ -75,8 +75,8 @@ public class PArray<R, E> extends TQProperty<R> {
    * }</pre>
    */
   public R isEmpty() {
-    expr().arrayIsEmpty(name);
-    return root;
+    expr().arrayIsEmpty(_name);
+    return _root;
   }
 
   /**
@@ -91,8 +91,8 @@ public class PArray<R, E> extends TQProperty<R> {
    * }</pre>
    */
   public R isNotEmpty() {
-    expr().arrayIsNotEmpty(name);
-    return root;
+    expr().arrayIsNotEmpty(_name);
+    return _root;
   }
 
 }
