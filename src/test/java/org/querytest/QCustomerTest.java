@@ -5,6 +5,7 @@ import io.ebean.PagedList;
 import io.ebean.Query;
 import io.ebean.QueryIterator;
 import io.ebean.annotation.Transactional;
+import io.ebean.types.Inet;
 import org.example.domain.ACat;
 import org.example.domain.ADog;
 import org.example.domain.Address;
@@ -317,8 +318,17 @@ public class QCustomerTest {
 
     Customer cust = new Customer();
     cust.setName("baz");
+    cust.setCurrentInet(new Inet("129.1.1.4"));
     cust.setStatus(Customer.Status.GOOD);
     cust.save();
+
+    new QCustomer()
+      .currentInet.eq(Inet.of("129.1.1.4"))
+      .findList();
+
+    new QCustomer()
+      .currentInet.in(Inet.setOf("129.1.1.4","129.1.1.5"))
+      .findList();
 
     new QCustomer()
       .contacts.fetch("email")

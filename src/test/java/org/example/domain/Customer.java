@@ -1,6 +1,7 @@
 package org.example.domain;
 
 import io.ebean.annotation.EnumValue;
+import io.ebean.types.Inet;
 import org.example.domain.finder.CustomerFinder;
 
 import javax.persistence.CascadeType;
@@ -17,7 +18,7 @@ import java.util.List;
  * Customer entity bean.
  */
 @Entity
-@Table(name="be_customer")
+@Table(name = "be_customer")
 public class Customer extends BaseModel {
 
   /**
@@ -39,22 +40,24 @@ public class Customer extends BaseModel {
   Status status;
 
   boolean inactive;
-  
-  @Column(length=100)
+
+  @Column(length = 100)
   String name;
 
   Date registered;
-  
-  @Column(length=1000)
+
+  Inet currentInet;
+
+  @Column(length = 1000)
   String comments;
-  
-  @ManyToOne(cascade=CascadeType.ALL)
+
+  @ManyToOne(cascade = CascadeType.ALL)
   Address billingAddress;
 
-  @ManyToOne(cascade=CascadeType.ALL)
+  @ManyToOne(cascade = CascadeType.ALL)
   Address shippingAddress;
 
-  @OneToMany(mappedBy="customer", cascade=CascadeType.PERSIST)
+  @OneToMany(mappedBy = "customer", cascade = CascadeType.PERSIST)
   List<Contact> contacts;
 
   public Status getStatus() {
@@ -96,7 +99,15 @@ public class Customer extends BaseModel {
   public void setComments(String comments) {
     this.comments = comments;
   }
-  
+
+  public Inet getCurrentInet() {
+    return currentInet;
+  }
+
+  public void setCurrentInet(Inet currentInet) {
+    this.currentInet = currentInet;
+  }
+
   public Address getBillingAddress() {
     return billingAddress;
   }
@@ -129,9 +140,9 @@ public class Customer extends BaseModel {
       contacts = new ArrayList<>();
     }
     // setting the customer is automatically done when Ebean does
-    // a cascade save from customer to contacts. 
+    // a cascade save from customer to contacts.
     contact.setCustomer(this);
     contacts.add(contact);
   }
-  
+
 }
