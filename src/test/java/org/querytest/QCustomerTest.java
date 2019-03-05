@@ -19,6 +19,9 @@ import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -155,6 +158,29 @@ public class QCustomerTest {
         .name.in("asd", "foo", "bar")
         .registered.in(new Date())
         .findList();
+  }
+
+  @Test
+  public void testInOrEmpty() {
+
+    List<String> names = Arrays.asList("asd", "foo", "bar");
+
+    new QCustomer()
+      .registered.before(new Date())
+      .name.inOrEmpty(names)
+      .findList();
+
+    new QCustomer()
+      .registered.before(new Date())
+      .name.inOrEmpty(null)
+      .findList();
+
+    names = Collections.emptyList();
+
+    new QCustomer()
+      .registered.before(new Date())
+      .name.inOrEmpty(names)
+      .findList();
   }
 
   @Test
@@ -350,6 +376,24 @@ public class QCustomerTest {
 
     new QCustomer()
       .setBaseTable("BE_CUSTOMER")
+      .findList();
+  }
+
+  @Test
+  public void query_rawOrEmpty() {
+
+    List<String> names = Arrays.asList("A", "B");
+
+    new QCustomer()
+      .rawOrEmpty("name in (?1)", names)
+      .findList();
+
+    new QCustomer()
+      .rawOrEmpty("name in (?1)", null)
+      .findList();
+
+    new QCustomer()
+      .rawOrEmpty("name in (?1)", new ArrayList<Long>())
       .findList();
   }
 

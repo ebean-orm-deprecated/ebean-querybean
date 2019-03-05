@@ -115,6 +115,49 @@ public abstract class PBaseValueEqual<R, T> extends TQPropertyBase<R> {
   }
 
   /**
+   * In where null or empty values means that no predicate is added to the query.
+   * <p>
+   * That is, only add the IN predicate if the values are not null or empty.
+   * <p>
+   * Without this we typically need to code an <code>if</code> block to only add
+   * the IN predicate if the collection is not empty like:
+   * </p>
+   *
+   * <h3>Without inOrEmpty()</h3>
+   * <pre>{@code
+   *
+   *   List<String> names = Arrays.asList("foo", "bar");
+   *
+   *   QCustomer query = new QCustomer()
+   *       .registered.before(LocalDate.now())
+   *
+   *   // conditionally add the IN expression to the query
+   *   if (names != null && !names.isEmpty()) {
+   *       query.name.in(names)
+   *   }
+   *
+   *   query.findList();
+   *
+   * }</pre>
+   *
+   * <h3>Using inOrEmpty()</h3>
+   * <pre>{@code
+   *
+   *   List<String> names = Arrays.asList("foo", "bar");
+   *
+   *   new QCustomer()
+   *       .registered.before(LocalDate.now())
+   *       .name.inOrEmpty(names)
+   *       .findList();
+   *
+   * }</pre>
+   */
+  public final R inOrEmpty(Collection<T> values) {
+    expr().inOrEmpty(_name, values);
+    return _root;
+  }
+
+  /**
    * Is NOT in a list of values.
    *
    * @param values the list of values for the predicate
