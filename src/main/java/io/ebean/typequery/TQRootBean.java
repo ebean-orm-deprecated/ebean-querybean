@@ -720,6 +720,18 @@ public abstract class TQRootBean<T, R> {
   }
 
   /**
+   * Set a label on the query.
+   * <p>
+   * This label can be used to help identify query performance metrics but we can also use
+   * profile location enhancement on Finders so for some that would be a better option.
+   * </p>
+   */
+  public R setLabel(String label) {
+    query.setLabel(label);
+    return root;
+  }
+
+  /**
    * Set the default lazy loading batch size to use.
    * <p>
    * When lazy loading is invoked on beans loaded by this query then this sets the
