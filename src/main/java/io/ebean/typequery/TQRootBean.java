@@ -1,9 +1,9 @@
 package io.ebean.typequery;
 
 import io.ebean.CacheMode;
-import io.ebean.DtoQuery;
 import io.ebean.DB;
 import io.ebean.Database;
+import io.ebean.DtoQuery;
 import io.ebean.ExpressionList;
 import io.ebean.FetchConfig;
 import io.ebean.FetchGroup;
@@ -12,6 +12,7 @@ import io.ebean.FutureList;
 import io.ebean.FutureRowCount;
 import io.ebean.PagedList;
 import io.ebean.PersistenceContextScope;
+import io.ebean.ProfileLocation;
 import io.ebean.Query;
 import io.ebean.QueryIterator;
 import io.ebean.RawSql;
@@ -732,6 +733,18 @@ public abstract class TQRootBean<T, R> {
   }
 
   /**
+   * Set the profile location.
+   * <p>
+   * This is typically set automatically via enhancement when profile location enhancement
+   * is turned on. It is generally not set by application code.
+   * </p>
+   */
+  public R setProfileLocation(ProfileLocation profileLocation) {
+    query.setProfileLocation(profileLocation);
+    return root;
+  }
+
+  /**
    * Set the default lazy loading batch size to use.
    * <p>
    * When lazy loading is invoked on beans loaded by this query then this sets the
@@ -1011,7 +1024,7 @@ public abstract class TQRootBean<T, R> {
    *
    * }</pre>
    * <p>
-   *   Note that we need to cast the Postgres array for UUID types like:
+   * Note that we need to cast the Postgres array for UUID types like:
    * </p>
    * <pre>{@code
    *
@@ -1019,7 +1032,7 @@ public abstract class TQRootBean<T, R> {
    *
    * }</pre>
    *
-   * @param raw The raw expression that is typically a subquery
+   * @param raw    The raw expression that is typically a subquery
    * @param values The values which is typically a list or set of id values.
    */
   public R rawOrEmpty(String raw, Collection<?> values) {
