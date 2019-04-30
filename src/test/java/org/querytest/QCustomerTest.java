@@ -4,6 +4,7 @@ import io.ebean.DB;
 import io.ebean.PagedList;
 import io.ebean.Query;
 import io.ebean.QueryIterator;
+import io.ebean.Transaction;
 import io.ebean.annotation.Transactional;
 import io.ebean.types.Inet;
 import org.example.domain.ACat;
@@ -19,6 +20,9 @@ import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -158,6 +162,39 @@ public class QCustomerTest {
         .name.in("asd", "foo", "bar")
         .registered.in(new Date())
         .findList();
+  }
+
+  @Test
+  public void usingTransaction() {
+
+    try (Transaction transaction = DB.getDefault().createTransaction()) {
+
+      new QCustomer()
+        .registered.isNull()
+        .usingTransaction(transaction)
+        .findList();
+    }
+  }
+
+  @Test
+  public void usingConnection() throws SQLException {
+
+    Customer cust = new Customer();
+    cust.setName("usingConnection");
+    cust.setStatus(Customer.Status.GOOD);
+    cust.save();
+
+    DataSource dataSource = DB.getDefault().getPluginApi().getDataSource();
+
+    try (Connection connection = dataSource.getConnection()) {
+
+      List<Customer> foo = new QCustomer()
+        .name.eq("usingConnection")
+        .usingConnection(connection)
+        .findList();
+
+      assertThat(foo).hasSize(1);
+    }
   }
 
   @Test

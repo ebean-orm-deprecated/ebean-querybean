@@ -16,6 +16,7 @@ import io.ebean.ProfileLocation;
 import io.ebean.Query;
 import io.ebean.QueryIterator;
 import io.ebean.RawSql;
+import io.ebean.Transaction;
 import io.ebean.UpdateQuery;
 import io.ebean.Version;
 import io.ebean.search.MultiMatch;
@@ -27,6 +28,7 @@ import io.ebeaninternal.server.util.ArrayStack;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.sql.Connection;
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.List;
@@ -1418,6 +1420,22 @@ public abstract class TQRootBean<T, R> {
    */
   public R textQueryString(String query, TextQueryString options) {
     peekExprList().textQueryString(query, options);
+    return root;
+  }
+
+  /**
+   * Execute the query using the given transaction.
+   */
+  public R usingTransaction(Transaction transaction) {
+    query.usingTransaction(transaction);
+    return root;
+  }
+
+  /**
+   * Execute the query using the given connection.
+   */
+  public R usingConnection(Connection connection) {
+    query.usingConnection(connection);
     return root;
   }
 
