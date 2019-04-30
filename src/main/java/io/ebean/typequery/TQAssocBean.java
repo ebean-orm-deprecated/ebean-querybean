@@ -118,8 +118,23 @@ public abstract class TQAssocBean<T, R> extends TQProperty<R> {
   /**
    * Is equal to by ID property.
    */
-  public R equalTo(T other) {
+  public R eq(T other) {
     expr().eq(_name, other);
+    return _root;
+  }
+
+  /**
+   * Is equal to by ID property.
+   */
+  public R equalTo(T other) {
+    return eq(other);
+  }
+
+  /**
+   * Is not equal to by ID property.
+   */
+  public R ne(T other) {
+    expr().ne(_name, other);
     return _root;
   }
 
@@ -127,8 +142,7 @@ public abstract class TQAssocBean<T, R> extends TQProperty<R> {
    * Is not equal to by ID property.
    */
   public R notEqualTo(T other) {
-    expr().ne(_name, other);
-    return _root;
+    return ne(other);
   }
 
   /**

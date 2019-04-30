@@ -161,6 +161,29 @@ public class QCustomerTest {
   }
 
   @Test
+  public void testAssocOne() {
+
+    Address address = new Address();
+    address.setId(41L);
+
+    new QCustomer()
+      .billingAddress.eq(address)
+      .findList();
+
+    new QCustomer()
+      .billingAddress.equalTo(address)
+      .findList();
+
+    new QCustomer()
+      .billingAddress.ne(address)
+      .findList();
+
+    new QCustomer()
+      .billingAddress.notEqualTo(address)
+      .findList();
+  }
+
+  @Test
   public void testInOrEmpty() {
 
     List<String> names = Arrays.asList("asd", "foo", "bar");
