@@ -138,8 +138,10 @@ public abstract class TQRootBean<T, R> {
   /**
    * Construct using a query.
    */
+  @SuppressWarnings("unchecked")
   public TQRootBean(Query<T> query) {
     this.query = query;
+    this.root = (R)this;
   }
 
   /**

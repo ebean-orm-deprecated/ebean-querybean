@@ -4,7 +4,7 @@
 
   <groupId>io.ebean</groupId>
   <artifactId>ebean-querybean</artifactId>
-  <version>11.38.2-SNAPSHOT</version>
+  <version>11.39.1-SNAPSHOT</version>
 
   <parent>
     <groupId>org.avaje</groupId>
@@ -30,7 +30,7 @@
     <dependency>
       <groupId>io.ebean</groupId>
       <artifactId>querybean-generator</artifactId>
-      <version>11.37.1</version>
+      <version>11.38.1</version>
       <scope>provided</scope>
     </dependency>
 
@@ -86,7 +86,7 @@
         <extensions>true</extensions>
         <configuration>
           <tiles>
-            <tile>io.ebean.tile:enhancement:7.5</tile>
+            <tile>io.ebean.tile:enhancement:11.38.1</tile>
           </tiles>
         </configuration>
       </plugin>

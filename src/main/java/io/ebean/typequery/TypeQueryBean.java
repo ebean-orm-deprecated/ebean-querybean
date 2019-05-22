@@ -15,4 +15,8 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface TypeQueryBean {
 
+  /**
+   * The version description for the query bean.
+   */
+  String value() default "v0";
 }
