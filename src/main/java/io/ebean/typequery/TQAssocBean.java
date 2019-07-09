@@ -80,7 +80,8 @@ public abstract class TQAssocBean<T, R> extends TQProperty<R> {
   /**
    * Eagerly fetch this association fetching some of the properties.
    */
-  protected R fetchProperties(TQProperty<?>... props) {
+  @SafeVarargs
+  protected final R fetchProperties(TQProperty<?>... props) {
     ((TQRootBean) _root).query().fetch(_name, properties(props));
     return _root;
   }
@@ -88,7 +89,8 @@ public abstract class TQAssocBean<T, R> extends TQProperty<R> {
   /**
    * Eagerly fetch query this association fetching some of the properties.
    */
-  protected R fetchQueryProperties(TQProperty<?>... props) {
+  @SafeVarargs
+  protected final R fetchQueryProperties(TQProperty<?>... props) {
     ((TQRootBean) _root).query().fetchQuery(_name, properties(props));
     return _root;
   }
@@ -96,7 +98,8 @@ public abstract class TQAssocBean<T, R> extends TQProperty<R> {
   /**
    * Eagerly fetch query this association fetching some of the properties.
    */
-  protected R fetchLazyProperties(TQProperty<?>... props) {
+  @SafeVarargs
+  protected final R fetchLazyProperties(TQProperty<?>... props) {
     ((TQRootBean) _root).query().fetchLazy(_name, properties(props));
     return _root;
   }
@@ -104,7 +107,8 @@ public abstract class TQAssocBean<T, R> extends TQProperty<R> {
   /**
    * Append the properties as a comma delimited string.
    */
-  protected String properties(TQProperty<?>... props) {
+  @SafeVarargs
+  protected final String properties(TQProperty<?>... props) {
     StringBuilder selectProps = new StringBuilder(50);
     for (int i = 0; i < props.length; i++) {
       if (i > 0) {
