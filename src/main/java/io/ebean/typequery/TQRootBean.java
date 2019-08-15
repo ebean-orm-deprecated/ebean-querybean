@@ -23,6 +23,7 @@ import io.ebean.search.MultiMatch;
 import io.ebean.search.TextCommonTerms;
 import io.ebean.search.TextQueryString;
 import io.ebean.search.TextSimple;
+import io.ebean.service.SpiFetchGroupQuery;
 import io.ebean.text.PathProperties;
 import io.ebeaninternal.server.util.ArrayStack;
 
@@ -150,6 +151,13 @@ public abstract class TQRootBean<T, R> {
    */
   public TQRootBean(boolean aliasDummy) {
     this.query = null;
+  }
+
+  /**
+   * Return the fetch group.
+   */
+  public FetchGroup<T> buildFetchGroup() {
+    return ((SpiFetchGroupQuery)query()).buildFetchGroup();
   }
 
   /**
