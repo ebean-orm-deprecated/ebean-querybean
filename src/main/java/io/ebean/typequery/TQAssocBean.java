@@ -161,6 +161,39 @@ public abstract class TQAssocBean<T, R> extends TQProperty<R> {
   }
 
   /**
+   * Apply a filter when fetching these beans.
+   * <p>
+   * The expressions can use any valid Ebean expression and contain
+   * placeholders for bind values using <code>?</code> or <code>?1</code> style.
+   * </p>
+   *
+   * <pre>{@code
+   *
+   *     new QCustomer()
+   *       .name.startsWith("Postgres")
+   *       .contacts.filterMany("firstName istartsWith ?", "Rob")
+   *       .findList();
+   *
+   * }</pre>
+   *
+   * <pre>{@code
+   *
+   *     new QCustomer()
+   *       .name.startsWith("Postgres")
+   *       .contacts.filterMany("whenCreated inRange ? to ?", startDate, endDate)
+   *       .findList();
+   *
+   * }</pre>
+   *
+   * @param expressions The expressions including and, or, not etc with ? and ?1 bind params.
+   * @param params      The bind parameter values
+   */
+  public R filterMany(String expressions, Object... params) {
+    expr().filterMany(_name, expressions, params);
+    return _root;
+  }
+
+  /**
    * Is empty for a collection property.
    * <p>
    * This effectively adds a not exists sub-query on the collection property.

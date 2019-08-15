@@ -23,6 +23,7 @@ import org.junit.Test;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -285,6 +286,28 @@ public class QCustomerTest {
 
     new QCustomer()
       .inactive.isFalse()
+      .findList();
+  }
+
+  @Test
+  public void testFilterMany() {
+
+    Customer cust = new Customer();
+    cust.setName("Postgres Foo");
+    cust.setStatus(Customer.Status.GOOD);
+    cust.save();
+
+    new QCustomer()
+      .name.startsWith("Postgres")
+      .contacts.filterMany("firstName istartsWith ?", "Rob")
+      .findList();
+
+    final LocalDate startDate = LocalDate.now().minusDays(7);
+    final LocalDate endDate = LocalDate.now();
+
+    new QCustomer()
+      .name.startsWith("Postgres")
+      .contacts.filterMany("whenCreated inRange ? to ?", startDate, endDate)
       .findList();
   }
 
