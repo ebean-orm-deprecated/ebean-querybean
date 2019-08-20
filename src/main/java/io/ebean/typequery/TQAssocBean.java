@@ -45,6 +45,15 @@ public abstract class TQAssocBean<T, R> extends TQProperty<R> {
   }
 
   /**
+   * Eagerly fetch this association using L2 bean cache.
+   * Cache misses are populated via fetchQuery().
+   */
+  public R fetchCache() {
+    ((TQRootBean) _root).query().fetchCache(_name);
+    return _root;
+  }
+
+  /**
    * Use lazy loading for fetching this association.
    */
   public R fetchLazy() {
@@ -65,6 +74,15 @@ public abstract class TQAssocBean<T, R> extends TQProperty<R> {
    */
   public R fetchQuery(String properties) {
     ((TQRootBean) _root).query().fetchQuery(_name, properties);
+    return _root;
+  }
+
+  /**
+   * Eagerly fetch this association using L2 cache with the properties specified.
+   * Cache misses are populated via  fetchQuery().
+   */
+  public R fetchCache(String properties) {
+    ((TQRootBean) _root).query().fetchCache(_name, properties);
     return _root;
   }
 
@@ -92,6 +110,15 @@ public abstract class TQAssocBean<T, R> extends TQProperty<R> {
   @SafeVarargs
   protected final R fetchQueryProperties(TQProperty<?>... props) {
     ((TQRootBean) _root).query().fetchQuery(_name, properties(props));
+    return _root;
+  }
+
+  /**
+   * Eagerly fetch this association using L2 bean cache.
+   */
+  @SafeVarargs
+  protected final R fetchCacheProperties(TQProperty<?>... props) {
+    ((TQRootBean) _root).query().fetchCache(_name, properties(props));
     return _root;
   }
 

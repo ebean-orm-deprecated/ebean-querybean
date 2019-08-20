@@ -142,7 +142,7 @@ public abstract class TQRootBean<T, R> {
   @SuppressWarnings("unchecked")
   public TQRootBean(Query<T> query) {
     this.query = query;
-    this.root = (R)this;
+    this.root = (R) this;
   }
 
   /**
@@ -157,7 +157,7 @@ public abstract class TQRootBean<T, R> {
    * Return the fetch group.
    */
   public FetchGroup<T> buildFetchGroup() {
-    return ((SpiFetchGroupQuery)query()).buildFetchGroup();
+    return ((SpiFetchGroupQuery) query()).buildFetchGroup();
   }
 
   /**
@@ -315,6 +315,26 @@ public abstract class TQRootBean<T, R> {
   }
 
   /**
+   * Specify a path to load from L2 cache including all its properties.
+   *
+   * <pre>{@code
+   *
+   * List<Order> orders =
+   *     new QOrder()
+   *     // eager fetch the customer using L2 cache
+   *     .fetchCache("customer")
+   *     .findList();
+   *
+   * }</pre>
+   *
+   * @param path the property path to load from L2 cache.
+   */
+  public R fetchCache(String path) {
+    query.fetchCache(path);
+    return root;
+  }
+
+  /**
    * Specify a path and properties to load using a "query join".
    *
    * <pre>{@code
@@ -327,10 +347,32 @@ public abstract class TQRootBean<T, R> {
    *
    * }</pre>
    *
-   * @param path the property path of an associated (OneToOne, OneToMany, ManyToOne or ManyToMany) bean.
+   * @param path       the property path of an associated (OneToOne, OneToMany, ManyToOne or ManyToMany) bean.
+   * @param properties the properties to load for this path.
    */
   public R fetchQuery(String path, String properties) {
     query.fetchQuery(path, properties);
+    return root;
+  }
+
+  /**
+   * Specify a path and properties to load from L2 cache.
+   *
+   * <pre>{@code
+   *
+   * List<Order> orders =
+   *     new QOrder()
+   *     // eager fetch the customer using L2 cache
+   *     .fetchCache("customer", "name,status")
+   *     .findList();
+   *
+   * }</pre>
+   *
+   * @param path       the property path to load from L2 cache.
+   * @param properties the properties to load for this path.
+   */
+  public R fetchCache(String path, String properties) {
+    query.fetchCache(path, properties);
     return root;
   }
 

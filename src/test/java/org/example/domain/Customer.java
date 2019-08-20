@@ -1,5 +1,6 @@
 package org.example.domain;
 
+import io.ebean.annotation.Cache;
 import io.ebean.annotation.EnumValue;
 import io.ebean.types.Inet;
 import org.example.domain.finder.CustomerFinder;
@@ -17,6 +18,7 @@ import java.util.List;
 /**
  * Customer entity bean.
  */
+@Cache
 @Entity
 @Table(name = "be_customer")
 public class Customer extends BaseModel {
