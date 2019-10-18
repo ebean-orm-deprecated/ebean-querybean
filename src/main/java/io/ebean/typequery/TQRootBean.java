@@ -38,6 +38,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 /**
  * Base root query bean.
@@ -1598,6 +1599,52 @@ public abstract class TQRootBean<T, R> {
   @Nonnull
   public List<T> findList() {
     return query.findList();
+  }
+
+  /**
+   * Execute the query returning the result as a Stream.
+   * <p>
+   * Note that this will hold all resulting beans in memory using a single
+   * persistence context. Use findLargeStream() for queries that expect to
+   * return a large number of results.
+   * </p>
+   * <pre>{@code
+   *
+   *  // use try with resources to ensure Stream is closed
+   *
+   *  try (Stream<Customer> stream = query.findStream()) {
+   *    stream
+   *    .map(...)
+   *    .collect(...);
+   *  }
+   *
+   * }</pre>
+   */
+  @Nonnull
+  public Stream<T> findSteam() {
+    return query.findStream();
+  }
+
+  /**
+   * Execute the query returning the result as a Stream.
+   * <p>
+   * Note that this uses multiple persistence contexts such that we can use
+   * it with a large number of results.
+   * </p>
+   * <pre>{@code
+   *
+   *  // use try with resources to ensure Stream is closed
+   *
+   *  try (Stream<Customer> stream = query.findLargeStream()) {
+   *    stream
+   *    .map(...)
+   *    .collect(...);
+   *  }
+   *
+   * }</pre>
+   */
+  public Stream<T> findLargeStream() {
+    return query.findLargeStream();
   }
 
   /**

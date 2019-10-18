@@ -32,6 +32,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.StringJoiner;
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.example.domain.query.QAddress.Alias.country;
@@ -287,6 +289,48 @@ public class QCustomerTest {
     new QCustomer()
       .inactive.isFalse()
       .findList();
+  }
+
+  private void insertCustomer(String name) {
+    Customer cust = new Customer();
+    cust.setName(name);
+    cust.setStatus(Customer.Status.GOOD);
+    cust.save();
+  }
+
+  @Test
+  public void testFindStream() {
+    insertCustomer("stream1");
+    insertCustomer("stream2");
+
+    StringJoiner sb = new StringJoiner("|");
+    try (Stream<Customer> stream = new QCustomer()
+      .name.startsWith("stream")
+      .id.asc()
+      .findSteam()) {
+
+      stream.forEach(it -> sb.add(it.getName()));
+    }
+
+    assertThat(sb.toString()).isEqualTo("stream1|stream2");
+  }
+
+  @Test
+  public void testFindLargeStream() {
+    insertCustomer("largeStream1");
+    insertCustomer("largeStream2");
+    insertCustomer("largeStream3");
+
+    StringJoiner sb = new StringJoiner("|");
+    try (Stream<Customer> stream = new QCustomer()
+      .name.startsWith("largeStream")
+      .id.asc()
+      .findSteam()) {
+
+      stream.forEach(it -> sb.add(it.getName()));
+    }
+
+    assertThat(sb.toString()).isEqualTo("largeStream1|largeStream2|largeStream3");
   }
 
   @Test
