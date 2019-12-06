@@ -23,14 +23,14 @@
     <dependency>
       <groupId>io.ebean</groupId>
       <artifactId>ebean</artifactId>
-      <version>12.1.5</version>
+      <version>12.1.6</version>
       <scope>provided</scope>
     </dependency>
 
     <dependency>
       <groupId>io.ebean</groupId>
       <artifactId>querybean-generator</artifactId>
-      <version>12.1.5</version>
+      <version>12.1.6</version>
       <scope>provided</scope>
     </dependency>
 
@@ -82,11 +82,11 @@
       <plugin>
         <groupId>io.repaint.maven</groupId>
         <artifactId>tiles-maven-plugin</artifactId>
-        <version>2.15</version>
+        <version>2.16</version>
         <extensions>true</extensions>
         <configuration>
           <tiles>
-            <tile>io.ebean.tile:enhancement:12.1.5</tile>
+            <tile>io.ebean.tile:enhancement:12.1.6</tile>
           </tiles>
         </configuration>
       </plugin>
