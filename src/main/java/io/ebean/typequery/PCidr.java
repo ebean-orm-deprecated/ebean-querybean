@@ -1,13 +1,13 @@
 package io.ebean.typequery;
 
-import io.ebean.types.Cdir;
+import io.ebean.types.Cidr;
 
 /**
- * Cdir property.
+ * Cidr property.
  *
  * @param <R> the root query bean type
  */
-public class PCdir<R> extends PBaseValueEqual<R, Cdir> {
+public class PCidr<R> extends PBaseValueEqual<R, Cidr> {
 
   /**
    * Construct with a property name and root instance.
@@ -15,14 +15,14 @@ public class PCdir<R> extends PBaseValueEqual<R, Cdir> {
    * @param name property name
    * @param root the root query bean instance
    */
-  public PCdir(String name, R root) {
+  public PCidr(String name, R root) {
     super(name, root);
   }
 
   /**
    * Construct with additional path prefix.
    */
-  public PCdir(String name, R root, String prefix) {
+  public PCidr(String name, R root, String prefix) {
     super(name, root, prefix);
   }
 }
