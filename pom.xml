@@ -23,14 +23,14 @@
     <dependency>
       <groupId>io.ebean</groupId>
       <artifactId>ebean</artifactId>
-      <version>12.1.9</version>
+      <version>12.1.10</version>
       <scope>provided</scope>
     </dependency>
 
     <dependency>
       <groupId>io.ebean</groupId>
       <artifactId>querybean-generator</artifactId>
-      <version>12.1.9</version>
+      <version>12.1.10</version>
       <scope>provided</scope>
     </dependency>
 
@@ -86,7 +86,7 @@
         <extensions>true</extensions>
         <configuration>
           <tiles>
-            <tile>io.ebean.tile:enhancement:12.1.9</tile>
+            <tile>io.ebean.tile:enhancement:12.1.10</tile>
           </tiles>
         </configuration>
       </plugin>
