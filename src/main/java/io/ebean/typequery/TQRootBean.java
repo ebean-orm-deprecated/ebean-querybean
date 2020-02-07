@@ -138,6 +138,22 @@ public abstract class TQRootBean<T, R> {
   }
 
   /**
+   * Construct with a transaction.
+   */
+  protected TQRootBean(Class<T> beanType, Transaction transaction) {
+    this(beanType);
+    query.usingTransaction(transaction);
+  }
+
+  /**
+   * Construct with a database and transaction.
+   */
+  protected TQRootBean(Class<T> beanType, Database database, Transaction transaction) {
+    this(beanType, database);
+    query.usingTransaction(transaction);
+  }
+
+  /**
    * Construct using a query.
    */
   @SuppressWarnings("unchecked")

@@ -1,6 +1,7 @@
 package org.querytest;
 
 import io.ebean.DB;
+import io.ebean.Database;
 import io.ebean.PagedList;
 import io.ebean.Query;
 import io.ebean.QueryIterator;
@@ -44,6 +45,33 @@ import static org.example.domain.query.QCustomer.Alias.billingAddress;
 public class QCustomerTest {
 
   @Test
+  public void findWithTransaction() {
+
+    final Database database = DB.getDefault();
+
+    try (Transaction txn = database.createTransaction()) {
+      Customer customer = new Customer();
+      customer.setName("explicitTransaction");
+
+      database.save(customer, txn);
+
+      final Customer found = new QCustomer(txn)
+        .name.eq("explicitTransaction")
+        .findOne();
+      assertThat(found).isNotNull();
+
+      // not found using other transaction
+      final Customer foundNot = new QCustomer()
+        .name.eq("explicitTransaction")
+        .findOne();
+      assertThat(foundNot).isNull();
+
+      txn.commit();
+    }
+
+  }
+
+  @Test
   public void findSingleAttribute() {
 
     List<String> names = new QCustomer()
@@ -83,7 +111,7 @@ public class QCustomerTest {
     try {
       while (iterate.hasNext()) {
         Customer customer = iterate.next();
-        customer.getName();
+        assertThat(customer.getName()).isNotNull();
       }
     } finally {
       iterate.close();
@@ -325,7 +353,7 @@ public class QCustomerTest {
     try (Stream<Customer> stream = new QCustomer()
       .name.startsWith("largeStream")
       .id.asc()
-      .findSteam()) {
+      .findLargeStream()) {
 
       stream.forEach(it -> sb.add(it.getName()));
     }

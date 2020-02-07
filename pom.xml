@@ -30,7 +30,7 @@
     <dependency>
       <groupId>io.ebean</groupId>
       <artifactId>querybean-generator</artifactId>
-      <version>12.1.11</version>
+      <version>12.1.12-SNAPSHOT</version>
       <scope>provided</scope>
     </dependency>
 
