@@ -1144,23 +1144,9 @@ public abstract class TQRootBean<T, R> {
   }
 
   /**
-   * Marker that can be used to indicate that the order by clause is defined after this.
-   * <p>
-   * order() and orderBy() are synonyms and both exist for historic reasons.
-   * </p>
-   * <p>
-   * <h2>Example: order by customer name, order date</h2>
-   * <pre>{@code
-   *   List<Order> orders =
-   *          new QOrder()
-   *            .customer.name.ilike("rob")
-   *            .orderBy()
-   *              .customer.name.asc()
-   *              .orderDate.asc()
-   *            .findList();
-   *
-   * }</pre>
+   * Deprecated migrate to order().
    */
+  @Deprecated
   public R orderBy() {
     // Yes this does not actually do anything! We include it because style wise it makes
     // the query nicer to read and suggests that order by definitions are added after this
@@ -1169,9 +1155,6 @@ public abstract class TQRootBean<T, R> {
 
   /**
    * Marker that can be used to indicate that the order by clause is defined after this.
-   * <p>
-   * order() and orderBy() are synonyms and both exist for historic reasons.
-   * </p>
    * <p>
    * <h2>Example: order by customer name, order date</h2>
    * <pre>{@code
@@ -1193,16 +1176,9 @@ public abstract class TQRootBean<T, R> {
 
 
   /**
-   * Set the full raw order by clause replacing the existing order by clause if there is one.
-   * <p>
-   * This follows SQL syntax using commas between each property with the
-   * optional asc and desc keywords representing ascending and descending order
-   * respectively.
-   * </p>
-   * <p>
-   * This is EXACTLY the same as {@link #order(String)}.
-   * </p>
+   * Deprecated migrate to {@link #order(String)}.
    */
+  @Deprecated
   public R orderBy(String orderByClause) {
     query.orderBy(orderByClause);
     return root;
@@ -1214,10 +1190,6 @@ public abstract class TQRootBean<T, R> {
    * This follows SQL syntax using commas between each property with the
    * optional asc and desc keywords representing ascending and descending order
    * respectively.
-   * </p>
-   * <p>
-   * This is EXACTLY the same as {@link #orderBy(String)}.
-   * </p>
    */
   public R order(String orderByClause) {
     query.order(orderByClause);
