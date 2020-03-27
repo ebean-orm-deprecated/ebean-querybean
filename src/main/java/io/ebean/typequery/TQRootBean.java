@@ -1609,7 +1609,7 @@ public abstract class TQRootBean<T, R> {
    * }</pre>
    */
   @Nonnull
-  public Stream<T> findSteam() {
+  public Stream<T> findStream() {
     return query.findStream();
   }
 
