@@ -335,7 +335,7 @@ public class QCustomerTest {
     try (Stream<Customer> stream = new QCustomer()
       .name.startsWith("stream")
       .id.asc()
-      .findSteam()) {
+      .findStream()) {
 
       stream.forEach(it -> sb.add(it.getName()));
     }
