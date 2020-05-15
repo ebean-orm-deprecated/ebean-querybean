@@ -1144,9 +1144,20 @@ public abstract class TQRootBean<T, R> {
   }
 
   /**
-   * Deprecated migrate to order().
+   * Marker that can be used to indicate that the order by clause is defined after this.
+   * <p>
+   * <h2>Example: order by customer name, order date</h2>
+   * <pre>{@code
+   *   List<Order> orders =
+   *          new QOrder()
+   *            .customer.name.ilike("rob")
+   *            .orderBy()
+   *              .customer.name.asc()
+   *              .orderDate.asc()
+   *            .findList();
+   *
+   * }</pre>
    */
-  @Deprecated
   public R orderBy() {
     // Yes this does not actually do anything! We include it because style wise it makes
     // the query nicer to read and suggests that order by definitions are added after this
@@ -1161,7 +1172,7 @@ public abstract class TQRootBean<T, R> {
    *   List<Order> orders =
    *          new QOrder()
    *            .customer.name.ilike("rob")
-   *            .order()
+   *            .orderBy()
    *              .customer.name.asc()
    *              .orderDate.asc()
    *            .findList();
@@ -1174,11 +1185,13 @@ public abstract class TQRootBean<T, R> {
     return root;
   }
 
-
   /**
-   * Deprecated migrate to {@link #order(String)}.
+   * Set the full raw order by clause replacing the existing order by clause if there is one.
+   * <p>
+   * This follows SQL syntax using commas between each property with the
+   * optional asc and desc keywords representing ascending and descending order
+   * respectively.
    */
-  @Deprecated
   public R orderBy(String orderByClause) {
     query.orderBy(orderByClause);
     return root;
@@ -1719,7 +1732,7 @@ public abstract class TQRootBean<T, R> {
    *  Query<Customer> query =
    *    new QCustomer()
    *     .status.equalTo(Customer.Status.NEW)
-   *     .order()
+   *     .orderBy()
    *       id.asc()
    *     .query();
    *
@@ -1834,7 +1847,7 @@ public abstract class TQRootBean<T, R> {
    *
    *  new QCustomer()
    *     .status.equalTo(Status.NEW)
-   *     .order().id.asc()
+   *     .orderBy().id.asc()
    *     .findEachWhile((Customer customer) -> {
    *
    *       // do something with customer
