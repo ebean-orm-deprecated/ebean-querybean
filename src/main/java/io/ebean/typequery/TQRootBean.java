@@ -1605,9 +1605,9 @@ public abstract class TQRootBean<T, R> {
   /**
    * Execute the query returning the result as a Stream.
    * <p>
-   * Note that this will hold all resulting beans in memory using a single
-   * persistence context. Use findLargeStream() for queries that expect to
-   * return a large number of results.
+   * Note that this can support very large queries iterating
+   * any number of results. To do so internally it can use
+   * multiple persistence contexts.
    * </p>
    * <pre>{@code
    *
@@ -1627,23 +1627,9 @@ public abstract class TQRootBean<T, R> {
   }
 
   /**
-   * Execute the query returning the result as a Stream.
-   * <p>
-   * Note that this uses multiple persistence contexts such that we can use
-   * it with a large number of results.
-   * </p>
-   * <pre>{@code
-   *
-   *  // use try with resources to ensure Stream is closed
-   *
-   *  try (Stream<Customer> stream = query.findLargeStream()) {
-   *    stream
-   *    .map(...)
-   *    .collect(...);
-   *  }
-   *
-   * }</pre>
+   * Deprecated - migrate to findStream().
    */
+  @Deprecated
   public Stream<T> findLargeStream() {
     return query.findLargeStream();
   }
