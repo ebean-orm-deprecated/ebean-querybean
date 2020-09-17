@@ -81,6 +81,17 @@ public abstract class PBaseValueEqual<R, T> extends TQPropertyBase<R> {
   }
 
   /**
+   * Is equal to or Null.
+   *
+   * @param value the equal to bind value
+   * @return the root query bean instance
+   */
+  public final R eqOrNull(T value) {
+    expr().eqOrNull(_name, value);
+    return _root;
+  }
+
+  /**
    * Is not equal to.
    *
    * @param value the equal to bind value

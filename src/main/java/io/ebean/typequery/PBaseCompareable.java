@@ -41,6 +41,17 @@ public class PBaseCompareable<R, T> extends PBaseValueEqual<R, T> {
   }
 
   /**
+   * Greater than OR Null.
+   *
+   * @param value the bind value
+   * @return the root query bean instance
+   */
+  public final R gtOrNull(T value) {
+    expr().gtOrNull(_name, value);
+    return _root;
+  }
+
+  /**
    * Greater than or Equal to.
    *
    * @param value the bind value
@@ -48,6 +59,17 @@ public class PBaseCompareable<R, T> extends PBaseValueEqual<R, T> {
    */
   public final R ge(T value) {
     expr().ge(_name, value);
+    return _root;
+  }
+
+  /**
+   * Greater than or Equal to OR Null.
+   *
+   * @param value the bind value
+   * @return the root query bean instance
+   */
+  public final R geOrNull(T value) {
+    expr().geOrNull(_name, value);
     return _root;
   }
 
@@ -62,6 +84,16 @@ public class PBaseCompareable<R, T> extends PBaseValueEqual<R, T> {
     return _root;
   }
 
+  /**
+   * Less than OR Null.
+   *
+   * @param value the bind value
+   * @return the root query bean instance
+   */
+  public final R ltOrNull(T value) {
+    expr().ltOrNull(_name, value);
+    return _root;
+  }
 
   /**
    * Less than or Equal to.
@@ -71,6 +103,17 @@ public class PBaseCompareable<R, T> extends PBaseValueEqual<R, T> {
    */
   public final R le(T value) {
     expr().le(_name, value);
+    return _root;
+  }
+
+  /**
+   * Less than or Equal to.
+   *
+   * @param value the bind value
+   * @return the root query bean instance
+   */
+  public final R leOrNull(T value) {
+    expr().leOrNull(_name, value);
     return _root;
   }
 

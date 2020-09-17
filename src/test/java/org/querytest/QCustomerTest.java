@@ -560,11 +560,22 @@ public class QCustomerTest {
       .findList();
 
     new QCustomer()
+      .name.eqOrNull("A")
+      .findList();
+
+    new QCustomer()
       .name.greaterThanOrNull("B")
       .findList();
 
     new QCustomer()
       .name.lessThanOrNull("C")
+      .findList();
+
+    new QCustomer()
+      .name.gtOrNull("GT1")
+      .name.geOrNull("GE1")
+      .name.ltOrNull("LT1")
+      .name.leOrNull("LE1")
       .findList();
   }
 
