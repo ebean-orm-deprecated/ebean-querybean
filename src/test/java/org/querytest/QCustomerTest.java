@@ -14,12 +14,15 @@ import org.example.domain.Address;
 import org.example.domain.Animal;
 import org.example.domain.Country;
 import org.example.domain.Customer;
+import org.example.domain.otherpackage.PhoneNumber;
 import org.example.domain.query.QAnimal;
 import org.example.domain.query.QContact;
 import org.example.domain.query.QCustomer;
 import org.junit.Assert;
 import org.junit.Ignore;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TestName;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -43,6 +46,9 @@ import static org.example.domain.query.QContact.Alias.lastName;
 import static org.example.domain.query.QCustomer.Alias.billingAddress;
 
 public class QCustomerTest {
+
+  @Rule
+  public final TestName testName = new TestName();
 
   @Test
   public void findWithTransaction() {
@@ -763,6 +769,19 @@ public class QCustomerTest {
       .findSingleAttribute();
 
     assertThat(maxDate).isNotNull();
+  }
+
+
+  @Test
+  public void testFetchByScalarValue() {
+    Customer cust = new Customer();
+    cust.setName(testName.getMethodName());
+    cust.setPhoneNumber(new PhoneNumber("+18005555555"));
+    cust.save();
+    assertThat(new QCustomer()
+      .name.eq(testName.getMethodName())
+      .phoneNumber.eq(new PhoneNumber("+18005555555"))
+      .findOne()).isNotNull();
   }
 
 
