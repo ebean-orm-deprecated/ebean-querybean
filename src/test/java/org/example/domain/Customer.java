@@ -5,6 +5,7 @@ import io.ebean.annotation.EnumValue;
 import io.ebean.types.Inet;
 import org.example.domain.finder.CustomerFinder;
 import org.example.domain.otherpackage.PhoneNumber;
+import org.example.domain.otherpackage.ValidEmail;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -45,6 +46,8 @@ public class Customer extends BaseModel {
   boolean inactive;
 
   PhoneNumber phoneNumber;
+
+  ValidEmail email;
 
   @Column(length = 100)
   String name;
@@ -143,6 +146,14 @@ public class Customer extends BaseModel {
 
   public void setPhoneNumber(final PhoneNumber phoneNumber) {
     this.phoneNumber = phoneNumber;
+  }
+
+  public ValidEmail getEmail() {
+    return email;
+  }
+
+  public void setEmail(final ValidEmail email) {
+    this.email = email;
   }
 
   /**
